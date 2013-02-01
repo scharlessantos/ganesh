@@ -1,5 +1,12 @@
 package ganesh;
 
+import ganesh.log.FileLogger;
+
+
+import org.scharlessantos.hermes.Hermes;
+import org.scharlessantos.hermes.logger.GenericHFilter;
+import org.scharlessantos.hermes.writer.HLevel;
+
 /**
  * Class who starts application
  */
@@ -9,8 +16,13 @@ public class Starter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Ganesh Project.\n\n\nGPLv3 Licensed. No Warranty");
-
+		Hermes.removeDefaultFileLogger();
+		Hermes.addLogger(new FileLogger(), new GenericHFilter(HLevel.INFO));
+		
+		Hermes.info("\n=====================================" +
+				"\n          Starting Ganesh" +
+				"\n An open source program: NO WARRANTY" +
+				"\n=====================================");
 	}
 
 }
