@@ -1,7 +1,5 @@
-package ganesh.http;
+package ganesh.embed.http;
 
 public class HttpServer {
-
-	
 
 }
