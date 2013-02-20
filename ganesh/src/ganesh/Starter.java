@@ -1,5 +1,8 @@
 package ganesh;
 
+
+import ganesh.embed.database.DBServer;
+import ganesh.exceptions.GException;
 import ganesh.log.FileLogger;
 
 
@@ -12,6 +15,7 @@ import org.scharlessantos.hermes.writer.HLevel;
  */
 public class Starter {
 
+	
 	/**
 	 * @param args
 	 */
@@ -23,6 +27,16 @@ public class Starter {
 				"\n          Starting Ganesh" +
 				"\n An open source program: NO WARRANTY" +
 				"\n=====================================");
+		
+
+		try {
+			DBServer.initDB();
+		} catch (GException e) {
+			Hermes.fatal("Nao foi possivel iniciar o Banco de Dados");
+			Hermes.fatal(e);
+			
+			System.exit(1);
+		}
 	}
 
 }
