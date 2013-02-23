@@ -2,6 +2,7 @@ package ganesh;
 
 
 import ganesh.embed.database.DBServer;
+import ganesh.embed.http.HttpServer;
 import ganesh.exceptions.GException;
 import ganesh.log.FileLogger;
 
@@ -36,6 +37,14 @@ public class Starter {
 			Hermes.fatal(e);
 			
 			System.exit(1);
+		}
+		
+		try {
+			HttpServer.getInstance().startServer();
+		} catch (GException e) {
+			Hermes.fatal(e);
+			
+			System.exit(2);
 		}
 	}
 
