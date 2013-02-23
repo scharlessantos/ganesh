@@ -142,10 +142,14 @@ public class DBServer {
 			if (command.isEmpty())
 				throw new GException(ErrorCode.UNKOWN, "Arquivo create.sql está vazio");
 			
+			long time = System.currentTimeMillis();
+			
 			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			conn.prepareStatement(command).execute();
 			conn.prepareStatement("Insert into dbver (module, version) values ('" + MODULE + "', " + dbver + ")").execute();
 			conn.commit();
+			
+			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "script create.sql"));
 		} catch (IOException e) {
 			throw new GException(ErrorCode.UNKOWN, "Erro ao ler o create.sql", e);
 		} catch (SQLException e) {
