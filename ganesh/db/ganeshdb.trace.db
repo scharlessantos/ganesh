@@ -1,0 +1,36 @@
+02-23 12:10:56 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:16:31 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:16:39 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:31:46 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:34:25 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:36:18 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:37:31 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:38:00 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:50:13 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:51:11 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 12:51:52 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]
+02-23 13:00:51 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "DBVER" not found; SQL statement:
+Select version from dbver where module like 'ganesh' [42102-161]

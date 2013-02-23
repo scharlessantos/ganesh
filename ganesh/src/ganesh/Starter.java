@@ -30,7 +30,7 @@ public class Starter {
 		
 
 		try {
-			DBServer.initDB();
+			new DBServer().initDB();
 		} catch (GException e) {
 			Hermes.fatal("Nao foi possivel iniciar o Banco de Dados");
 			Hermes.fatal(e);

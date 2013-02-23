@@ -1,5 +1,5 @@
 package ganesh.db;
 
-public class Caminhao {
+public class Caminhao extends AbstractDBEntity {
 
 }
