@@ -23,7 +23,9 @@ public class HttpServer {
 	
 	public void startServer() throws GException{
 		server = new Server(8833);
+		server.setHandler(new HttpHanlder());
 		try {
+			
 			server.start();
 			server.join();
 		} catch (Exception e) {

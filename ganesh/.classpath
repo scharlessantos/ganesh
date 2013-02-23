@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="lib/jetty-all-8.1.9.v20130131-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/jetty-all-8.1.9.v20130131-sources.jar"/>
 	<classpathentry kind="lib" path="lib/jetty-all-8.1.9.v20130131.jar"/>
-	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet-3.0.0.v201103241009.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
