@@ -66,8 +66,9 @@ public class DBServer {
 		Hermes.info("Diretorio de dados OK!");
 	}
 
-	public Connection getConnection() throws ClassNotFoundException,
-			SQLException {
+	public Connection getConnection() throws ClassNotFoundException, SQLException {
+		long time = System.currentTimeMillis();
+		
 		Class.forName("org.h2.Driver");
 
 		String connectionString = "jdbc:h2:"
@@ -77,6 +78,7 @@ public class DBServer {
 		connection.setAutoCommit(true);
 		connection.setReadOnly(true);
 
+		Hermes.info(String.format("Criando conexão: %dms", System.currentTimeMillis() - time));
 		return connection;
 	}
 

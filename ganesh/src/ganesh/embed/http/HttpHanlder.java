@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.scharlessantos.hermes.Hermes;
 
 public class HttpHanlder extends AbstractHandler {
 
@@ -19,6 +20,7 @@ public class HttpHanlder extends AbstractHandler {
 		baseReq.setHandled(true);
 		resp.getWriter().println("Helo World");
 	
+		Hermes.info("Teste");
 		
 	}
 }
