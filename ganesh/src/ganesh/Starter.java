@@ -15,7 +15,6 @@ import org.scharlessantos.hermes.writer.HLevel;
  * Class who starts application
  */
 public class Starter {
-
 	
 	/**
 	 * @param args
