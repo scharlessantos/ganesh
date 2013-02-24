@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.scharlessantos.hermes.Hermes;
 
 public class HttpHanlder extends AbstractHandler {
 
@@ -18,9 +17,9 @@ public class HttpHanlder extends AbstractHandler {
 		resp.setContentType("text/html;charset=utf-8");
 		resp.setStatus(Response.SC_OK);
 		baseReq.setHandled(true);
-		resp.getWriter().println("Helo World");
-	
-		Hermes.info("Teste");
-		
+		resp.setHeader("<title>", "Ganesh Server");
+		resp.getWriter().println("<h1>Ganesh Server says: It works!</h1><br>");
+		resp.getWriter().println("_________________________________________________________________");
+		resp.getWriter().println("<br><b>Powered by</b> <br> Http Server: Jetty " + HttpServer.getInstance().getVersion() + "<br> JVM: " + System.getProperty("java.version") + " from " + System.getProperty("java.vendor") + "<br>OS:  " + System.getProperty("os.name") + "_" + System.getProperty("os.version") + " arch " + System.getProperty("os.arch"));
 	}
 }
