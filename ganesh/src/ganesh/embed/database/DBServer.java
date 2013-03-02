@@ -1,5 +1,8 @@
 package ganesh.embed.database;
 
+import ganesh.exceptions.ErrorCode;
+import ganesh.exceptions.GException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,9 +12,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import ganesh.exceptions.ErrorCode;
-import ganesh.exceptions.GException;
 
 import org.scharlessantos.hermes.Hermes;
 
@@ -38,14 +38,20 @@ public class DBServer {
 				return;
 
 			if (version == -1) {
-				createDB(conn);
-			} else {
+				Hermes.info("Banco de dados não existe, criando...");
+				creatOrUpdateDB(conn, "create");
 
+				version = 1;
+			}
+
+			for (int i = version; i < dbver; i++) {
+				Hermes.info("Atualizando Banco de dados para versão " + (i + 1));
+				creatOrUpdateDB(conn, String.format("update.%03d", i));
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new GException(ErrorCode.UNKOWN,
-					"Erro ao atualizar o Banco de Dados", e);
+				"Erro ao atualizar o Banco de Dados", e);
 		}
 	}
 
@@ -57,22 +63,22 @@ public class DBServer {
 		if (!file.exists())
 			if (!file.mkdir())
 				throw new GException(ErrorCode.UNKOWN,
-						"Não foi possivel criar o diretorio de dados");
+					"Não foi possivel criar o diretorio de dados");
 
 		if (!file.isDirectory())
 			throw new GException(ErrorCode.UNKOWN,
-					"Arquivo existe e não é um diretorio");
+				"Arquivo existe e não é um diretorio");
 
 		Hermes.info("Diretorio de dados OK!");
 	}
 
 	public Connection getConnection() throws ClassNotFoundException, SQLException {
 		long time = System.currentTimeMillis();
-		
+
 		Class.forName("org.h2.Driver");
 
 		String connectionString = "jdbc:h2:"
-				+ new File(new File("db"), "ganeshdb").getAbsolutePath();
+			+ new File(new File("db"), "ganeshdb").getAbsolutePath();
 
 		Connection connection = DriverManager.getConnection(connectionString);
 		connection.setAutoCommit(true);
@@ -83,18 +89,17 @@ public class DBServer {
 	}
 
 	/**
-	 * Versão do banco de dados, a cada atualização do Banco de Dados, ou seja,
-	 * mudanças na estrutura, criar script de update e incrementar 1 aqui
+	 * Versão do banco de dados, a cada atualização do Banco de Dados, ou seja, mudanças na estrutura, criar script de update e incrementar 1 aqui
 	 */
 	private final short dbver = 1;
 
 	private int validateDBVer(Connection conn, String module) throws GException {
 		try {
 			long time = System.currentTimeMillis();
-			ResultSet result = conn.prepareStatement("Select version from dbver where module like '" + module	+ "'").executeQuery();
+			ResultSet result = conn.prepareStatement("Select version from dbver where module like '" + module + "'").executeQuery();
 
-			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "Select version from dbver where module like '" + module	+ "'"));
-			
+			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "Select version from dbver where module like '" + module + "'"));
+
 			while (result.next()) {
 				int version = result.getShort("version");
 
@@ -117,50 +122,53 @@ public class DBServer {
 		return -1;
 	}
 
-	private void createDB(Connection conn) throws GException{
-		Hermes.info("Banco de Dados não existe, criando...");
-		
-		URL url = getRes("create");
-		
-		if (url==null || url.getPath() == null || url.getPath().isEmpty())
-			throw new GException(ErrorCode.UNKOWN, "create.sql not found");
-		
+	private void creatOrUpdateDB(Connection conn, String file) throws GException {
+		URL url = getRes(file + ".sql");
+
+		if (url == null || url.getPath() == null || url.getPath().isEmpty())
+			throw new GException(ErrorCode.UNKOWN, file + ".sql not found");
+
 		try {
-			FileReader reader = new FileReader(url.getPath());
+			FileReader reader = new FileReader(url.getPath().replace("%20", " "));
 			BufferedReader leitor = new BufferedReader(reader);
-			
+
 			String command = "";
-			
+
 			String linha = null;
-			while ((linha = leitor.readLine()) != null){
+			while ((linha = leitor.readLine()) != null) {
 				if (linha.isEmpty() || linha.startsWith("--"))
 					continue;
-				
+
 				command += linha + "\n";
 			}
-			
+
 			leitor.close();
-			
+
 			if (command.isEmpty())
-				throw new GException(ErrorCode.UNKOWN, "Arquivo create.sql está vazio");
-			
+				throw new GException(ErrorCode.UNKOWN, "Arquivo " + file + ".sql está vazio");
+
 			long time = System.currentTimeMillis();
-			
+
 			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			conn.prepareStatement(command).execute();
-			conn.prepareStatement("Insert into dbver (module, version) values ('" + MODULE + "', " + dbver + ")").execute();
+
+			if (file.equals("create"))
+				conn.prepareStatement("Insert into dbver (module, version) values ('" + MODULE + "', " + dbver + ")").execute();
+			else
+				conn.prepareStatement("update dbver set version =" + dbver + " where module like '" + MODULE + "'").execute();
+
 			conn.commit();
-			
-			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "script create.sql"));
+
+			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "script " + file + ".sql"));
 		} catch (IOException e) {
-			throw new GException(ErrorCode.UNKOWN, "Erro ao ler o create.sql", e);
+			throw new GException(ErrorCode.UNKOWN, "Erro ao ler o " + file + ".sql", e);
 		} catch (SQLException e) {
-			throw new GException(ErrorCode.UNKOWN, "Erro ao criar o Banco de Dados", e);
+			throw new GException(ErrorCode.UNKOWN, "Erro ao criar/Atualizar o o Banco de Dados: " + dbver, e);
 		}
-		
+
 	}
-	
+
 	private URL getRes(String name) {
-		return getClass().getResource("maintenance/" + name + ".sql");
+		return this.getClass().getResource("maintenance/" + name);
 	}
 }
