@@ -21,7 +21,7 @@ public class HttpServer {
 	private Server server;
 
 	public void startServer() throws GException {
-		server = new Server(8833);
+		server = new Server(8833); //TODO botar esta porta em cfg.ini
 		try {
 			server.setHandler(new HttpHanlder());
 
