@@ -3,11 +3,10 @@ package ganesh.embed.database;
 import ganesh.exceptions.ErrorCode;
 import ganesh.exceptions.GException;
 
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -123,26 +122,26 @@ public class DBServer {
 	}
 
 	private void creatOrUpdateDB(Connection conn, String file) throws GException {
-		URL url = getRes(file + ".sql");
+		InputStream res = getRes(file + ".sql");
 
-		if (url == null || url.getPath() == null || url.getPath().isEmpty())
+		if (res == null)
 			throw new GException(ErrorCode.UNKOWN, file + ".sql not found");
 
 		try {
-			FileReader reader = new FileReader(url.getPath().replace("%20", " "));
-			BufferedReader leitor = new BufferedReader(reader);
 
+			BufferedInputStream reader = new BufferedInputStream(res);
 			String command = "";
 
-			String linha = null;
-			while ((linha = leitor.readLine()) != null) {
-				if (linha.isEmpty() || linha.startsWith("--"))
-					continue;
+			byte[] buffer = new byte[reader.available()];
+			while (reader.read(buffer) > 0) {
+				String linha = new String(buffer);
 
-				command += linha + "\n";
+				if (linha != null)
+					command += linha;
 			}
 
-			leitor.close();
+			reader.close();
+			res.close();
 
 			if (command.isEmpty())
 				throw new GException(ErrorCode.UNKOWN, "Arquivo " + file + ".sql está vazio");
@@ -168,7 +167,7 @@ public class DBServer {
 
 	}
 
-	private URL getRes(String name) {
-		return this.getClass().getResource("maintenance/" + name);
+	private InputStream getRes(String name) {
+		return getClass().getResourceAsStream("maintenance/" + name);
 	}
 }
