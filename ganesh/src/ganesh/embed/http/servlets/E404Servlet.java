@@ -1,7 +1,6 @@
 /* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
-package ganesh.embed.http.servlets.e404;
+package ganesh.embed.http.servlets;
 
-import ganesh.embed.http.servlets.InfoServlet;
 
 import java.io.IOException;
 
