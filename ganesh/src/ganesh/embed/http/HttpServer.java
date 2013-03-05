@@ -1,8 +1,8 @@
 package ganesh.embed.http;
 
 import ganesh.embed.http.servlets.DebugServlet;
+import ganesh.embed.http.servlets.ImageServlet;
 import ganesh.embed.http.servlets.InfoServlet;
-import ganesh.embed.http.servlets.e404.E404ImgServlet;
 import ganesh.embed.http.servlets.e404.E404Servlet;
 import ganesh.exceptions.ErrorCode;
 import ganesh.exceptions.GException;
@@ -40,7 +40,7 @@ public class HttpServer {
 
 			ServletContextHandler sch = new ServletContextHandler();
 			sch.addServlet(E404Servlet.class, "/404");
-			sch.addServlet(E404ImgServlet.class, "/404/img");
+			sch.addServlet(ImageServlet.class, "/img");
 			sch.addServlet(DebugServlet.class, "/debug");
 			sch.addServlet(InfoServlet.class, "/info");
 

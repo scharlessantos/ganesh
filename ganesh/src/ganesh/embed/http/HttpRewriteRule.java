@@ -20,8 +20,14 @@ public class HttpRewriteRule extends Rule {
 		if (target.startsWith("/debug"))
 			return "/debug";
 
-		if (target.startsWith("/program") || target.startsWith("/login") || target.equals("/404/img"))
-			return target;
+		if (target.startsWith("/program"))
+			return "/program";
+
+		if (target.startsWith("/login"))
+			return "/login";
+
+		if (target.startsWith("/img/"))
+			return "/img";
 
 		return "/404";
 	}

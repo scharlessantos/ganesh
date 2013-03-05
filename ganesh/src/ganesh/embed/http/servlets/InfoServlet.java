@@ -20,7 +20,8 @@ public class InfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html;charset=utf-8");
 		resp.setStatus(Response.SC_OK);
-		resp.getWriter().println("<h1>Ganesh Server says: It works!</h1><br>");
+		resp.getWriter().println("<h1>Ganesh Server says:</h1><br>");
+		resp.getWriter().println("<img src=/img/itworks />");
 		resp.getWriter().println(poweredBy());
 	}
 

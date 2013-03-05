@@ -25,7 +25,7 @@ public class E404Servlet extends HttpServlet {
 		resp.setContentType("text/html;charset=utf-8");
 		resp.setStatus(Response.SC_OK);
 		resp.getWriter().println("<center>");
-		resp.getWriter().println("<img src=/404/img>");
+		resp.getWriter().println("<img src=/img/e404 />");
 		resp.getWriter().println("<font size=2 color=red><i><br>Não foi possível encontrar <b>" + req.getAttribute("target") + "</b></i></font>");
 		resp.getWriter().println("</center>");
 
