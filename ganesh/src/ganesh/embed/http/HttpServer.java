@@ -1,9 +1,9 @@
 package ganesh.embed.http;
 
 import ganesh.embed.http.servlets.DebugServlet;
+import ganesh.embed.http.servlets.E404Servlet;
 import ganesh.embed.http.servlets.ImageServlet;
 import ganesh.embed.http.servlets.InfoServlet;
-import ganesh.embed.http.servlets.e404.E404Servlet;
 import ganesh.exceptions.ErrorCode;
 import ganesh.exceptions.GException;
 
