@@ -1,9 +1,16 @@
 package ganesh.embed.http;
 
+import ganesh.embed.http.servlets.DebugServlet;
+import ganesh.embed.http.servlets.InfoServlet;
+import ganesh.embed.http.servlets.e404.E404ImgServlet;
+import ganesh.embed.http.servlets.e404.E404Servlet;
 import ganesh.exceptions.ErrorCode;
 import ganesh.exceptions.GException;
 
+import org.eclipse.jetty.rewrite.handler.RewriteHandler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.servlet.ServletContextHandler;
 
 public class HttpServer {
 
@@ -23,7 +30,24 @@ public class HttpServer {
 	public void startServer() throws GException {
 		server = new Server(8833); //TODO botar esta porta em cfg.ini
 		try {
-			server.setHandler(new HttpHanlder());
+			// Coleção de contextos
+			RewriteHandler rewrite = new RewriteHandler();
+			rewrite.setRewriteRequestURI(true);
+			rewrite.setRewritePathInfo(true);
+			rewrite.addRule(new HttpRewriteRule());
+
+			ContextHandlerCollection col = new ContextHandlerCollection();
+
+			ServletContextHandler sch = new ServletContextHandler();
+			sch.addServlet(E404Servlet.class, "/404");
+			sch.addServlet(E404ImgServlet.class, "/404/img");
+			sch.addServlet(DebugServlet.class, "/debug");
+			sch.addServlet(InfoServlet.class, "/info");
+
+			col.addHandler(sch);
+
+			rewrite.setHandler(col);
+			server.setHandler(rewrite);
 
 			server.start();
 			server.join();
