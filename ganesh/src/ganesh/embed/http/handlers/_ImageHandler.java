@@ -1,28 +1,24 @@
 /* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
-package ganesh.embed.http.servlets;
+package ganesh.embed.http.handlers;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Response;
 
-public class ImageServlet extends HttpServlet {
+class _ImageHandler implements _MyHandler {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7990998224950581243L;
+	private static final long serialVersionUID = -2514879867408587001L;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void handle(String target, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("img/png");
 
-		String name = req.getAttribute("target").toString().split("/")[2];
+		String name = target.split("/")[1];
 
 		InputStream is = getClass().getResourceAsStream("images/" + name + ".png");
 		byte[] read = new byte[1024];
@@ -31,5 +27,7 @@ public class ImageServlet extends HttpServlet {
 			resp.getOutputStream().write(read);
 
 		resp.setStatus(Response.SC_OK);
+
 	}
+
 }
