@@ -3,6 +3,7 @@ package ganesh.programs;
 
 import ganesh.exceptions.ErrorCode;
 import ganesh.exceptions.GException;
+import ganesh.programs.grupo.PrgGrupo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import org.scharlessantos.hermes.Hermes;
 
 public class ProgramManager {
 
-	private static Map<String, Class<GaneshProgram>> programs = new HashMap<>();
+	private static Map<String, Class<? extends GaneshProgram>> programs = new HashMap<>();
 
 	public static GaneshProgram newProgram(String name) throws GException {
 		synchronized (programs) {
@@ -19,7 +20,7 @@ public class ProgramManager {
 				return null;
 			}
 
-			Class<GaneshProgram> cls = programs.get(name);
+			Class<? extends GaneshProgram> cls = programs.get(name);
 
 			try {
 				if (cls.getConstructor() == null)
@@ -37,6 +38,15 @@ public class ProgramManager {
 			}
 		}
 
+	}
+
+	public static void registerProgram(String name, Class<? extends PrgGrupo> program) {
+		synchronized (programs) {
+			if (!programs.containsKey(name))
+				programs.put(name, program);
+			else
+				Hermes.warn("Programa " + name + " já registrado");
+		}
 	}
 
 	public static enum RequestType {

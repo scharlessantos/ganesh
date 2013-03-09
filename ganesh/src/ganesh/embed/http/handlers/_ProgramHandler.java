@@ -59,7 +59,7 @@ public class _ProgramHandler implements _MyHandler {
 
 				GaneshProgram program;
 
-				program = ProgramManager.newProgram("");
+				program = ProgramManager.newProgram(pname);
 
 				if (program == null) {
 					Hermes.warn("Programa " + pname + " não registrado");
@@ -82,12 +82,13 @@ public class _ProgramHandler implements _MyHandler {
 								}
 
 						if (method == null) {
-							Hermes.warn(target + " não tratado em " + program.getClass());
+							Hermes.warn("Ação " + action + " não tratado em " + program.getClass().getName());
+							resp.setMessage(new ErrorMessage("Ação " + action + " não tratada em " + program.getClass().getName()));
+						} else {
+
+							//TODO: callMethod
+							resp.setMessage(new InformationMessage("A implementar"));
 						}
-
-						//TODO: callMethod
-						resp.setMessage(new InformationMessage("A implementar"));
-
 					}
 
 				}

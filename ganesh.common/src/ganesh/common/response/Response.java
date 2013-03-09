@@ -54,12 +54,10 @@ public class Response {
 
 		wr.println("<response>");
 
-		if (session == null) {
+		if (session == null)
 			Hermes.error("Session nunca pode ser null neste ponto");
-			throw new RuntimeException("Session nunca pode ser null neste ponto");
-		}
-
-		wr.println(session.toXML());
+		else
+			wr.println(session.toXML());
 
 		if (message != null)
 			wr.println(message.toXML());
