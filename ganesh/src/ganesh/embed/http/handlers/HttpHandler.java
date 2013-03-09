@@ -24,22 +24,15 @@ public class HttpHandler extends AbstractHandler {
 
 		if (target.isEmpty() || target.equals("info"))
 			handler = new _InfoHandler();
-
-		if (target.equals("debug"))
+		else if (target.equals("debug"))
 			handler = new _DebugHandler();
-
-		if (target.startsWith("program")) {
+		else if (target.startsWith("program")) {
 			//TODO
-		}
-
-		if (target.equals("login")) {
+		} else if (target.equals("login")) {
 			//TODO
-		}
-
-		if (target.startsWith("img/"))
+		} else if (target.startsWith("img/"))
 			handler = new _ImageHandler();
-
-		if (handler == null)
+		else
 			handler = new _404Hanlder();
 
 		handler.handle(target, request, response);
