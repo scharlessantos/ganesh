@@ -75,10 +75,11 @@ public class _ProgramHandler implements _MyHandler {
 						Method method = null;
 
 						for (Method m: program.getClass().getMethods())
-							if (m.getAnnotation(RequestHandler.class).value().equals(type)) {
-								method = m;
-								break;
-							}
+							if (m.isAnnotationPresent(RequestHandler.class))
+								if (m.getAnnotation(RequestHandler.class).value().equals(type)) {
+									method = m;
+									break;
+								}
 
 						if (method == null) {
 							Hermes.warn(target + " não tratado em " + program.getClass());
