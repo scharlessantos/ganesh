@@ -14,9 +14,9 @@ public abstract class AbstractDBEntity implements ResponseItem {
 		String xml = "<" + getClass().getSimpleName().toLowerCase();
 
 		for (Method method: getClass().getMethods())
-			if (method.isAnnotationPresent(_XMLEntity.class)) {
+			if (method.isAnnotationPresent(_XMLField.class)) {
 				try {
-					xml += " " + method.getAnnotation(_XMLEntity.class).value() + "='" + (method.invoke(this)) + "'";
+					xml += " " + method.getAnnotation(_XMLField.class).value() + "='" + (method.invoke(this)) + "'";
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					Hermes.error(e);
 				}
