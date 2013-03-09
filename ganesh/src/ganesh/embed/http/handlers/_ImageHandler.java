@@ -16,6 +16,7 @@ class _ImageHandler implements _MyHandler {
 
 	@Override
 	public void handle(String target, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Thread.currentThread().setName("Ganesh get Image Thread");
 
 		InputStream is = getClass().getResourceAsStream("images/" + target + ".png");
 

@@ -1,13 +1,13 @@
 /* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
 package ganesh.embed.http.handlers;
 
+import ganesh.common.exceptions.ErrorCode;
+import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.common.session.Session;
-import ganesh.exceptions.ErrorCode;
-import ganesh.exceptions.GException;
 import ganesh.programs.GaneshProgram;
 import ganesh.programs.ProgramManager;
 import ganesh.programs.ProgramManager.RequestType;
@@ -31,11 +31,13 @@ public class _ProgramHandler implements _MyHandler {
 
 	@Override
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Thread.currentThread().setName("Ganesh Program Thread");
+
 		Response resp = new Response(response);
 		Request req = new Request();
-		req.decode(request);
 
 		try {
+			req.decode(request);
 			validateSession(req.getSession());
 		} catch (GException e) {
 			Hermes.error(e);
@@ -65,6 +67,8 @@ public class _ProgramHandler implements _MyHandler {
 					Hermes.warn("Programa " + pname + " não registrado");
 					resp.setMessage(new ErrorMessage("Programa \"" + pname + "\" não registrado"));
 				} else {
+					Thread.currentThread().setName("Ganesh Program " + pname + " Thread");
+
 					RequestType type = getRequestType(action);
 
 					if (type == null) {
@@ -72,6 +76,8 @@ public class _ProgramHandler implements _MyHandler {
 						Hermes.warn("Ação " + action + " inválida");
 						resp.setMessage(new ErrorMessage("Ação " + action + " inválida"));
 					} else {
+						Thread.currentThread().setName("Ganesh Program " + pname + " Thread: " + action);
+
 						Method method = null;
 
 						for (Method m: program.getClass().getMethods())

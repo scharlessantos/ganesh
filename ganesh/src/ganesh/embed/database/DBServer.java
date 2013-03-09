@@ -1,7 +1,7 @@
 package ganesh.embed.database;
 
-import ganesh.exceptions.ErrorCode;
-import ganesh.exceptions.GException;
+import ganesh.common.exceptions.ErrorCode;
+import ganesh.common.exceptions.GException;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -90,7 +90,7 @@ public class DBServer {
 	/**
 	 * Versão do banco de dados, a cada atualização do Banco de Dados, ou seja, mudanças na estrutura, criar script de update e incrementar 1 aqui
 	 */
-	private final short dbver = 1;
+	private final short dbver = 2;
 
 	private int validateDBVer(Connection conn, String module) throws GException {
 		try {
@@ -162,6 +162,12 @@ public class DBServer {
 		} catch (IOException e) {
 			throw new GException(ErrorCode.UNKOWN, "Erro ao ler o " + file + ".sql", e);
 		} catch (SQLException e) {
+			Hermes.error(e);
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				Hermes.error(e1);
+			}
 			throw new GException(ErrorCode.UNKOWN, "Erro ao criar/Atualizar o o Banco de Dados: " + dbver, e);
 		}
 

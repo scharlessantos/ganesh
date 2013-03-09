@@ -1,5 +1,9 @@
 package ganesh.swing.ui.login;
 
+import ganesh.common.request.Request;
+import ganesh.common.response.Response;
+import ganesh.swing.ui.MessageHandler;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -79,16 +83,31 @@ public class Login extends JFrame {
 		btnConfigurar.setBounds(417, 230, 32, 25);
 		contentPane.add(btnConfigurar);
 		btnSair.addActionListener(new btnSairListener());
-		btnAcessar.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {}
-		});
+		btnAcessar.addActionListener(new btnOkListener());
 	}
 
 	@Override
 	public void setVisible(boolean b) {
 		Hermes.info("starting...");
 		super.setVisible(b);
+	}
+
+	private class btnOkListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Request req = new Request();
+			Response resp = req.doRequest();
+
+			if (resp.getMessage() != null)
+				MessageHandler.show(resp.getMessage());
+
+			if (resp.getSession() != null) {
+
+			} else
+				Hermes.info("Tentativa de login falhou");
+		}
+
 	}
 
 	private class btnSairListener implements ActionListener {

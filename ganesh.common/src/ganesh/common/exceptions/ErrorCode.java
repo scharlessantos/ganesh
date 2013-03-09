@@ -1,4 +1,4 @@
-package ganesh.exceptions;
+package ganesh.common.exceptions;
 
 public enum ErrorCode {
 

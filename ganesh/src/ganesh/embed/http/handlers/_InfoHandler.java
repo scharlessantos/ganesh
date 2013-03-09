@@ -17,6 +17,8 @@ class _InfoHandler implements _MyHandler {
 
 	@Override
 	public void handle(String target, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Thread.currentThread().setName("Ganesh Info Thread");
+
 		resp.setContentType("text/html;charset=utf-8");
 		resp.setStatus(Response.SC_OK);
 		resp.getWriter().println("<h1>Ganesh Server says:</h1><br>");

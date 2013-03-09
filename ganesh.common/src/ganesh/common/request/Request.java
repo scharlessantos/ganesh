@@ -1,23 +1,48 @@
 /* Ganesh Commons, developed in 2013 */
 package ganesh.common.request;
 
+import ganesh.common.exceptions.ErrorCode;
+import ganesh.common.exceptions.GException;
+import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Response;
 import ganesh.common.session.Session;
 
+import java.io.IOException;
+import java.net.URL;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+
+import org.scharlessantos.hermes.Hermes;
 
 public class Request {
 
-	public void decode(HttpServletRequest original) {
-		//TODO bacalhau
-		//		session = new Session(UUID.randomUUID().toString());
-		//		session.addProperty("teste", "lalalalalalala");
-		//		session.addProperty("test2", "lalalalalalala");
-		//		session.addProperty("test3", "lalalalalalala");
+	public void decode(HttpServletRequest original) throws GException {
+		try {
+			XMLInputFactory factory = XMLInputFactory.newFactory();
+			XMLEventReader reader = factory.createXMLEventReader(original.getInputStream());
+
+		} catch (XMLStreamException | IOException e) {
+			Hermes.error(e);
+			throw new GException(ErrorCode.UNKOWN, e);
+		}
 	}
 
 	public Response doRequest() {
-		return null;
+
+		Response resp = new Response();
+		try {
+
+			resp.decode(new URL("http://127.0.0.1:8833/login").openStream());
+
+		} catch (GException | IOException e) {
+			Hermes.error(e);
+			resp.setMessage(new ErrorMessage(e.getMessage()));
+		}
+
+		return resp;
 	}
 
 	private Session session;

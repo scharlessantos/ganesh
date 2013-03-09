@@ -37,11 +37,11 @@ public class Session implements Serializable {
 	}
 
 	public String toXML() {
-		String xml = "<session uuid='" + uuid + "' >\n<properties>";
+		String xml = "<session uuid='" + uuid + "' >\n";
 
 		for (String key: properties.keySet())
 			xml += "\n<property key='" + key + "' value='" + properties.get(key) + "' />";
 
-		return xml + "\n</properties>\n</session>";
+		return xml + "\n</session>";
 	}
 }

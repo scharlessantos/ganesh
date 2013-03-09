@@ -1,8 +1,9 @@
 package ganesh.embed.http;
 
+import ganesh.common.exceptions.ErrorCode;
+import ganesh.common.exceptions.GException;
+import ganesh.embed.http.handlers.GaneshHttpThreadPool;
 import ganesh.embed.http.handlers.HttpHandler;
-import ganesh.exceptions.ErrorCode;
-import ganesh.exceptions.GException;
 
 import org.eclipse.jetty.server.Server;
 
@@ -24,6 +25,7 @@ public class HttpServer {
 	public void startServer() throws GException {
 		server = new Server(8833); //TODO botar esta porta em cfg.ini
 		try {
+			server.setThreadPool(new GaneshHttpThreadPool());
 			server.setHandler(new HttpHandler());
 
 			server.start();

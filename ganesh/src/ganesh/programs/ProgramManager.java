@@ -1,8 +1,8 @@
 /* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
 package ganesh.programs;
 
-import ganesh.exceptions.ErrorCode;
-import ganesh.exceptions.GException;
+import ganesh.common.exceptions.ErrorCode;
+import ganesh.common.exceptions.GException;
 import ganesh.programs.grupo.PrgGrupo;
 
 import java.util.HashMap;

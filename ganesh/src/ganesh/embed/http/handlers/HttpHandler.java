@@ -17,6 +17,7 @@ public class HttpHandler extends AbstractHandler {
 
 	@Override
 	public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String old = Thread.currentThread().getName();
 
 		target = target.substring(1);
 
@@ -44,5 +45,7 @@ public class HttpHandler extends AbstractHandler {
 		handler.handle(target, request, response);
 
 		baseRequest.setHandled(true);
+
+		Thread.currentThread().setName(old);
 	}
 }

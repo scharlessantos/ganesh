@@ -1,8 +1,8 @@
 package ganesh;
 
+import ganesh.common.exceptions.GException;
 import ganesh.embed.database.DBServer;
 import ganesh.embed.http.HttpServer;
-import ganesh.exceptions.GException;
 import ganesh.log.FileLogger;
 
 import org.scharlessantos.hermes.Hermes;

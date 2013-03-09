@@ -10,9 +10,8 @@ public class Message {
 
 	public static final short BUTTON_OK = 0;
 	public static final short BUTTON_OKCANCEL = 1;
-	public static final short BUTTON_OKCANCELRETRY = 2;
-	public static final short BUTTON_YESNO = 3;
-	public static final short BUTTON_YESNOCANCEL = 4;
+	public static final short BUTTON_YESNO = 2;
+	public static final short BUTTON_YESNOCANCEL = 3;
 
 	private String message;
 	private short buttons;
@@ -32,7 +31,7 @@ public class Message {
 		return buttons;
 	}
 
-	public short getType() {
+	public short getIcon() {
 		return icon;
 	}
 
