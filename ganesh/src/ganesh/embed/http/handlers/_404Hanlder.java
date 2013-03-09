@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Response;
+import org.scharlessantos.hermes.Hermes;
 
 class _404Hanlder implements _MyHandler {
 
@@ -15,6 +16,9 @@ class _404Hanlder implements _MyHandler {
 
 	@Override
 	public void handle(String target, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		Hermes.info("Not found /" + target);
+
 		resp.setContentType("text/html;charset=utf-8");
 		resp.setStatus(Response.SC_OK);
 		resp.getWriter().println("<center>");

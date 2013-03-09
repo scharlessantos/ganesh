@@ -22,17 +22,22 @@ public class HttpHandler extends AbstractHandler {
 
 		_MyHandler handler = null;
 
-		if (target.isEmpty() || target.equals("info"))
+		if (target.isEmpty() || target.equals("info")) {
+			target = "";
 			handler = new _InfoHandler();
-		else if (target.equals("debug"))
+		} else if (target.equals("debug")) {
+			target = "";
 			handler = new _DebugHandler();
-		else if (target.startsWith("program")) {
+		} else if (target.startsWith("program")) {
+			target = target.substring(8);
 			//TODO
 		} else if (target.equals("login")) {
+			target = "";
 			//TODO
-		} else if (target.startsWith("img/"))
+		} else if (target.startsWith("img/")) {
+			target = target.substring(4);
 			handler = new _ImageHandler();
-		else
+		} else
 			handler = new _404Hanlder();
 
 		handler.handle(target, request, response);

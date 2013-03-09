@@ -16,18 +16,21 @@ class _ImageHandler implements _MyHandler {
 
 	@Override
 	public void handle(String target, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setContentType("img/png");
 
-		String name = target.split("/")[1];
+		InputStream is = getClass().getResourceAsStream("images/" + target + ".png");
 
-		InputStream is = getClass().getResourceAsStream("images/" + name + ".png");
-		byte[] read = new byte[1024];
+		if (is == null)
+			new _404Hanlder().handle("</b></i> a imagem: <b><i>" + target, req, resp);
+		else {
+			resp.setContentType("image/png");
 
-		while (is.read(read) > 0)
-			resp.getOutputStream().write(read);
+			byte[] read = new byte[1024];
 
-		resp.setStatus(Response.SC_OK);
+			while (is.read(read) > 0)
+				resp.getOutputStream().write(read);
+
+			resp.setStatus(Response.SC_OK);
+		}
 
 	}
-
 }
