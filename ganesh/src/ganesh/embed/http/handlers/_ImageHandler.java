@@ -20,7 +20,7 @@ class _ImageHandler implements _MyHandler {
 		InputStream is = getClass().getResourceAsStream("images/" + target + ".png");
 
 		if (is == null)
-			new _404Hanlder().handle("</b></i> a imagem: <b><i>" + target, req, resp);
+			new _404Hanlder().handle("</b> a imagem: <b>" + target, req, resp);
 		else {
 			resp.setContentType("image/png");
 
