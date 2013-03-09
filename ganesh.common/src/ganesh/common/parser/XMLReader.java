@@ -1,6 +1,5 @@
-/* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
+/* Ganesh Commons, developed in 2013*/
 package ganesh.common.parser;
-
 
 public class XMLReader {
 
