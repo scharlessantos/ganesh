@@ -2,5 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="lib/javax.servlet-3.0.0.v201103241009.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet.source_2.5.0.v200806031605.jar"/>
+	<classpathentry kind="lib" path="lib/stax-api-1.0-2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/stax-api-1.0-2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
