@@ -26,7 +26,7 @@ public class Request {
 
 		} catch (XMLStreamException | IOException e) {
 			Hermes.error(e);
-			throw new GException(ErrorCode.UNKOWN, e);
+			throw new GException(ErrorCode.XML_PARSE, e);
 		}
 	}
 

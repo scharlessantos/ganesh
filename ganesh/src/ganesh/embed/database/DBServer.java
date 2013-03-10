@@ -49,8 +49,7 @@ public class DBServer {
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
-			throw new GException(ErrorCode.UNKOWN,
-				"Erro ao atualizar o Banco de Dados", e);
+			throw new GException(ErrorCode.DB_UPDATE, "Erro ao atualizar o Banco de Dados", e);
 		}
 	}
 
@@ -61,11 +60,11 @@ public class DBServer {
 
 		if (!file.exists())
 			if (!file.mkdir())
-				throw new GException(ErrorCode.UNKOWN,
+				throw new GException(ErrorCode.DB_UPDATE,
 					"Não foi possivel criar o diretorio de dados");
 
 		if (!file.isDirectory())
-			throw new GException(ErrorCode.UNKOWN,
+			throw new GException(ErrorCode.DB_UPDATE,
 				"Arquivo existe e não é um diretorio");
 
 		Hermes.info("Diretorio de dados OK!");
@@ -108,14 +107,14 @@ public class DBServer {
 				if (dbver > version)
 					return version;
 
-				throw new GException(ErrorCode.UNKOWN, "Banco mais novo do que Ganesh espera");
+				throw new GException(ErrorCode.DB_UPDATE, "Banco mais novo do que Ganesh espera");
 			}
 
 		} catch (SQLException e) {
 			if (e.getMessage().toLowerCase().startsWith("table \"dbver\" not found;"))
 				return -1;
 
-			throw new GException(ErrorCode.UNKOWN, e);
+			throw new GException(ErrorCode.DB_UPDATE, e);
 		}
 
 		return -1;
@@ -125,7 +124,7 @@ public class DBServer {
 		InputStream res = getRes(file + ".sql");
 
 		if (res == null)
-			throw new GException(ErrorCode.UNKOWN, file + ".sql not found");
+			throw new GException(ErrorCode.DB_UPDATE, file + ".sql not found");
 
 		try {
 
@@ -144,7 +143,7 @@ public class DBServer {
 			res.close();
 
 			if (command.isEmpty())
-				throw new GException(ErrorCode.UNKOWN, "Arquivo " + file + ".sql está vazio");
+				throw new GException(ErrorCode.DB_UPDATE, "Arquivo " + file + ".sql está vazio");
 
 			long time = System.currentTimeMillis();
 
@@ -160,7 +159,7 @@ public class DBServer {
 
 			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "script " + file + ".sql"));
 		} catch (IOException e) {
-			throw new GException(ErrorCode.UNKOWN, "Erro ao ler o " + file + ".sql", e);
+			throw new GException(ErrorCode.DB_UPDATE, "Erro ao ler o " + file + ".sql", e);
 		} catch (SQLException e) {
 			Hermes.error(e);
 			try {
@@ -168,7 +167,7 @@ public class DBServer {
 			} catch (SQLException e1) {
 				Hermes.error(e1);
 			}
-			throw new GException(ErrorCode.UNKOWN, "Erro ao criar/Atualizar o o Banco de Dados: " + dbver, e);
+			throw new GException(ErrorCode.DB_UPDATE, "Erro ao criar/Atualizar o o Banco de Dados: " + dbver, e);
 		}
 
 	}

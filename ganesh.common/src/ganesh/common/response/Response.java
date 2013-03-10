@@ -60,7 +60,7 @@ public class Response {
 
 		} catch (XMLStreamException e) {
 			Hermes.error(e);
-			throw new GException(ErrorCode.UNKOWN, "Response mal formada");
+			throw new GException(ErrorCode.XML_PARSE, "Response mal formada");
 		}
 	}
 

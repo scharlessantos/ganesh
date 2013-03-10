@@ -109,7 +109,7 @@ public class _ProgramHandler implements _MyHandler {
 
 	private void validateSession(Session session) throws GException {
 		if (session == null)
-			throw new GException(ErrorCode.UNKOWN, "Sessão inválida");
+			throw new GException(ErrorCode.ACESSO_NEGADO, "Sessão inválida");
 	}
 
 	private RequestType getRequestType(String action) {

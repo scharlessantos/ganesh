@@ -24,17 +24,17 @@ public class ProgramManager {
 
 			try {
 				if (cls.getConstructor() == null)
-					throw new GException(ErrorCode.UNKOWN, name + " deve possuir um contrutor padrão");
+					throw new GException(ErrorCode.UNKNOWN, name + " deve possuir um contrutor padrão");
 			} catch (NoSuchMethodException | SecurityException e) {
 				Hermes.error(e);
-				throw new GException(ErrorCode.UNKOWN, e);
+				throw new GException(ErrorCode.UNKNOWN, e);
 			}
 
 			try {
 				return cls.newInstance();
 			} catch (InstantiationException | IllegalAccessException e) {
 				Hermes.error(e);
-				throw new GException(ErrorCode.UNKOWN, e);
+				throw new GException(ErrorCode.UNKNOWN, e);
 			}
 		}
 

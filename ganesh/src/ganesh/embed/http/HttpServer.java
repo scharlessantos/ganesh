@@ -31,7 +31,7 @@ public class HttpServer {
 			server.start();
 			server.join();
 		} catch (Exception e) {
-			throw new GException(ErrorCode.UNKOWN, "Não foi possivel iniciar o servidor http", e);
+			throw new GException(ErrorCode.HTTP_SERVER_LOAD, "Não foi possivel iniciar o servidor http", e);
 		}
 	}
 
