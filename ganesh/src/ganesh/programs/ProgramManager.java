@@ -1,6 +1,7 @@
 /* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
 package ganesh.programs;
 
+/* Ganesh Server, developed in 2013*/
 import ganesh.common.exceptions.ErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.programs.grupo.PrgGrupo;

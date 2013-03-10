@@ -1,3 +1,4 @@
+/* Ganesh Server, developed in 2013*/
 package ganesh.log;
 
 import java.io.File;

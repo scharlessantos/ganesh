@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
+/* Ganesh Server, developed in 2013*/
 package ganesh.programs;
 
 import ganesh.common.session.Session;
