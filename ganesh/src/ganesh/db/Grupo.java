@@ -6,12 +6,12 @@ public class Grupo extends AbstractDBEntity {
 
 	private String nome = "Teste";
 
-	@_XMLField("id")
+	@_DBField("id")
 	public int getId() {
 		return id;
 	}
 
-	@_XMLField("nome")
+	@_DBField("nome")
 	public String getNome() {
 		return nome;
 	}

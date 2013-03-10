@@ -9,32 +9,32 @@ public class Pessoa extends AbstractDBEntity {
 	private String contato;
 	private String endereco;
 
-	@_XMLField("id_pessoa")
+	@_DBField("id_pessoa")
 	public Integer getIdPessoa() {
 		return idPessoa;
 	}
 
-	@_XMLField("codigo")
+	@_DBField("codigo")
 	public String getCodigo() {
 		return codigo;
 	}
 
-	@_XMLField("nome")
+	@_DBField("nome")
 	public String getNome() {
 		return nome;
 	}
 
-	@_XMLField("documento")
+	@_DBField("documento")
 	public String getDocumento() {
 		return documento;
 	}
 
-	@_XMLField("contato")
+	@_DBField("contato")
 	public String getContato() {
 		return contato;
 	}
 
-	@_XMLField("endereco")
+	@_DBField("endereco")
 	public String getEndereco() {
 		return endereco;
 	}

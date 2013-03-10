@@ -14,10 +14,10 @@ public abstract class AbstractDBEntity implements ResponseItem {
 		String xml = "<" + getClass().getSimpleName().toLowerCase();
 
 		for (Method method: getClass().getMethods())
-			if (method.isAnnotationPresent(_XMLField.class)) {
+			if (method.isAnnotationPresent(_DBField.class)) {
 				try {
 					Object r = method.invoke(this);
-					xml += " " + method.getAnnotation(_XMLField.class).value() + "='" + (r == null ? "" : r.toString()) + "'";
+					xml += " " + method.getAnnotation(_DBField.class).value() + "='" + (r == null ? "" : r.toString()) + "'";
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					Hermes.error(e);
 				}

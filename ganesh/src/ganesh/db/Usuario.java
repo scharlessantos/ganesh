@@ -6,17 +6,17 @@ public class Usuario extends Pessoa {
 	private String username;
 	private String senha;
 
-	@_XMLField("id_usuario")
+	@_DBField("id_usuario")
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}
 
-	@_XMLField("username")
+	@_DBField("username")
 	public String getUsername() {
 		return username;
 	}
 
-	@_XMLField("senha")
+	@_DBField("senha")
 	public String getSenha() {
 		return senha;
 	}
