@@ -34,7 +34,6 @@ public class HttpHandler extends AbstractHandler {
 			handler = new _ProgramHandler();
 		} else if (target.equals("login")) {
 			target = "";
-			//TODO
 			handler = new _LoginHandler();
 		} else if (target.startsWith("img/")) {
 			target = target.substring(4);

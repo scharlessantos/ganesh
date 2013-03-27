@@ -21,9 +21,14 @@ class _InfoHandler implements _MyHandler {
 
 		resp.setContentType("text/html;charset=utf-8");
 		resp.setStatus(Response.SC_OK);
+		resp.getWriter().println("<html>");
+		resp.getWriter().println("<head><title>Ganesh - Application Server</title></head>");
+		resp.getWriter().println("<body>");
 		resp.getWriter().println("<h1>Ganesh Server says:</h1><br>");
 		resp.getWriter().println("<img src=/img/itworks />");
 		resp.getWriter().println(poweredBy());
+		resp.getWriter().println("</body>");
+		resp.getWriter().println("</html>");
 	}
 
 	public static String poweredBy() {

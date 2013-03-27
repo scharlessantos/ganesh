@@ -20,15 +20,19 @@ class _404Hanlder implements _MyHandler {
 		Hermes.info("Not found /" + target);
 
 		resp.setContentType("text/html;charset=utf-8");
-		resp.setStatus(Response.SC_OK);
+		resp.getWriter().println("<html>");
+		resp.getWriter().println("<head><title>Ganesh - Application Server</title></head>");
+		resp.getWriter().println("<body>");
 		resp.getWriter().println("<center>");
-		resp.getWriter().println("<font size=6 color=red><i><b>Erro Interno<br></b></i></font>");
+		resp.getWriter().println("<font size=9 color=red><i><b>Ops!<br></b></i></font>");
+		resp.getWriter().println("<font size=3><i><b>Ganesh não conseguiu resolver este problema<br></b></i></font>");
 		resp.getWriter().println("<img src=/img/e404 />");
-		resp.getWriter().println("<font size=2 color=red><i><br>Erro 404 - Não foi possível encontrar <b>" + target + "</b></i></font>");
+		resp.getWriter().println("<font size=2 color=red><i><br>Erro 404 - Não foi possível encontrar <b>/" + target + "</b></i></font>");
 		resp.getWriter().println("</center>");
+		resp.getWriter().println("</body>");
+		resp.getWriter().println("</html>");
 
 		resp.getWriter().println(_InfoHandler.poweredBy());
 		resp.setStatus(Response.SC_NOT_FOUND);
 	}
-
 }

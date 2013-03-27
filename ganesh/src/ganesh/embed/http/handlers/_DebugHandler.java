@@ -3,10 +3,11 @@ package ganesh.embed.http.handlers;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,13 +54,15 @@ class _DebugHandler implements _MyHandler {
 
 		wr.println("<html>");
 		wr.println("<head>");
-		wr.println("<title>Server Debug Info</title>");
+		wr.println("<title>Ganesh - Application Server</title>");
 		wr.println("<style type='text/css'>table{border-collapse:collapse;}table, td, th{border:1px solid black;}</style>");
 		wr.println("</head>");
 		wr.println("<body>");
 		wr.println("<h1><a name='inicio'>Ganesh Server Debug Info</a></h1>");
 
-		wr.println(new Timestamp(System.currentTimeMillis()).toString());
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.S z");
+
+		wr.println(format.format(new Date(System.currentTimeMillis())));
 
 		wr.println("<h2>Heap Space</h2>");
 		wr.println("<b>Max:</b> %s<br/>", formatByteSize(heapMaxSize));
