@@ -13,9 +13,23 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.h2.tools.Server;
 import org.scharlessantos.hermes.Hermes;
 
 public class DBServer {
+
+	private Server server;
+
+	private static DBServer instance;
+
+	public static DBServer getInstance() {
+		if (instance == null)
+			instance = new DBServer();
+
+		return instance;
+	}
+
+	private DBServer() {}
 
 	public void initDB() throws GException {
 		Hermes.info("Iniciando Banco de Dados");
