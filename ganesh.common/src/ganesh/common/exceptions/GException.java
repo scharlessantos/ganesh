@@ -1,33 +1,35 @@
+/* Ganesh Commons, developed in 2013*/
 package ganesh.common.exceptions;
 
-public class GException extends Exception{
-	
+public class GException extends Exception {
+
 	private static final long serialVersionUID = 7414687980700018664L;
-	
+
 	private ErrorCode code;
-	
-	public GException(ErrorCode code){
+
+	public GException(ErrorCode code) {
 		this(code, "");
 	}
-	
-	public GException(ErrorCode code, String message){
+
+	public GException(ErrorCode code, String message) {
 		this(code, message, null);
 	}
-	
-	public GException(ErrorCode code, Throwable cause){
+
+	public GException(ErrorCode code, Throwable cause) {
 		this(code, null, cause);
 	}
-	
-	public GException(ErrorCode code, String message, Throwable cause){
+
+	public GException(ErrorCode code, String message, Throwable cause) {
 		super(message, cause);
-		
+
 		this.code = code;
 	}
-	
-	public ErrorCode getCode(){
+
+	public ErrorCode getCode() {
 		return code;
 	}
-	
+
+	@Override
 	public String getMessage() {
 		return code.toString() + ": " + super.getMessage();
 	};
