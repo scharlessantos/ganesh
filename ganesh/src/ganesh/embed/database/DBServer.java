@@ -1,8 +1,11 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.database;
 
+import ganesh.Ganesh;
 import ganesh.common.exceptions.ErrorCode;
 import ganesh.common.exceptions.GException;
+import ganesh.i18n.GMessages;
+import ganesh.i18n.Messages;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -18,6 +21,9 @@ import org.scharlessantos.hermes.Hermes;
 public class DBServer {
 
 	private static DBServer instance;
+
+	protected Messages M = Ganesh.getMessages();
+	protected GMessages GM = Ganesh.getGMessages();
 
 	public static DBServer getInstance() {
 		if (instance == null)
@@ -50,18 +56,18 @@ public class DBServer {
 
 			if (version == -1) {
 				Hermes.info("Banco de dados não existe, criando...");
-				creatOrUpdateDB(conn, "create");
+				createOrUpdateDB(conn, "create");
 
 				version = 1;
 			}
 
 			for (int i = version; i < dbver; i++) {
 				Hermes.info("Atualizando Banco de dados para versão " + (i + 1));
-				creatOrUpdateDB(conn, String.format("update.%03d", i));
+				createOrUpdateDB(conn, String.format("update.%03d", i));
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
-			throw new GException(ErrorCode.DB_UPDATE, "Erro ao atualizar o Banco de Dados", e);
+			throw new GException(ErrorCode.DB_UPDATE, GM.erroAoAtualizarOBancoDeDados(), e);
 		}
 	}
 
@@ -72,12 +78,10 @@ public class DBServer {
 
 		if (!file.exists())
 			if (!file.mkdir())
-				throw new GException(ErrorCode.DB_UPDATE,
-					"Não foi possivel criar o diretorio de dados");
+				throw new GException(ErrorCode.DB_UPDATE, GM.naoFoiPossivelCriarODiretorioDeDados());
 
 		if (!file.isDirectory())
-			throw new GException(ErrorCode.DB_UPDATE,
-				"Arquivo existe e não é um diretorio");
+			throw new GException(ErrorCode.DB_UPDATE, GM.arquivoDeDadosExistePoremNaoEhUmDiretorio());
 
 		Hermes.info("Diretorio de dados OK!");
 	}
@@ -119,7 +123,7 @@ public class DBServer {
 				if (dbver > version)
 					return version;
 
-				throw new GException(ErrorCode.DB_UPDATE, "Banco mais novo do que Ganesh espera");
+				throw new GException(ErrorCode.DB_UPDATE, GM.bancoMaisNovoDoQueGaneshEspera());
 			}
 
 		} catch (SQLException e) {
@@ -132,7 +136,7 @@ public class DBServer {
 		return -1;
 	}
 
-	private void creatOrUpdateDB(Connection conn, String file) throws GException {
+	private void createOrUpdateDB(Connection conn, String file) throws GException {
 		InputStream res = getRes(file + ".sql");
 
 		if (res == null)
@@ -147,8 +151,7 @@ public class DBServer {
 			while (reader.read(buffer) > 0) {
 				String linha = new String(buffer);
 
-				if (linha != null)
-					command += linha;
+				command += linha;
 			}
 
 			reader.close();
