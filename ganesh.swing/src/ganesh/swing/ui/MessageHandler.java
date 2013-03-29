@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
+/*Ganesh Swing Client, developed in 2013*/
 package ganesh.swing.ui;
 
 import ganesh.common.response.Message;
