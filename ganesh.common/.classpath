@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/stax-api-1.0-2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/stax-api-1.0-2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.scharlessantos.hermes"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.scharlessantos.atlas"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

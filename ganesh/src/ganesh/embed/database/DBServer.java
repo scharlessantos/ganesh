@@ -13,12 +13,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.h2.tools.Server;
 import org.scharlessantos.hermes.Hermes;
 
 public class DBServer {
-
-	private Server server;
 
 	private static DBServer instance;
 

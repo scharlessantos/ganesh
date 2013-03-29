@@ -6,6 +6,7 @@ import ganesh.embed.database.DBServer;
 import ganesh.embed.http.HttpServer;
 import ganesh.log.FileLogger;
 
+import org.scharlessantos.hermes.HConfiguration;
 import org.scharlessantos.hermes.Hermes;
 import org.scharlessantos.hermes.logger.GenericHFilter;
 import org.scharlessantos.hermes.writer.HLevel;
@@ -19,6 +20,7 @@ public class Starter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		HConfiguration.getInstance().setBaseFormat("[S:%-5s] %s.%s(%s:%d)@Thread %d:");
 		Hermes.removeDefaultFileLogger();
 		Hermes.addLogger(new FileLogger(), new GenericHFilter(HLevel.INFO));
 
@@ -47,5 +49,4 @@ public class Starter {
 		}
 
 	}
-
 }
