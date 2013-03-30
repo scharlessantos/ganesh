@@ -3,6 +3,7 @@ package ganesh.embed.http.handlers;
 
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Response;
+import ganesh.db.Usuario;
 
 import java.io.IOException;
 
@@ -19,6 +20,10 @@ public class _LoginHandler implements _MyHandler {
 		Thread.currentThread().setName("Ganesh Login Thread");
 
 		Response resp = new Response(response);
+
+		//Bacalhau
+		resp.addListItem("usuarios", new Usuario());
+		resp.addListItem("usuarios", new Usuario());
 
 		resp.setMessage(new ErrorMessage("Usuário/Senha inválido"));
 		resp.writeResponse();

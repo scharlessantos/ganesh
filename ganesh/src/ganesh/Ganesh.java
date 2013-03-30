@@ -34,18 +34,18 @@ public class Ganesh {
 
 	private void registerPrograms() {
 
-		Hermes.info(GaneshI18n.translate("grupo()"));
+		Hermes.info(Ganesh.getGMessages().arquivoDeDadosExistePoremNaoEhUmDiretorio().toString());
 
 		ProgramManager.registerProgram("grupo", PrgGrupo.class);
 
 	}
 
-	public static GMessages getGMessages() {
-		return null;
+	public static Messages getMessages() {
+		return GaneshI18n.genI18nClass(Messages.class);
 	}
 
-	public static Messages getMessages() {
-		return null;
+	public static GMessages getGMessages() {
+		return GaneshI18n.genI18nClass(GMessages.class);
 	}
 
 }

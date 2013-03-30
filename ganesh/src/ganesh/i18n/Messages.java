@@ -6,4 +6,6 @@ package ganesh.i18n;
  */
 public interface Messages {
 
+	String erroAoAtualizarOBancoDeDados();
+
 }

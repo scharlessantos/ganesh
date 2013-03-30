@@ -10,4 +10,12 @@ public interface GMessages {
 
 	GString grupos();
 
+	GString erroAoAtualizarOBancoDeDados();
+
+	GString naoFoiPossivelCriarODiretorioDeDados();
+
+	GString arquivoDeDadosExistePoremNaoEhUmDiretorio();
+
+	GString bancoMaisNovoDoQueGaneshEspera();
+
 }
