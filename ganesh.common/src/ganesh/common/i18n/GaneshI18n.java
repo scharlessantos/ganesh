@@ -34,7 +34,7 @@ public class GaneshI18n {
 	}
 
 	private GaneshI18n() {
-		translator = new Atlas(Language.EN_US);
+		translator = new Atlas(Language.PT_BR);
 	}
 
 	protected void _loadTranslations(Language lang, InputStream input) {
