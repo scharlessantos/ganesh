@@ -13,13 +13,38 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.scharlessantos.hermes.Hermes;
 
 public abstract class AbstractDBEntity implements ResponseItem {
 
-	protected final Messages M = Ganesh.getMessages();
-	protected final GMessages GM = Ganesh.getGMessages();
+	protected static final Messages M = Ganesh.getMessages();
+	protected static final GMessages GM = Ganesh.getGMessages();
+
+	private static HashMap<String, List<String>> entities = new HashMap<>();
+
+	protected static List<String> getDBEntities(Class<? extends AbstractDBEntity> cls) {
+		if (entities.get(cls.getSimpleName()) == null) {
+			List<String> entities = new ArrayList<>();
+
+			for (Method method: cls.getMethods()) {
+				if (method.getDeclaringClass().equals(cls)) { //Isso serve para filtrar os métodos de super classes
+					_DBField annotation = method.getAnnotation(_DBField.class);
+					if (annotation != null) {
+						if (!entities.contains(annotation.value()))
+							entities.add(annotation.value());
+					}
+				}
+			}
+
+			AbstractDBEntity.entities.put(cls.getSimpleName(), entities);
+		}
+
+		return new ArrayList<>(entities.get(cls.getSimpleName()));
+	}
 
 	@Override
 	public String toXML() {
@@ -45,6 +70,9 @@ public abstract class AbstractDBEntity implements ResponseItem {
 		return xml.toString();
 	}
 
+	/**
+	 * @throws GException
+	 */
 	public void save() throws GException {
 		StringBuilder sql = new StringBuilder();
 		StringBuilder values = new StringBuilder();
@@ -94,6 +122,12 @@ public abstract class AbstractDBEntity implements ResponseItem {
 		} catch (SQLException e) {
 			Hermes.error(e);
 			throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_(getClass().getSimpleName()));
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				Hermes.error(e);
+			}
 		}
 	}
 }

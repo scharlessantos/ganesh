@@ -10,6 +10,17 @@ public class Pessoa extends AbstractDBEntity {
 	private String contato;
 	private String endereco;
 
+	public Pessoa() {}
+
+	public Pessoa(Pessoa other) {
+		this.idPessoa = other.idPessoa;
+		this.codigo = other.codigo;
+		this.nome = other.nome;
+		this.documento = other.documento;
+		this.contato = other.contato;
+		this.endereco = other.endereco;
+	}
+
 	@_DBField("id_pessoa")
 	public Integer getIdPessoa() {
 		return idPessoa;
@@ -38,6 +49,10 @@ public class Pessoa extends AbstractDBEntity {
 	@_DBField("endereco")
 	public String getEndereco() {
 		return endereco;
+	}
+
+	protected void setIdPessoa(int idPessoa) {
+		this.idPessoa = idPessoa;
 	}
 
 	public void setCodigo(String codigo) {

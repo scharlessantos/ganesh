@@ -105,6 +105,26 @@ public class DBServer {
 		}
 	}
 
+	public ResultSet executeQuery(String sql) throws GException {
+		return executeQuery(getConnection(), sql);
+	}
+
+	public ResultSet executeQuery(Connection conn, String sql) throws GException {
+		if (conn == null)
+			throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_("Usuario"));
+
+		long time = System.currentTimeMillis();
+		try {
+			return conn.prepareStatement(sql).executeQuery();
+		} catch (SQLException e) {
+			Hermes.error(e);
+			throw new GException(ErrorCode.DB_ERROR, e);
+		} finally {
+			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, sql));
+		}
+
+	}
+
 	/**
 	 * Versão do banco de dados, a cada atualização do Banco de Dados, ou seja, mudanças na estrutura, criar script de update e incrementar 1 aqui
 	 */
@@ -112,10 +132,7 @@ public class DBServer {
 
 	private int validateDBVer(Connection conn, String module) throws GException {
 		try {
-			long time = System.currentTimeMillis();
-			ResultSet result = conn.prepareStatement("Select version from dbver where module like '" + module + "'").executeQuery();
-
-			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "Select version from dbver where module like '" + module + "'"));
+			ResultSet result = executeQuery(conn, "Select version from dbver where module like '" + module + "'");
 
 			while (result.next()) {
 				int version = result.getShort("version");
