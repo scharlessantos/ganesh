@@ -1,1 +1,3 @@
 grupo()=Grupo
+erroAoInserir_(String)=Erro ao inserir %s
+erroAoAtualizarOBancoDeDados()=Erro ao atualizar o Banco de Dados
