@@ -14,7 +14,9 @@ public enum ErrorCode {
 	XML_PARSE,
 
 	//Aplicação
-	ACESSO_NEGADO;
+	ACESSO_NEGADO,
+
+	DB_ERROR;
 
 	@Override
 	public String toString() {
