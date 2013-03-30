@@ -1,14 +1,25 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import ganesh.Ganesh;
+import ganesh.common.exceptions.ErrorCode;
+import ganesh.common.exceptions.GException;
 import ganesh.common.response.ResponseItem;
+import ganesh.embed.database.DBServer;
+import ganesh.i18n.GMessages;
+import ganesh.i18n.Messages;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import org.scharlessantos.hermes.Hermes;
 
 public abstract class AbstractDBEntity implements ResponseItem {
+
+	protected final Messages M = Ganesh.getMessages();
+	protected final GMessages GM = Ganesh.getGMessages();
 
 	@Override
 	public String toXML() {
@@ -34,7 +45,7 @@ public abstract class AbstractDBEntity implements ResponseItem {
 		return xml.toString();
 	}
 
-	public void save() {
+	public void save() throws GException {
 		StringBuilder sql = new StringBuilder();
 		StringBuilder values = new StringBuilder();
 
@@ -65,7 +76,24 @@ public abstract class AbstractDBEntity implements ResponseItem {
 					}
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					Hermes.error(e);
+					throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_(getClass().getSimpleName()));
 				}
 			}
+
+		sql.append(" ) values (");
+		sql.append(values);
+		sql.append(")");
+
+		Connection conn = DBServer.getInstance().getConnection();
+
+		if (conn == null)
+			throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_(getClass().getSimpleName()));
+
+		try {
+			conn.createStatement().executeUpdate(sql.toString());
+		} catch (SQLException e) {
+			Hermes.error(e);
+			throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_(getClass().getSimpleName()));
+		}
 	}
 }

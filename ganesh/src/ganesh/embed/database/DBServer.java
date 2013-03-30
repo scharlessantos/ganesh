@@ -66,7 +66,7 @@ public class DBServer {
 				createOrUpdateDB(conn, String.format("update.%03d", i));
 			}
 
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (GException e) {
 			throw new GException(ErrorCode.DB_UPDATE, GM.erroAoAtualizarOBancoDeDados(), e);
 		}
 	}
@@ -86,20 +86,23 @@ public class DBServer {
 		Hermes.info("Diretorio de dados OK!");
 	}
 
-	public Connection getConnection() throws ClassNotFoundException, SQLException {
+	public Connection getConnection() throws GException {
 		long time = System.currentTimeMillis();
 
-		Class.forName("org.h2.Driver");
+		try {
+			Class.forName("org.h2.Driver");
 
-		String connectionString = "jdbc:h2:"
-			+ new File(new File("db"), "ganeshdb").getAbsolutePath();
+			String connectionString = "jdbc:h2:" + new File(new File("db"), "ganeshdb").getAbsolutePath();
 
-		Connection connection = DriverManager.getConnection(connectionString);
-		connection.setAutoCommit(true);
-		connection.setReadOnly(true);
+			Connection connection = DriverManager.getConnection(connectionString);
+			connection.setAutoCommit(true);
 
-		Hermes.info(String.format("Criando conexão: %dms", System.currentTimeMillis() - time));
-		return connection;
+			Hermes.info(String.format("Criando conexão: %dms", System.currentTimeMillis() - time));
+
+			return connection;
+		} catch (SQLException | ClassNotFoundException e) {
+			throw new GException(ErrorCode.DB_ERROR, e);
+		}
 	}
 
 	/**
