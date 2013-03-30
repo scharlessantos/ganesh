@@ -131,8 +131,11 @@ public class DBServer {
 	private final short dbver = 3;
 
 	private int validateDBVer(Connection conn, String module) throws GException {
+
 		try {
-			ResultSet result = executeQuery(conn, "Select version from dbver where module like '" + module + "'");
+			long time = System.currentTimeMillis();
+			ResultSet result = conn.prepareStatement("Select version from dbver where module like '" + module + "'").executeQuery();
+			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "Select version from dbver where module like '" + module + "'"));
 
 			while (result.next()) {
 				int version = result.getShort("version");
