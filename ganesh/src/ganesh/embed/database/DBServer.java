@@ -105,7 +105,7 @@ public class DBServer {
 	/**
 	 * Versão do banco de dados, a cada atualização do Banco de Dados, ou seja, mudanças na estrutura, criar script de update e incrementar 1 aqui
 	 */
-	private final short dbver = 2;
+	private final short dbver = 3;
 
 	private int validateDBVer(Connection conn, String module) throws GException {
 		try {
