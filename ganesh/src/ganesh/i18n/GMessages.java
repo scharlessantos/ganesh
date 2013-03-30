@@ -18,4 +18,6 @@ public interface GMessages {
 
 	GString bancoMaisNovoDoQueGaneshEspera();
 
+	GString erroAoInserir_(GString entity);
+
 }
