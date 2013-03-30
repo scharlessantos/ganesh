@@ -1,7 +1,7 @@
-/* Ganesh Server, developed in 2013*/
 package ganesh;
 
 import ganesh.common.exceptions.GException;
+import ganesh.common.i18n.GaneshI18n;
 import ganesh.embed.database.DBServer;
 import ganesh.embed.http.HttpServer;
 import ganesh.log.FileLogger;
@@ -10,6 +10,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.Set;
 
+import org.scharlessantos.atlas.Language;
 import org.scharlessantos.hermes.HConfiguration;
 import org.scharlessantos.hermes.Hermes;
 import org.scharlessantos.hermes.logger.GenericHFilter;
@@ -35,10 +36,18 @@ public class Starter {
 		Hermes.removeDefaultFileLogger();
 		Hermes.addLogger(new FileLogger(), new GenericHFilter(HLevel.INFO));
 
-		Hermes.info("\n=====================================" +
-			"\n          Starting Ganesh" +
-			"\n An open source program: NO WARRANTY" +
-			"\n=====================================");
+		Hermes.warn("\nGANESH NOTICE:\nCopyright (C) 2013 Rafael Antônio Farinha (rafarinha123@gmail.com)\n\n" +
+			"This program is free software: you can redistribute it and/or modify\n" +
+			"it under the terms of the GNU General Public License as published by\n" +
+			"the Free Software Foundation, either version 3 of the License, or\n" +
+			"(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\n" +
+			"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+			"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
+			"GNU General Public License for more details.\n" +
+			"You should have received a copy of the GNU General Public License\n" +
+			"along with this program. If not, see <http://www.gnu.org/licenses/>.\n");
+
+		Hermes.info("============================ Starting Ganesh Server");
 
 		try {
 			RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
@@ -52,6 +61,9 @@ public class Starter {
 			Hermes.fatal(t);
 			System.exit(12);
 		}
+
+		GaneshI18n.loadTranslations(Language.PT_BR, Starter.class.getResourceAsStream("i18n/translations/messages.pt_BR.trd"));
+		GaneshI18n.loadTranslations(Language.EN_US, Starter.class.getResourceAsStream("i18n/translations/messages.en_US.trd"));
 
 		try {
 			DBServer.getInstance().initDB();
