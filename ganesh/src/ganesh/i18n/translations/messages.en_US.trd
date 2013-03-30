@@ -1,0 +1,2 @@
+grupo()=Group
+erroAoInserir_(String)=Error on insert %s
