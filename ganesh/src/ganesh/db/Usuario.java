@@ -3,6 +3,9 @@ package ganesh.db;
 
 import ganesh.common.exceptions.ErrorCode;
 import ganesh.common.exceptions.GException;
+import ganesh.db.annotation.Entity;
+import ganesh.db.annotation.Field;
+import ganesh.db.annotation.Id;
 import ganesh.embed.database.DBServer;
 
 import java.sql.Connection;
@@ -11,23 +14,26 @@ import java.sql.SQLException;
 
 import org.scharlessantos.hermes.Hermes;
 
+@Entity("usuario")
 public class Usuario extends Pessoa {
 
+	@Id("id_usuario")
 	private Integer idUsuario;
+
+	@Field("username")
 	private String username;
+
+	@Field("senha")
 	private String senha;
 
-	@_DBField("id_usuario")
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}
 
-	@_DBField("username")
 	public String getUsername() {
 		return username;
 	}
 
-	@_DBField("senha")
 	public String getSenha() {
 		return senha;
 	}

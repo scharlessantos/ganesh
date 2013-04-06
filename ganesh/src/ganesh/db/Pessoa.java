@@ -1,13 +1,29 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import ganesh.db.annotation.Entity;
+import ganesh.db.annotation.Field;
+import ganesh.db.annotation.Id;
+
+@Entity("pessoa")
 public class Pessoa extends AbstractDBEntity {
 
+	@Id("id_pessoa")
 	private Integer idPessoa;
+
+	@Field("codigo")
 	private String codigo;
+
+	@Field("nome")
 	private String nome;
+
+	@Field("documento")
 	private String documento;
+
+	@Field("contato")
 	private String contato;
+
+	@Field("endereco")
 	private String endereco;
 
 	public Pessoa() {}
@@ -21,32 +37,26 @@ public class Pessoa extends AbstractDBEntity {
 		this.endereco = other.endereco;
 	}
 
-	@_DBField("id_pessoa")
 	public Integer getIdPessoa() {
 		return idPessoa;
 	}
 
-	@_DBField("codigo")
 	public String getCodigo() {
 		return codigo;
 	}
 
-	@_DBField("nome")
 	public String getNome() {
 		return nome;
 	}
 
-	@_DBField("documento")
 	public String getDocumento() {
 		return documento;
 	}
 
-	@_DBField("contato")
 	public String getContato() {
 		return contato;
 	}
 
-	@_DBField("endereco")
 	public String getEndereco() {
 		return endereco;
 	}

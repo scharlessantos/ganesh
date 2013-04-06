@@ -1,29 +1,34 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import ganesh.db.annotation.Entity;
+import ganesh.db.annotation.Field;
+import ganesh.db.annotation.Id;
+
+@Entity("empresa")
 public class Empresa extends AbstractDBEntity {
 
+	@Id("id_empresa")
 	private int idEmpresa;
+	@Field("codigo")
 	private String codigo;
+	@Field("nome")
 	private String nome;
+	@Field("cnpj")
 	private String cnpj;
 
-	@_DBField("id_empresa")
 	public int getIdEmpresa() {
 		return idEmpresa;
 	}
 
-	@_DBField("codigo")
 	public String getCodigo() {
 		return codigo;
 	}
 
-	@_DBField("nome")
 	public String getNome() {
 		return nome;
 	}
 
-	@_DBField("cnpj")
 	public String getCnpj() {
 		return cnpj;
 	}

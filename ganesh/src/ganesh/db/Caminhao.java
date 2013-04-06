@@ -1,29 +1,38 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import ganesh.db.annotation.Aggregated;
+import ganesh.db.annotation.Entity;
+import ganesh.db.annotation.Field;
+import ganesh.db.annotation.Id;
+
+@Entity("caminhao")
 public class Caminhao extends AbstractDBEntity {
 
+	@Aggregated({ "id_empresa" })
 	private Empresa empresa;
+
+	@Id("id_caminhao")
 	private int idCaminhao;
+
+	@Field("codigo")
 	private String codigo;
+
+	@Field("placa")
 	private String placa;
 
-	@_DBField("id_empresa")
 	public int getIdEmpresa() {
 		return empresa.getIdEmpresa();
 	}
 
-	@_DBField("id_caminhao")
 	public int getIdCaminhao() {
 		return idCaminhao;
 	}
 
-	@_DBField("codigo")
 	public String getCodigo() {
 		return codigo;
 	}
 
-	@_DBField("placa")
 	public String getPlaca() {
 		return placa;
 	}

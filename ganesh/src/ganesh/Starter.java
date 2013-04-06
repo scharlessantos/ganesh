@@ -36,55 +36,62 @@ public class Starter {
 		Hermes.removeDefaultFileLogger();
 		Hermes.addLogger(new FileLogger(), new GenericHFilter(HLevel.INFO));
 
-		Hermes.warn("\nGANESH NOTICE:\nCopyright (C) 2013 Rafael Antônio Farinha (rafarinha123@gmail.com)\n\n" +
-			"This program is free software: you can redistribute it and/or modify\n" +
-			"it under the terms of the GNU General Public License as published by\n" +
-			"the Free Software Foundation, either version 3 of the License, or\n" +
-			"(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\n" +
-			"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
-			"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
-			"GNU General Public License for more details.\n" +
-			"You should have received a copy of the GNU General Public License\n" +
-			"along with this program. If not, see <http://www.gnu.org/licenses/>.\n");
-
-		Hermes.info("============================ Starting Ganesh Server");
-
 		try {
-			RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
-			final int runtimePid = Integer.parseInt(rt.getName().substring(0, rt.getName().indexOf("@")));
 
-			if (!getMonitoredVMs(runtimePid)) {
-				Hermes.fatal("Já existe uma outra instância do Ganesh em execução");
-				System.exit(11);
+			Hermes.warn("\nGANESH NOTICE:\nCopyright (C) 2013 Rafael Antonio Farinha (rafarinha123@gmail.com)\n\n" +
+				"This program is free software: you can redistribute it and/or modify\n" +
+				"it under the terms of the GNU General Public License as published by\n" +
+				"the Free Software Foundation, either version 3 of the License, or\n" +
+				"(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\n" +
+				"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+				"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
+				"GNU General Public License for more details.\n" +
+				"You should have received a copy of the GNU General Public License\n" +
+				"along with this program. If not, see <http://www.gnu.org/licenses/>.\n");
+
+			Hermes.info("============================ Starting Ganesh Server");
+
+			try {
+				RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
+				final int runtimePid = Integer.parseInt(rt.getName().substring(0, rt.getName().indexOf("@")));
+
+				if (!getMonitoredVMs(runtimePid)) {
+					Hermes.fatal("Já existe uma outra instância do Ganesh em execução");
+					System.exit(11);
+				}
+			} catch (Throwable t) {
+				Hermes.fatal(t);
+				System.exit(12);
 			}
-		} catch (Throwable t) {
-			Hermes.fatal(t);
-			System.exit(12);
-		}
 
-		GaneshI18n.loadTranslations(Language.PT_BR, Starter.class.getResourceAsStream("i18n/translations/messages.pt_BR.trd"));
-		GaneshI18n.loadTranslations(Language.EN_US, Starter.class.getResourceAsStream("i18n/translations/messages.en_US.trd"));
+			GaneshI18n.loadTranslations(Language.PT_BR, Starter.class.getResourceAsStream("i18n/translations/messages.pt_BR.trd"));
+			GaneshI18n.loadTranslations(Language.EN_US, Starter.class.getResourceAsStream("i18n/translations/messages.en_US.trd"));
 
-		try {
-			DBServer.getInstance().initDB();
-		} catch (GException e) {
-			Hermes.fatal("Nao foi possivel iniciar o Banco de Dados");
+			try {
+				DBServer.getInstance().initDB();
+			} catch (GException e) {
+				Hermes.fatal("Nao foi possivel iniciar o Banco de Dados");
+				Hermes.fatal(e);
+
+				System.exit(13);
+			}
+
+			Ganesh.getInstance().start();
+
+			try {
+				HttpServer.getInstance().startServer();
+			} catch (GException e) {
+				Hermes.fatal(e);
+
+				System.exit(32);
+			}
+
+			System.exit(0);
+
+		} catch (Throwable e) {
 			Hermes.fatal(e);
-
-			System.exit(13);
+			System.exit(33);
 		}
-
-		Ganesh.getInstance().start();
-
-		try {
-			HttpServer.getInstance().startServer();
-		} catch (GException e) {
-			Hermes.fatal(e);
-
-			System.exit(32);
-		}
-
-		System.exit(0);
 
 	}
 
