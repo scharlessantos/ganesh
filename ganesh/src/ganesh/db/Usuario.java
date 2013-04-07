@@ -3,12 +3,11 @@ package ganesh.db;
 
 import ganesh.common.exceptions.ErrorCode;
 import ganesh.common.exceptions.GException;
-import ganesh.db.annotation.Entity;
-import ganesh.db.annotation.Field;
-import ganesh.db.annotation.Id;
+import ganesh.db.annotations.Entity;
+import ganesh.db.annotations.Id;
+import ganesh.db.annotations.Property;
 import ganesh.embed.database.DBServer;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,13 +17,13 @@ import org.scharlessantos.hermes.Hermes;
 public class Usuario extends Pessoa {
 
 	@Id("id_usuario")
-	private Integer idUsuario;
+	protected Integer idUsuario;
 
-	@Field("username")
-	private String username;
+	@Property("username")
+	protected String username;
 
-	@Field("senha")
-	private String senha;
+	@Property("senha")
+	protected String senha;
 
 	public Integer getIdUsuario() {
 		return idUsuario;
@@ -48,7 +47,7 @@ public class Usuario extends Pessoa {
 
 	@Override
 	public void save() throws GException {
-		Pessoa pessoa = new Pessoa(this);
+		/*Pessoa pessoa = new Pessoa(this);
 		pessoa.save();
 
 		StringBuilder sql = new StringBuilder();
@@ -76,14 +75,35 @@ public class Usuario extends Pessoa {
 			throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_("Usuario"));
 		} finally {
 			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, sql));
+		}*/
+		super.save();
+	}
+
+	@Override
+	protected void merge(AbstractDBEntity other) {
+		if (other instanceof Usuario) {
+			super.merge(other);
+
+			Usuario us = (Usuario)other;
+
+			if (this.idUsuario == null)
+				this.idUsuario = us.idUsuario;
+
+			if (this.username == null)
+				this.username = us.username;
+
+			if ((us.senha != null && !us.senha.equals(this.senha)))
+				this.senha = us.senha;
 		}
+
+		super.merge(other);
 	}
 
 	public static Usuario getByUsername(String username) throws GException {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select ");
 
-		for (String s: getDBEntities(Pessoa.class)) {
+		/*for (String s: getDBEntities(Pessoa.class)) {
 			sql.append("P.");
 			sql.append(s.toUpperCase());
 			sql.append(", ");
@@ -93,7 +113,7 @@ public class Usuario extends Pessoa {
 			sql.append("U.");
 			sql.append(s.toUpperCase());
 			sql.append(", ");
-		}
+		}*/
 
 		sql.append("1");
 		sql.append(" from Usuario U inner join Pessoa P on (U.ID_PESSOA = P.ID_PESSOA) where upper(U.USERNAME) LIKE '");

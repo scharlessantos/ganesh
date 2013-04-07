@@ -30,11 +30,11 @@ public class Ganesh {
 		registerPrograms();
 
 		try {
+			Hermes.info("Verificando Usuário root");
 			Usuario usuario = Usuario.getByUsername("root");
 
-			if (usuario != null)
-				Hermes.info(usuario.toString());
-			else {
+			if (usuario == null) {
+				Hermes.info("Criando Usuário root");
 				usuario = new Usuario();
 				usuario.setCodigo("root");
 				usuario.setNome("Super Usuário");

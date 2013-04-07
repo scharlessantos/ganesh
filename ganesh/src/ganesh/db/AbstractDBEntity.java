@@ -5,15 +5,20 @@ import ganesh.Ganesh;
 import ganesh.common.exceptions.ErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.common.response.ResponseItem;
+import ganesh.db.annotations.Entity;
+import ganesh.db.annotations.Id;
+import ganesh.db.annotations.Property;
+import ganesh.db.utils.Filter;
+import ganesh.db.utils.Filter.FilterType;
+import ganesh.db.utils.ObjectId;
 import ganesh.embed.database.DBServer;
 import ganesh.i18n.GMessages;
 import ganesh.i18n.Messages;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,47 +31,44 @@ public abstract class AbstractDBEntity implements ResponseItem {
 
 	private static HashMap<String, List<String>> entities = new HashMap<>();
 
-	protected static List<String> getDBEntities(Class<? extends AbstractDBEntity> cls) {
-		if (entities.get(cls.getSimpleName()) == null) {
-			List<String> entities = new ArrayList<>();
-
-			for (Method method: cls.getMethods()) {
-				if (method.getDeclaringClass().equals(cls)) { //Isso serve para filtrar os métodos de super classes
-					_DBField annotation = method.getAnnotation(_DBField.class);
-					if (annotation != null) {
-						if (!entities.contains(annotation.value()))
-							entities.add(annotation.value());
-					}
-				}
-			}
-
-			AbstractDBEntity.entities.put(cls.getSimpleName(), entities);
-		}
-
-		return new ArrayList<>(entities.get(cls.getSimpleName()));
-	}
-
 	@Override
 	public String toXML() {
 		StringBuilder xml = new StringBuilder();
 
-		xml.append("<" + getClass().getSimpleName().toLowerCase());
+		if (getClass().isAnnotationPresent(Entity.class)) {
+			xml.append("<" + getClass().getAnnotation(Entity.class).value());
 
-		for (Method method: getClass().getMethods())
-			if (method.isAnnotationPresent(_DBField.class)) {
-				try {
-					Object r = method.invoke(this);
-					xml.append(" ");
-					xml.append(method.getAnnotation(_DBField.class).value());
-					xml.append("='");
-					xml.append(r == null ? "" : r.toString());
-					xml.append("'");
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					Hermes.error(e);
-				}
+			Class<?> cls = getClass();
+
+			while (cls != AbstractDBEntity.class) {
+				for (Field f: cls.getDeclaredFields())
+					try {
+						if (f.isAnnotationPresent(Id.class)) {
+							xml.append(" ");
+							xml.append(f.getAnnotation(Id.class).value());
+							xml.append("='");
+
+							xml.append(f.get(this));
+
+							xml.append("'");
+						} else if (f.isAnnotationPresent(Property.class)) {
+							xml.append(" ");
+							xml.append(f.getAnnotation(Property.class).value());
+							xml.append("='");
+							xml.append(f.get(this));
+							xml.append("'");
+						}
+
+					} catch (IllegalArgumentException | IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						Hermes.error(e);
+					}
+
+				cls = cls.getSuperclass();
 			}
 
-		xml.append(" />");
+			xml.append(" />");
+		}
 		return xml.toString();
 	}
 
@@ -74,60 +76,150 @@ public abstract class AbstractDBEntity implements ResponseItem {
 	 * @throws GException
 	 */
 	public void save() throws GException {
+		if (getClass().getSuperclass() != AbstractDBEntity.class) {
+			Class<?> cls = getClass().getSuperclass();
+
+			try {
+
+				AbstractDBEntity i = (AbstractDBEntity)cls.getConstructor(cls).newInstance(cls.cast(this));
+				i.save();
+				this.merge(i);
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				Hermes.error(cls.getName() + " não possui construtor de si mesmo!");
+				throw new GException(ErrorCode.DB_UPDATE, M.erroAoSalvar());
+			}
+
+		}
+
+		Filter id = new Filter();
+
+		try {
+
+			for (Field f: getClass().getDeclaredFields())
+				if (f.isAnnotationPresent(Id.class))
+					id.and(new Filter(f.getAnnotation(Id.class).value(), f.get(this), FilterType.EQUALS));
+
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			Hermes.error(e);
+			throw new GException(ErrorCode.DB_UPDATE, M.erroAoSalvar());
+		}
+
+		AbstractDBEntity e = first(getClass(), id);
+
 		StringBuilder sql = new StringBuilder();
-		StringBuilder values = new StringBuilder();
 
-		sql.append("insert into ");
-		sql.append(getClass().getSimpleName().toUpperCase());
-		sql.append(" (");
+		if (e == null) { //Inserir um novo registro
+			StringBuilder values = new StringBuilder();
 
-		boolean first = true;
-		for (Method method: getClass().getMethods())
-			if (method.isAnnotationPresent(_DBField.class)) {
-				try {
-					Object r = method.invoke(this);
+			sql.append("insert into ");
+			sql.append(getClass().getSimpleName().toUpperCase());
+			sql.append(" (");
 
+			List<Field> fields = new ArrayList<>();
+			fields.addAll(Arrays.asList(getClass().getDeclaredFields()));
+
+			Class<?> c = getClass().getSuperclass();
+
+			while (c != AbstractDBEntity.class) {
+				for (Field f: c.getDeclaredFields())
+					if (f.isAnnotationPresent(Id.class))
+						fields.add(f);
+
+				c = c.getSuperclass();
+			}
+
+			boolean first = true;
+			for (Field field: fields) {
+
+				String f = null;
+				Object v = null;
+
+				if (field.isAnnotationPresent(Id.class))
+					try {
+						v = field.get(this);
+						f = field.getAnnotation(Id.class).value();
+
+						if (v == null) {
+							v = new ObjectId().get();
+							field.set(this, v);
+						}
+
+					} catch (IllegalArgumentException | IllegalAccessException e1) {
+						Hermes.error(e1);
+					}
+				else if (field.isAnnotationPresent(Property.class))
+					try {
+						v = field.get(this);
+						f = field.getAnnotation(Property.class).value();
+					} catch (IllegalArgumentException | IllegalAccessException e1) {
+						Hermes.error(e1);
+					}
+
+				if (f != null)
 					if (!first) {
 						sql.append(", ");
 						values.append(", ");
 					} else
 						first = false;
 
-					sql.append(method.getAnnotation(_DBField.class).value());
+				sql.append(f);
 
-					if (r == null)
-						values.append("null");
-					else {
-						values.append("'");
-						values.append(r.toString());
-						values.append("'");
-					}
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					Hermes.error(e);
-					throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_(getClass().getSimpleName()));
+				if (v == null)
+					values.append("null");
+				else {
+					values.append("'");
+					values.append(v.toString());
+					values.append("'");
 				}
+
 			}
 
-		sql.append(" ) values (");
-		sql.append(values);
-		sql.append(")");
+			sql.append(" ) values (");
+			sql.append(values);
+			sql.append(")");
 
-		Connection conn = DBServer.getInstance().getConnection();
-
-		if (conn == null)
-			throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_(getClass().getSimpleName()));
-
-		try {
-			conn.createStatement().executeUpdate(sql.toString());
-		} catch (SQLException e) {
-			Hermes.error(e);
-			throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_(getClass().getSimpleName()));
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				Hermes.error(e);
-			}
+		} else {
+			//update
+			//TODO
+			sql.append(" where ");
+			sql.append(id.toString());
 		}
+
+		DBServer.getInstance().executeUpdate(sql.toString());
 	}
+
+	public <T extends AbstractDBEntity> T first(Class<? extends T> cls, Filter filter) {
+		List<T> list = list(cls, filter);
+
+		if (list == null || list.size() <= 0)
+			return null;
+
+		return list.get(0);
+	}
+
+	public <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls) {
+		return list(null);
+	}
+
+	public <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls, Filter f) {
+		validateClass(cls);
+
+		return null;
+	}
+
+	private void validateClass(Class<?> cls) {
+		Class<?> c = cls;
+
+		while (c != null) {
+
+			if (c == AbstractDBEntity.class)
+				return;
+
+			c = c.getSuperclass();
+		}
+
+		throw new IllegalArgumentException();
+	}
+
+	protected abstract void merge(AbstractDBEntity other);
 }

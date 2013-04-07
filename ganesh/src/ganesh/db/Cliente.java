@@ -3,4 +3,10 @@ package ganesh.db;
 
 public class Cliente extends AbstractDBEntity {
 
+	@Override
+	protected void merge(AbstractDBEntity other) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

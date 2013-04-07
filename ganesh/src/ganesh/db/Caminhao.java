@@ -1,10 +1,10 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
-import ganesh.db.annotation.Aggregated;
-import ganesh.db.annotation.Entity;
-import ganesh.db.annotation.Field;
-import ganesh.db.annotation.Id;
+import ganesh.db.annotations.Aggregated;
+import ganesh.db.annotations.Entity;
+import ganesh.db.annotations.Id;
+import ganesh.db.annotations.Property;
 
 @Entity("caminhao")
 public class Caminhao extends AbstractDBEntity {
@@ -15,10 +15,10 @@ public class Caminhao extends AbstractDBEntity {
 	@Id("id_caminhao")
 	private int idCaminhao;
 
-	@Field("codigo")
+	@Property("codigo")
 	private String codigo;
 
-	@Field("placa")
+	@Property("placa")
 	private String placa;
 
 	public int getIdEmpresa() {
@@ -55,6 +55,12 @@ public class Caminhao extends AbstractDBEntity {
 
 	public void setPlaca(String placa) {
 		this.placa = placa;
+	}
+
+	@Override
+	protected void merge(AbstractDBEntity other) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

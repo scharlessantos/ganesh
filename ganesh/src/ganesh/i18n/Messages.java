@@ -11,4 +11,6 @@ public interface Messages {
 
 	String erroAoInserir_(String entity);
 
+	String erroAoSalvar();
+
 }

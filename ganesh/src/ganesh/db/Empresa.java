@@ -1,20 +1,20 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
-import ganesh.db.annotation.Entity;
-import ganesh.db.annotation.Field;
-import ganesh.db.annotation.Id;
+import ganesh.db.annotations.Entity;
+import ganesh.db.annotations.Id;
+import ganesh.db.annotations.Property;
 
 @Entity("empresa")
 public class Empresa extends AbstractDBEntity {
 
 	@Id("id_empresa")
 	private int idEmpresa;
-	@Field("codigo")
+	@Property("codigo")
 	private String codigo;
-	@Field("nome")
+	@Property("nome")
 	private String nome;
-	@Field("cnpj")
+	@Property("cnpj")
 	private String cnpj;
 
 	public int getIdEmpresa() {
@@ -47,6 +47,12 @@ public class Empresa extends AbstractDBEntity {
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
+	}
+
+	@Override
+	protected void merge(AbstractDBEntity other) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

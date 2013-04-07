@@ -1,6 +1,7 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.http.handlers;
 
+import ganesh.common.exceptions.GException;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Response;
 import ganesh.db.Usuario;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.scharlessantos.hermes.Hermes;
 
 public class _LoginHandler implements _MyHandler {
 
@@ -25,8 +28,13 @@ public class _LoginHandler implements _MyHandler {
 		resp.addListItem("usuarios", new Usuario());
 		resp.addListItem("usuarios", new Usuario());
 
+		try {
+			new Usuario().save();
+		} catch (GException e) {
+			Hermes.error(e);
+		}
+
 		resp.setMessage(new ErrorMessage("Usuário/Senha inválido"));
 		resp.writeResponse();
 	}
-
 }

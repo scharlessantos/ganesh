@@ -1,5 +1,5 @@
 /* Ganesh Server, developed in 2013*/
-package ganesh.db.annotation;
+package ganesh.db.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

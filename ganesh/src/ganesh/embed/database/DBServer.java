@@ -125,6 +125,27 @@ public class DBServer {
 
 	}
 
+	public void executeUpdate(String sql) throws GException {
+		Connection conn = getConnection();
+
+		long time = System.currentTimeMillis();
+		try {
+			conn.prepareStatement(sql).executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			Hermes.error(e);
+			throw new GException(ErrorCode.DB_ERROR, e);
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				Hermes.error(e);
+			}
+			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, sql));
+		}
+
+	}
+
 	/**
 	 * Versão do banco de dados, a cada atualização do Banco de Dados, ou seja, mudanças na estrutura, criar script de update e incrementar 1 aqui
 	 */

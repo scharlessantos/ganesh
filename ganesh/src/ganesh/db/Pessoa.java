@@ -1,30 +1,30 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
-import ganesh.db.annotation.Entity;
-import ganesh.db.annotation.Field;
-import ganesh.db.annotation.Id;
+import ganesh.db.annotations.Entity;
+import ganesh.db.annotations.Id;
+import ganesh.db.annotations.Property;
 
 @Entity("pessoa")
 public class Pessoa extends AbstractDBEntity {
 
 	@Id("id_pessoa")
-	private Integer idPessoa;
+	protected Integer idPessoa;
 
-	@Field("codigo")
-	private String codigo;
+	@Property("codigo")
+	protected String codigo;
 
-	@Field("nome")
-	private String nome;
+	@Property("nome")
+	protected String nome;
 
-	@Field("documento")
-	private String documento;
+	@Property("documento")
+	protected String documento;
 
-	@Field("contato")
-	private String contato;
+	@Property("contato")
+	protected String contato;
 
-	@Field("endereco")
-	private String endereco;
+	@Property("endereco")
+	protected String endereco;
 
 	public Pessoa() {}
 
@@ -83,6 +83,36 @@ public class Pessoa extends AbstractDBEntity {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+
+	@Override
+	protected void merge(AbstractDBEntity other) {
+		if (other instanceof Pessoa) {
+
+			Pessoa pessoa = (Pessoa)other;
+
+			if (this.idPessoa == null)
+				this.idPessoa = pessoa.idPessoa;
+
+			if ((pessoa.codigo != null && !pessoa.codigo.equals(this.codigo)))
+				this.codigo = pessoa.codigo;
+
+			if ((pessoa.nome != null && !pessoa.nome.equals(this.nome)))
+				this.nome = pessoa.nome;
+
+			if ((pessoa.codigo != null && !pessoa.codigo.equals(this.codigo)))
+				this.codigo = pessoa.codigo;
+
+			if ((pessoa.documento != null && !pessoa.documento.equals(this.documento)))
+				this.documento = pessoa.documento;
+
+			if ((pessoa.contato != null && !pessoa.contato.equals(this.contato)))
+				this.contato = pessoa.contato;
+
+			if ((pessoa.endereco != null && !pessoa.endereco.equals(this.endereco)))
+				this.endereco = pessoa.endereco;
+		}
+
 	}
 
 }
