@@ -24,12 +24,12 @@ public class _LoginHandler implements _MyHandler {
 
 		Response resp = new Response(response);
 
-		//Bacalhau
-		resp.addListItem("usuarios", new Usuario());
-		resp.addListItem("usuarios", new Usuario());
-
 		try {
-			new Usuario().save();
+			//Bacalhau v2.0
+			Usuario usuario = Usuario.getByUsername("root");
+			if (usuario != null)
+				resp.addListItem("usuarios", usuario);
+
 		} catch (GException e) {
 			Hermes.error(e);
 		}
