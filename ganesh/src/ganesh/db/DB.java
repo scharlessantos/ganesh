@@ -35,8 +35,6 @@ public class DB {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls, Filter filter) throws GException {
-		validateClass(cls);
-
 		StringBuilder sb = new StringBuilder();
 		sb.append("select ");
 
@@ -190,20 +188,6 @@ public class DB {
 			return cls.getAnnotation(Entity.class).value();
 
 		throw new GException(ErrorCode.DB_ERROR);
-	}
-
-	private static void validateClass(Class<?> cls) {
-		Class<?> c = cls;
-
-		while (c != null) {
-
-			if (c == AbstractDBEntity.class)
-				return;
-
-			c = c.getSuperclass();
-		}
-
-		throw new IllegalArgumentException();
 	}
 
 }
