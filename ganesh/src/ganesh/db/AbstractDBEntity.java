@@ -86,20 +86,28 @@ public abstract class AbstractDBEntity implements ResponseItem {
 
 		}
 
+		String entity = null;
+
+		if (getClass().isAnnotationPresent(Entity.class))
+			entity = getClass().getAnnotation(Entity.class).value();
+
+		if (entity == null)
+			throw new GException(ErrorCode.DB_ERROR, M.erroAoSalvar());
+
 		Filter id = new Filter();
 
 		try {
 
 			for (Field f: getClass().getDeclaredFields())
 				if (f.isAnnotationPresent(Id.class))
-					id.and(new Filter(f.getAnnotation(Id.class).value(), f.get(this), FilterType.EQUALS));
+					id.and(new Filter(getClass(), f.getAnnotation(Id.class).value(), f.get(this), FilterType.EQUALS));
 
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			Hermes.error(e);
 			throw new GException(ErrorCode.DB_UPDATE, M.erroAoSalvar());
 		}
 
-		AbstractDBEntity e = first(getClass(), id);
+		AbstractDBEntity e = DB.first(getClass(), id);
 
 		StringBuilder sql = new StringBuilder();
 
@@ -107,7 +115,7 @@ public abstract class AbstractDBEntity implements ResponseItem {
 			StringBuilder values = new StringBuilder();
 
 			sql.append("insert into ");
-			sql.append(getClass().getSimpleName().toUpperCase());
+			sql.append(entity);
 			sql.append(" (");
 
 			List<Field> fields = new ArrayList<>();
@@ -175,47 +183,38 @@ public abstract class AbstractDBEntity implements ResponseItem {
 
 		} else {
 			//update
-			//TODO
+			sql.append("update ");
+			sql.append(entity);
+			sql.append(" set ");
+
+			boolean first = true;
+			for (Field f: getClass().getDeclaredFields()) {
+				if (f.isAnnotationPresent(Property.class)) {
+					try {
+						Object value = f.get(this);
+
+						if (!first)
+							sql.append(", ");
+						else
+							first = false;
+
+						sql.append(f.getAnnotation(Property.class).value());
+						sql.append("='");
+						sql.append(value);
+						sql.append("' ");
+					} catch (IllegalArgumentException | IllegalAccessException e1) {
+						Hermes.error(e1);
+					}
+				}
+			}
+
 			sql.append(" where ");
-			sql.append(id.toString());
+			sql.append(id.genSQL(null));
 		}
 
 		DBServer.getInstance().executeUpdate(sql.toString());
 	}
 
 	protected abstract void merge(AbstractDBEntity other);
-
-	public static <T extends AbstractDBEntity> T first(Class<? extends T> cls, Filter filter) {
-		List<T> list = list(cls, filter);
-
-		if (list == null || list.size() <= 0)
-			return null;
-
-		return list.get(0);
-	}
-
-	public static <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls) {
-		return list(null);
-	}
-
-	public static <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls, Filter f) {
-		validateClass(cls);
-
-		return null;
-	}
-
-	private static void validateClass(Class<?> cls) {
-		Class<?> c = cls;
-
-		while (c != null) {
-
-			if (c == AbstractDBEntity.class)
-				return;
-
-			c = c.getSuperclass();
-		}
-
-		throw new IllegalArgumentException();
-	}
 
 }

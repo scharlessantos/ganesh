@@ -1,6 +1,8 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db.utils;
 
+import ganesh.db.AbstractDBEntity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,13 +14,15 @@ public class Filter {
 	private String field = null;
 	private Object value = null;
 	private FilterType type = null;
+	private Class<? extends AbstractDBEntity> cls;
 
 	private String sql;
 
-	public Filter(String field, Object value, FilterType type) {
+	public Filter(Class<? extends AbstractDBEntity> cls, String field, Object value, FilterType type) {
 		this.field = field;
 		this.value = value;
 		this.type = type;
+		this.cls = cls;
 	}
 
 	public Filter(String sql) {
@@ -29,18 +33,25 @@ public class Filter {
 
 	}
 
-	@Override
-	public String toString() {
+	public String genSQL(TableAlias alias) {
 		String query = null;
 
-		if (field != null)
+		if (field != null) {
+
+			if (alias != null) {
+				String a = alias.getAlias(cls);
+
+				if (a != null)
+					field = a + "." + field;
+			}
+
 			if (value == null)
 				query = field + " is null";
 			else if (value instanceof String && type == FilterType.LIKE)
 				query = "upper(" + field + ") like '" + value.toString().toUpperCase() + "'";
 			else
 				query = field + type.getType() + "'" + value + "'";
-		else if (sql != null)
+		} else if (sql != null)
 			query = sql;
 
 		List<Filter> querys = joins.get(JoinType.OR);
@@ -51,7 +62,7 @@ public class Filter {
 				query = "(" + query;
 
 			for (Filter q: querys)
-				query += (query == null ? "(" : " or ") + q.toString();
+				query += (query == null ? "(" : " or ") + q.genSQL(alias);
 
 			query += ")";
 
@@ -62,9 +73,9 @@ public class Filter {
 		if (querys != null && querys.size() > 0)
 			for (Filter q: querys)
 				if (query == null)
-					query = q.toString();
+					query = q.genSQL(alias);
 				else
-					query += " and " + q.toString();
+					query += " and " + q.genSQL(alias);
 
 		return query == null ? "" : query;
 	}

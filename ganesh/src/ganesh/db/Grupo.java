@@ -9,22 +9,45 @@ import ganesh.db.annotations.Property;
 public class Grupo extends AbstractDBEntity {
 
 	@Id("id_grupo")
-	private int id;
+	protected Integer id;
 
-	@Property("nome")
-	private String nome = "Teste";
+	@Property("codigo")
+	protected String codigo = null;
+
+	@Property("descricao")
+	protected String nome = null;
 
 	public int getId() {
 		return id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNome() {
 		return nome;
 	}
 
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	@Override
 	protected void merge(AbstractDBEntity other) {
-		// TODO Auto-generated method stub
+		if (other instanceof Grupo) {
+			Grupo grp = (Grupo)other;
 
+			if (this.id == null) {
+				this.id = grp.id;
+
+				this.nome = grp.nome;
+			} else if (this.id.equals(grp.id))
+				this.nome = grp.nome;
+		}
 	}
 }
