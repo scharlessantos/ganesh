@@ -63,4 +63,8 @@ public class Usuario extends Pessoa {
 	public static Usuario getByUsername(String username) throws GException {
 		return DB.first(Usuario.class, new Filter(Usuario.class, "username", username, FilterType.LIKE));
 	}
+
+	public boolean checkPassword(String password) {
+		return senha.equals(password); //TODO melhorar isso, usar criptografia
+	}
 }

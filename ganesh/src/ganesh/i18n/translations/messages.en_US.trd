@@ -1,3 +1,4 @@
 grupo()=Group
 erroAoInserir_(String)=Error on insert %s
 erroAoAtualizarOBancoDeDados()=Error on update database scheme
+usuarioSenhaInvalido()=User or Password is invalid

@@ -8,6 +8,7 @@ import ganesh.common.response.Response;
 import ganesh.common.session.Session;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +35,15 @@ public class Request {
 
 		Response resp = new Response();
 		try {
+			URL url = new URL("http", "poseidon", 8833, "/login");
 
-			resp.decode(new URL("http://127.0.0.1:8833/login").openStream());
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+
+			connection.connect();
+
+			resp.decode(connection.getInputStream());
+
+			connection.disconnect();
 
 		} catch (GException | IOException e) {
 			Hermes.error(e);

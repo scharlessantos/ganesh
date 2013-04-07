@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.WeakHashMap;
 
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
@@ -26,6 +27,8 @@ public class GaneshI18n {
 	private Atlas translator;
 	private static GaneshI18n instance;
 
+	private WeakHashMap<Thread, Language> languages = new WeakHashMap<>();
+
 	public static GaneshI18n getInstance() {
 		if (instance == null)
 			instance = new GaneshI18n();
@@ -42,11 +45,47 @@ public class GaneshI18n {
 	}
 
 	protected String _translate(String key, Object... args) {
-		Session session = SessionManager.getCurrentSession();
-		if (session != null)
-			return translator.translate(SessionManager.getCurrentSession().getLanguage(), key, args);
+		return translator.translate(getCurrentLanguage(), key, args);
+	}
 
-		return translator.translate(null, key, args);
+	protected Language getCurrentLanguage() {
+		synchronized (languages) {
+			Thread current = Thread.currentThread();
+
+			if (languages.containsKey(current))
+				return languages.get(current);
+
+			Session session = SessionManager.getCurrentSession();
+
+			if (session != null) {
+				Language language = session.getLanguage();
+
+				if (language != null)
+					languages.put(current, language);
+
+				return language;
+
+			}
+
+		}
+
+		return null;
+	}
+
+	protected void _setLanguge(Language lang) {
+		synchronized (languages) {
+			Thread current = Thread.currentThread();
+			if (languages.containsKey(current))
+				languages.remove(current);
+
+			if (lang != null)
+				languages.put(current, lang);
+		}
+
+	}
+
+	public static void setLanguage(Language language) {
+		getInstance()._setLanguge(language);
 	}
 
 	public static void loadTranslations(Language lang, InputStream input) {

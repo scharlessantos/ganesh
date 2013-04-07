@@ -8,6 +8,7 @@ import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.common.session.Session;
+import ganesh.common.session.SessionManager;
 import ganesh.programs.GaneshProgram;
 import ganesh.programs.ProgramManager;
 import ganesh.programs.ProgramManager.RequestType;
@@ -45,6 +46,8 @@ public class _ProgramHandler implements _MyHandler {
 			resp.writeResponse();
 			return;
 		}
+
+		SessionManager.setSession(req.getSession());
 
 		resp.setSession(req.getSession());
 
@@ -103,6 +106,8 @@ public class _ProgramHandler implements _MyHandler {
 				resp.setMessage(new ErrorMessage(e.getMessage()));
 			}
 		}
+
+		SessionManager.removeSession();
 
 		resp.writeResponse();
 	}

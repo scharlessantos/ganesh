@@ -26,7 +26,7 @@ public class SessionManager {
 		}
 	}
 
-	public static void removeSession(Session session) {
+	public static void removeSession() {
 		synchronized (sessions) {
 			Thread current = Thread.currentThread();
 			sessions.remove(current);
