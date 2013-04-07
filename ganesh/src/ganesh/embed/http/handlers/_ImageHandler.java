@@ -18,12 +18,15 @@ class _ImageHandler implements _MyHandler {
 	public void handle(String target, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Thread.currentThread().setName("Ganesh get Image Thread");
 
-		InputStream is = getClass().getResourceAsStream("images/" + target + ".png");
+		InputStream is = getClass().getResourceAsStream("images/" + target + (target.endsWith(".ico") ? "" : ".png"));
 
 		if (is == null)
 			new _404Hanlder().handle("</b> a imagem: <b>" + target, req, resp);
 		else {
-			resp.setContentType("image/png");
+			if (target.endsWith(".ico"))
+				resp.setContentType("image/ico");
+			else
+				resp.setContentType("image/png");
 
 			byte[] read = new byte[1024];
 
