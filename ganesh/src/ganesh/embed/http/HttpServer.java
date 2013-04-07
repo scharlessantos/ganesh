@@ -3,10 +3,10 @@ package ganesh.embed.http;
 
 import ganesh.common.exceptions.ErrorCode;
 import ganesh.common.exceptions.GException;
-import ganesh.embed.http.handlers.GaneshHttpThreadPool;
 import ganesh.embed.http.handlers.HttpHandler;
 
 import org.eclipse.jetty.server.Server;
+import org.scharlessantos.hermes.Hermes;
 
 public class HttpServer {
 
@@ -30,7 +30,11 @@ public class HttpServer {
 			server.setHandler(new HttpHandler());
 
 			server.start();
+
+			Hermes.info("Iniciado Serviço HTTP na porta %d (Jetty %s)", 8833, getVersion());
+
 			server.join();
+
 		} catch (Exception e) {
 			throw new GException(ErrorCode.HTTP_SERVER_LOAD, "Não foi possivel iniciar o servidor http", e);
 		}
