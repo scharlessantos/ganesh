@@ -12,14 +12,12 @@ import ganesh.db.utils.Filter;
 import ganesh.db.utils.Filter.FilterType;
 import ganesh.db.utils.ObjectId;
 import ganesh.embed.database.DBServer;
-import ganesh.i18n.GMessages;
 import ganesh.i18n.Messages;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.scharlessantos.hermes.Hermes;
@@ -27,9 +25,6 @@ import org.scharlessantos.hermes.Hermes;
 public abstract class AbstractDBEntity implements ResponseItem {
 
 	protected static final Messages M = Ganesh.getMessages();
-	protected static final GMessages GM = Ganesh.getGMessages();
-
-	private static HashMap<String, List<String>> entities = new HashMap<>();
 
 	@Override
 	public String toXML() {
@@ -60,7 +55,6 @@ public abstract class AbstractDBEntity implements ResponseItem {
 						}
 
 					} catch (IllegalArgumentException | IllegalAccessException e) {
-						// TODO Auto-generated catch block
 						Hermes.error(e);
 					}
 
@@ -75,7 +69,7 @@ public abstract class AbstractDBEntity implements ResponseItem {
 	/**
 	 * @throws GException
 	 */
-	public void save() throws GException {
+	public synchronized void save() throws GException {
 		if (getClass().getSuperclass() != AbstractDBEntity.class) {
 			Class<?> cls = getClass().getSuperclass();
 
@@ -84,6 +78,7 @@ public abstract class AbstractDBEntity implements ResponseItem {
 				AbstractDBEntity i = (AbstractDBEntity)cls.getConstructor(cls).newInstance(cls.cast(this));
 				i.save();
 				this.merge(i);
+				i = null;
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				Hermes.error(cls.getName() + " não possui construtor de si mesmo!");
 				throw new GException(ErrorCode.DB_UPDATE, M.erroAoSalvar());
@@ -188,7 +183,9 @@ public abstract class AbstractDBEntity implements ResponseItem {
 		DBServer.getInstance().executeUpdate(sql.toString());
 	}
 
-	public <T extends AbstractDBEntity> T first(Class<? extends T> cls, Filter filter) {
+	protected abstract void merge(AbstractDBEntity other);
+
+	public static <T extends AbstractDBEntity> T first(Class<? extends T> cls, Filter filter) {
 		List<T> list = list(cls, filter);
 
 		if (list == null || list.size() <= 0)
@@ -197,17 +194,17 @@ public abstract class AbstractDBEntity implements ResponseItem {
 		return list.get(0);
 	}
 
-	public <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls) {
+	public static <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls) {
 		return list(null);
 	}
 
-	public <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls, Filter f) {
+	public static <T extends AbstractDBEntity> List<T> list(Class<? extends T> cls, Filter f) {
 		validateClass(cls);
 
 		return null;
 	}
 
-	private void validateClass(Class<?> cls) {
+	private static void validateClass(Class<?> cls) {
 		Class<?> c = cls;
 
 		while (c != null) {
@@ -221,5 +218,4 @@ public abstract class AbstractDBEntity implements ResponseItem {
 		throw new IllegalArgumentException();
 	}
 
-	protected abstract void merge(AbstractDBEntity other);
 }
