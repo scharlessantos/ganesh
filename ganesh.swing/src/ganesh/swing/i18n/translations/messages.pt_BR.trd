@@ -7,3 +7,4 @@ usuario()=Usuario
 senha()=Senha
 acessar()=Acessar
 sair()=Sair
+cancelar()=Cancelar
