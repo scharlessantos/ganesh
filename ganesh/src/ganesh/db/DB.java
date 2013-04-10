@@ -1,7 +1,7 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
-import ganesh.common.exceptions.ErrorCode;
+import exception.ServerErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
@@ -115,7 +115,7 @@ public class DB {
 
 				if (!id) {
 					Hermes.error(c.getName() + " não possui @Id");
-					throw new GException(ErrorCode.DB_ERROR);
+					throw new GException(ServerErrorCode.DB_ERROR);
 				}
 
 				sb.append(")");
@@ -177,7 +177,7 @@ public class DB {
 			}
 		} catch (SQLException e) {
 			Hermes.error(e);
-			throw new GException(ErrorCode.DB_ERROR);
+			throw new GException(ServerErrorCode.DB_ERROR);
 		}
 
 		return list;
@@ -187,7 +187,7 @@ public class DB {
 		if (cls.isAnnotationPresent(Entity.class))
 			return cls.getAnnotation(Entity.class).value();
 
-		throw new GException(ErrorCode.DB_ERROR);
+		throw new GException(ServerErrorCode.DB_ERROR);
 	}
 
 }

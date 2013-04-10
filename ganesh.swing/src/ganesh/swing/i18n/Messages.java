@@ -1,6 +1,7 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.i18n;
 
+
 public interface Messages {
 
 	String usuario();
@@ -22,4 +23,6 @@ public interface Messages {
 	String nao();
 
 	String ok();
+
+	String chaveInvalida();
 }

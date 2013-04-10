@@ -1,7 +1,7 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.http.handlers;
 
-import ganesh.common.exceptions.ErrorCode;
+import exception.ServerErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
 import ganesh.common.response.Message.ErrorMessage;
@@ -114,7 +114,7 @@ public class _ProgramHandler implements _MyHandler {
 
 	private void validateSession(Session session) throws GException {
 		if (session == null)
-			throw new GException(ErrorCode.ACESSO_NEGADO, "Sessão inválida");
+			throw new GException(ServerErrorCode.ACESSO_NEGADO, "Sessão inválida");
 	}
 
 	private RequestType getRequestType(String action) {

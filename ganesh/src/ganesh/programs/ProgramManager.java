@@ -1,7 +1,7 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.programs;
 
-import ganesh.common.exceptions.ErrorCode;
+import exception.ServerErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.programs.grupo.PrgGrupo;
 
@@ -24,17 +24,17 @@ public class ProgramManager {
 
 			try {
 				if (cls.getConstructor() == null)
-					throw new GException(ErrorCode.UNKNOWN, name + " deve possuir um contrutor padrão");
+					throw new GException(ServerErrorCode.UNKNOWN, name + " deve possuir um contrutor padrão");
 			} catch (NoSuchMethodException | SecurityException e) {
 				Hermes.error(e);
-				throw new GException(ErrorCode.UNKNOWN, e);
+				throw new GException(ServerErrorCode.UNKNOWN, e);
 			}
 
 			try {
 				return cls.newInstance();
 			} catch (InstantiationException | IllegalAccessException e) {
 				Hermes.error(e);
-				throw new GException(ErrorCode.UNKNOWN, e);
+				throw new GException(ServerErrorCode.UNKNOWN, e);
 			}
 		}
 

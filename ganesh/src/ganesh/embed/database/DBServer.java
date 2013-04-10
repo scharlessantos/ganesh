@@ -1,8 +1,8 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.database;
 
+import exception.ServerErrorCode;
 import ganesh.Ganesh;
-import ganesh.common.exceptions.ErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.i18n.GMessages;
 import ganesh.i18n.Messages;
@@ -67,7 +67,7 @@ public class DBServer {
 			}
 
 		} catch (GException e) {
-			throw new GException(ErrorCode.DB_UPDATE, GM.erroAoAtualizarOBancoDeDados(), e);
+			throw new GException(ServerErrorCode.DB_UPDATE, GM.erroAoAtualizarOBancoDeDados(), e);
 		}
 	}
 
@@ -78,10 +78,10 @@ public class DBServer {
 
 		if (!file.exists())
 			if (!file.mkdir())
-				throw new GException(ErrorCode.DB_UPDATE, GM.naoFoiPossivelCriarODiretorioDeDados());
+				throw new GException(ServerErrorCode.DB_UPDATE, GM.naoFoiPossivelCriarODiretorioDeDados());
 
 		if (!file.isDirectory())
-			throw new GException(ErrorCode.DB_UPDATE, GM.arquivoDeDadosExistePoremNaoEhUmDiretorio());
+			throw new GException(ServerErrorCode.DB_UPDATE, GM.arquivoDeDadosExistePoremNaoEhUmDiretorio());
 
 		Hermes.info("Diretorio de dados OK!");
 	}
@@ -101,7 +101,7 @@ public class DBServer {
 
 			return connection;
 		} catch (SQLException | ClassNotFoundException e) {
-			throw new GException(ErrorCode.DB_ERROR, e);
+			throw new GException(ServerErrorCode.DB_ERROR, e);
 		}
 	}
 
@@ -111,14 +111,14 @@ public class DBServer {
 
 	public ResultSet executeQuery(Connection conn, String sql) throws GException {
 		if (conn == null)
-			throw new GException(ErrorCode.DB_ERROR, M.erroAoInserir_("Usuario"));
+			throw new GException(ServerErrorCode.DB_ERROR, M.erroAoInserir_("Usuario"));
 
 		long time = System.currentTimeMillis();
 		try {
 			return conn.prepareStatement(sql).executeQuery();
 		} catch (SQLException e) {
 			Hermes.error(e);
-			throw new GException(ErrorCode.DB_ERROR, e);
+			throw new GException(ServerErrorCode.DB_ERROR, e);
 		} finally {
 			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, sql));
 		}
@@ -134,7 +134,7 @@ public class DBServer {
 			conn.commit();
 		} catch (SQLException e) {
 			Hermes.error(e);
-			throw new GException(ErrorCode.DB_ERROR, e);
+			throw new GException(ServerErrorCode.DB_ERROR, e);
 		} finally {
 			try {
 				conn.close();
@@ -167,14 +167,14 @@ public class DBServer {
 				if (dbver > version)
 					return version;
 
-				throw new GException(ErrorCode.DB_UPDATE, GM.bancoMaisNovoDoQueGaneshEspera());
+				throw new GException(ServerErrorCode.DB_UPDATE, GM.bancoMaisNovoDoQueGaneshEspera());
 			}
 
 		} catch (SQLException e) {
 			if (e.getMessage().toLowerCase().startsWith("table \"dbver\" not found;"))
 				return -1;
 
-			throw new GException(ErrorCode.DB_UPDATE, e);
+			throw new GException(ServerErrorCode.DB_UPDATE, e);
 		}
 
 		return -1;
@@ -184,7 +184,7 @@ public class DBServer {
 		InputStream res = getRes(file + ".sql");
 
 		if (res == null)
-			throw new GException(ErrorCode.DB_UPDATE, file + ".sql not found");
+			throw new GException(ServerErrorCode.DB_UPDATE, file + ".sql not found");
 
 		try {
 
@@ -202,7 +202,7 @@ public class DBServer {
 			res.close();
 
 			if (command.isEmpty())
-				throw new GException(ErrorCode.DB_UPDATE, "Arquivo " + file + ".sql está vazio");
+				throw new GException(ServerErrorCode.DB_UPDATE, "Arquivo " + file + ".sql está vazio");
 
 			long time = System.currentTimeMillis();
 
@@ -218,7 +218,7 @@ public class DBServer {
 
 			Hermes.info(String.format("SQL Time: %dms -> %s", System.currentTimeMillis() - time, "script " + file + ".sql"));
 		} catch (IOException e) {
-			throw new GException(ErrorCode.DB_UPDATE, "Erro ao ler o " + file + ".sql", e);
+			throw new GException(ServerErrorCode.DB_UPDATE, "Erro ao ler o " + file + ".sql", e);
 		} catch (SQLException e) {
 			Hermes.error(e);
 			try {
@@ -226,7 +226,7 @@ public class DBServer {
 			} catch (SQLException e1) {
 				Hermes.error(e1);
 			}
-			throw new GException(ErrorCode.DB_UPDATE, "Erro ao criar/Atualizar o o Banco de Dados: " + dbver, e);
+			throw new GException(ServerErrorCode.DB_UPDATE, "Erro ao criar/Atualizar o o Banco de Dados: " + dbver, e);
 		}
 
 	}

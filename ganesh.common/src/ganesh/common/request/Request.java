@@ -1,7 +1,7 @@
 /* Ganesh Commons, developed in 2013 */
 package ganesh.common.request;
 
-import ganesh.common.exceptions.ErrorCode;
+import ganesh.common.exceptions.CommonErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Response;
@@ -27,7 +27,7 @@ public class Request {
 
 		} catch (XMLStreamException | IOException e) {
 			Hermes.error(e);
-			throw new GException(ErrorCode.XML_PARSE, e);
+			throw new GException(CommonErrorCode.XML_PARSE, e);
 		}
 	}
 

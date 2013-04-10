@@ -1,7 +1,7 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.http;
 
-import ganesh.common.exceptions.ErrorCode;
+import exception.ServerErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.embed.http.handlers.HttpHandler;
 
@@ -36,7 +36,7 @@ public class HttpServer {
 			server.join();
 
 		} catch (Exception e) {
-			throw new GException(ErrorCode.HTTP_SERVER_LOAD, "Não foi possivel iniciar o servidor http", e);
+			throw new GException(ServerErrorCode.HTTP_SERVER_LOAD, "Não foi possivel iniciar o servidor http", e);
 		}
 	}
 

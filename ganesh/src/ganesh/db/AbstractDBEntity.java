@@ -1,8 +1,8 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import exception.ServerErrorCode;
 import ganesh.Ganesh;
-import ganesh.common.exceptions.ErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.common.response.ResponseItem;
 import ganesh.db.annotations.Entity;
@@ -81,7 +81,7 @@ public abstract class AbstractDBEntity implements ResponseItem {
 				i = null;
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				Hermes.error(cls.getName() + " não possui construtor de si mesmo!");
-				throw new GException(ErrorCode.DB_UPDATE, M.erroAoSalvar());
+				throw new GException(ServerErrorCode.DB_UPDATE, M.erroAoSalvar());
 			}
 
 		}
@@ -92,7 +92,7 @@ public abstract class AbstractDBEntity implements ResponseItem {
 			entity = getClass().getAnnotation(Entity.class).value();
 
 		if (entity == null)
-			throw new GException(ErrorCode.DB_ERROR, M.erroAoSalvar());
+			throw new GException(ServerErrorCode.DB_ERROR, M.erroAoSalvar());
 
 		Filter id = new Filter();
 
@@ -104,7 +104,7 @@ public abstract class AbstractDBEntity implements ResponseItem {
 
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			Hermes.error(e);
-			throw new GException(ErrorCode.DB_UPDATE, M.erroAoSalvar());
+			throw new GException(ServerErrorCode.DB_UPDATE, M.erroAoSalvar());
 		}
 
 		AbstractDBEntity e = DB.first(getClass(), id);

@@ -1,7 +1,7 @@
 /* Ganesh Commons, developed in 2013 */
 package ganesh.common.response;
 
-import ganesh.common.exceptions.ErrorCode;
+import ganesh.common.exceptions.CommonErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.common.session.Session;
 
@@ -60,7 +60,7 @@ public class Response {
 
 		} catch (XMLStreamException e) {
 			Hermes.error(e);
-			throw new GException(ErrorCode.XML_PARSE, "Response mal formada");
+			throw new GException(CommonErrorCode.XML_PARSE, "Response mal formada");
 		}
 	}
 
