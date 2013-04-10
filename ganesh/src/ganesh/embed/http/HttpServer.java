@@ -1,9 +1,9 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.http;
 
-import exception.ServerErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.embed.http.handlers.HttpHandler;
+import ganesh.exception.ServerErrorCode;
 
 import org.eclipse.jetty.server.Server;
 import org.scharlessantos.hermes.Hermes;

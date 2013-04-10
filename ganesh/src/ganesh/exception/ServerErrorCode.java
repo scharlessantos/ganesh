@@ -1,5 +1,5 @@
 /* Ganesh Server, developed in 2013*/
-package exception;
+package ganesh.exception;
 
 import ganesh.common.exceptions.ErrorCode;
 

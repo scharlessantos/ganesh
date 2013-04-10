@@ -1,9 +1,9 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.database;
 
-import exception.ServerErrorCode;
 import ganesh.Ganesh;
 import ganesh.common.exceptions.GException;
+import ganesh.exception.ServerErrorCode;
 import ganesh.i18n.GMessages;
 import ganesh.i18n.Messages;
 

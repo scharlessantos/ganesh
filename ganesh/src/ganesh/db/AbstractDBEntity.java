@@ -1,7 +1,6 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
-import exception.ServerErrorCode;
 import ganesh.Ganesh;
 import ganesh.common.exceptions.GException;
 import ganesh.common.response.ResponseItem;
@@ -12,6 +11,7 @@ import ganesh.db.utils.Filter;
 import ganesh.db.utils.Filter.FilterType;
 import ganesh.db.utils.ObjectId;
 import ganesh.embed.database.DBServer;
+import ganesh.exception.ServerErrorCode;
 import ganesh.i18n.Messages;
 
 import java.lang.reflect.Field;

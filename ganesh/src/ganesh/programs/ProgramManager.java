@@ -1,8 +1,8 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.programs;
 
-import exception.ServerErrorCode;
 import ganesh.common.exceptions.GException;
+import ganesh.exception.ServerErrorCode;
 import ganesh.programs.grupo.PrgGrupo;
 
 import java.util.HashMap;

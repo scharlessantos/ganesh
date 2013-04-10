@@ -1,7 +1,6 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.http.handlers;
 
-import exception.ServerErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
 import ganesh.common.response.Message.ErrorMessage;
@@ -9,6 +8,7 @@ import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.common.session.Session;
 import ganesh.common.session.SessionManager;
+import ganesh.exception.ServerErrorCode;
 import ganesh.programs.GaneshProgram;
 import ganesh.programs.ProgramManager;
 import ganesh.programs.ProgramManager.RequestType;

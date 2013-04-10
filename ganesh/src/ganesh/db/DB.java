@@ -1,7 +1,6 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
-import exception.ServerErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
@@ -9,6 +8,7 @@ import ganesh.db.annotations.Property;
 import ganesh.db.utils.Filter;
 import ganesh.db.utils.TableAlias;
 import ganesh.embed.database.DBServer;
+import ganesh.exception.ServerErrorCode;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
