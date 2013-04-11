@@ -21,6 +21,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
+import org.scharlessantos.atlas.Language;
 import org.scharlessantos.hermes.Hermes;
 
 public class Response {
@@ -46,13 +47,33 @@ public class Response {
 						StartElement se = event.asStartElement();
 						parents.add(0, se.getName().getLocalPart());
 
-						if (parents.get(0).equals("message")) {
-							message = new Message(se.getAttributeByName(new QName("message")).getValue(), new Short(se.getAttributeByName(new QName("icon")).getValue()).shortValue(), new Short(se.getAttributeByName(new QName("icon")).getValue()).shortValue());
+						switch (parents.get(0)) {
+							case "message":
+								message = new Message(se.getAttributeByName(new QName("message")).getValue(), new Short(se.getAttributeByName(new QName("icon")).getValue()).shortValue(), new Short(se.getAttributeByName(new QName("icon")).getValue()).shortValue());
+								break;
+							case "session":
+								String uuid = "";
+								if (se.getAttributeByName(new QName("uuid")) != null)
+									uuid = se.getAttributeByName(new QName("uuid")).getValue();
+
+								Language lang = null;
+								if (se.getAttributeByName(new QName("language")) != null)
+									lang = Language.getByAcronym(se.getAttributeByName(new QName("language")).getValue());
+
+								session = new Session(uuid, lang);
+								break;
+							case "property":
+								if (parents.size() > 1 && parents.get(1).equals("session")) {
+									//TODO
+								}
+								break;
+							default:
+								break;
 						}
 
 						break;
 					case XMLEvent.END_ELEMENT:
-
+						parents.remove(0);
 						break;
 				}
 

@@ -10,6 +10,7 @@ import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.common.session.Session;
 import ganesh.db.Usuario;
+import ganesh.exception.ServerErrorCode;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -38,7 +39,7 @@ public class _LoginHandler implements _MyHandler {
 			Usuario usuario = Usuario.getByUsername(req.getUsername());
 
 			if (usuario == null || !usuario.checkPassword(req.getPassword())) {
-				resp.setMessage(new ErrorMessage(Ganesh.getMessages().usuarioSenhaInvalido()));
+				resp.setMessage(new ErrorMessage(ServerErrorCode.ACESSO_NEGADO.toString() + ": " + Ganesh.getMessages().usuarioSenhaInvalido()));
 			} else {
 				Session session = new Session(UUID.randomUUID().toString(), req.getLanguage());
 				resp.setSession(session);

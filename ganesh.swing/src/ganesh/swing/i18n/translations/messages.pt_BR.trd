@@ -1,6 +1,7 @@
 saindo()=Saindo
 desejaRealmenteSair()=Deseja realmente sair?
-ok()=Ok
+#ok()=OK
+ok()=Tudo bem
 nao()=Não
 sim()=Sim
 usuario()=Usuario
@@ -8,3 +9,8 @@ senha()=Senha
 acessar()=Acessar
 sair()=Sair
 cancelar()=Cancelar
+ganeshClient()=Cliente Ganesh
+logout()=Log out
+cadastro()=Cadastro
+grupo()=Grupo
+versao(String)=Versão %s

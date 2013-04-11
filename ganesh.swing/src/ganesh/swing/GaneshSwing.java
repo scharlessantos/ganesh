@@ -14,7 +14,7 @@ import org.scharlessantos.atlas.Language;
 
 public class GaneshSwing {
 
-	private static Language language = Language.PT_BR;
+	private static Language language = null;
 
 	public static Language getLanguage() {
 		return language;

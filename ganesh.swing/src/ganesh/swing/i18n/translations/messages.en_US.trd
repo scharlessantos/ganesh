@@ -8,3 +8,5 @@ senha()=Password
 acessar()=Access
 sair()=Close
 cancelar()=Cancel
+grupo()=Group
+ganeshClient()=Ganesh Client

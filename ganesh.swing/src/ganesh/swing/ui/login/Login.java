@@ -5,6 +5,7 @@ import ganesh.common.request.LoginRequest;
 import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.ui.GaneshFrame;
+import ganesh.swing.ui.GaneshMain;
 import ganesh.swing.ui.I18nButton;
 import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.images.Images;
@@ -15,7 +16,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -48,14 +48,14 @@ public class Login extends GaneshFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		super();
 		setResizable(false);
 
-		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		addWindowListener(new SairListener());
 
 		setTitle("Ganesh Login");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 473, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -128,12 +128,11 @@ public class Login extends GaneshFrame {
 				MessageHandler.show(resp.getMessage());
 
 			if (resp.getSession() != null) {
-
 				Login.this.close = false;
+				Login.this.processWindowEvent(new WindowEvent(Login.this, WindowEvent.WINDOW_CLOSING));
 			} else
 				Hermes.info("Tentativa de login falhou");
 		}
-
 	}
 
 	private class SairListener extends WindowAdapter implements ActionListener {
@@ -150,11 +149,10 @@ public class Login extends GaneshFrame {
 					System.exit(0);
 				else {
 					txtUsuario.requestFocus();
-					//TODO: cancelar closing
 				}
 			} else {
-				//TODO: abrir o programa de fato
-				Login.this.close = true;
+				new GaneshMain().start();
+				Login.this.setVisible(false);
 			}
 		}
 
