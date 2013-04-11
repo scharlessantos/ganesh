@@ -106,6 +106,11 @@ public class GaneshMainFrame extends GaneshFrame {
 
 			JTree tree = new JTree(root);
 			tree.setCellRenderer(new TreeRenderer());
+
+			for (int i = 0; i < tree.getRowCount(); i++) {
+				tree.expandRow(i);
+			}
+
 			menu.setViewportView(tree);
 		}
 		return menu;
