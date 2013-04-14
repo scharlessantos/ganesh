@@ -14,3 +14,4 @@ logout()=Log out
 cadastro()=Cadastro
 grupo()=Grupo
 versao(String)=Versão %s
+versaoAtualDoClienteGaneshSwing()=Versão atual do Cliente Swing Ganesh
