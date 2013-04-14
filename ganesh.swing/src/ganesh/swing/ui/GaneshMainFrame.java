@@ -12,6 +12,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -24,6 +27,7 @@ import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreePath;
 
 import org.scharlessantos.hermes.Hermes;
 
@@ -48,9 +52,27 @@ public class GaneshMainFrame extends GaneshFrame {
 		setLocationRelativeTo(null);
 
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setExtendedState(MAXIMIZED_BOTH);
 		setTitle(M.ganeshClient());
+
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				//if (GaneshMainFrame.this.close) {
+				if (JOptionPane.showConfirmDialog(null, M.desejaRealmenteSair(), M.saindo() + "...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+					System.exit(0);
+				//					else {
+				//						txtUsuario.requestFocus();
+				//					}
+				//				} else {
+				//					new GaneshMain().start();
+				//					GaneshMainFrame.this.setVisible(false);
+				//				}
+			}
+
+		});
 	}
 
 	private JPanel getMainPanel() {
@@ -104,8 +126,56 @@ public class GaneshMainFrame extends GaneshFrame {
 			root.add(new Node("logout", M.logout(), Icons.DOOR_OUT));
 			root.add(new Node("sair", M.sair(), Icons.DECLINE));
 
-			JTree tree = new JTree(root);
+			final JTree tree = new JTree(root);
 			tree.setCellRenderer(new TreeRenderer());
+
+			tree.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 2) {
+						TreePath path = tree.getSelectionPath();
+
+						if (path != null) {
+							Object obj = path.getLastPathComponent();
+
+							if (obj instanceof Node) {
+								Node no = (Node)obj;
+
+								if (no.getId().equals("sair")) {
+									GaneshMainFrame.this.processWindowEvent(new WindowEvent(GaneshMainFrame.this, WindowEvent.WINDOW_CLOSING));
+								}
+							}
+						}
+
+					}
+
+				}
+			});
 
 			for (int i = 0; i < tree.getRowCount(); i++) {
 				tree.expandRow(i);
@@ -186,4 +256,5 @@ public class GaneshMainFrame extends GaneshFrame {
 			return this;
 		}
 	}
+
 }
