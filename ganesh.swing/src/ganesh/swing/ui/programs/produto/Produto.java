@@ -1,14 +1,18 @@
 /* Copyright (c) 2013 G.I.C Consultoria e Comunicação Ltda */
 package ganesh.swing.ui.programs.produto;
 
+import java.awt.Checkbox;
 import java.awt.EventQueue;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 public class Produto {
 
@@ -47,7 +51,7 @@ public class Produto {
 	private void initialize() {
 		frmCadastroDeProdutos = new JFrame();
 		frmCadastroDeProdutos.setTitle("Cadastro de Produtos ");
-		frmCadastroDeProdutos.setBounds(100, 100, 549, 325);
+		frmCadastroDeProdutos.setBounds(100, 100, 363, 299);
 		frmCadastroDeProdutos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCadastroDeProdutos.getContentPane().setLayout(null);
 
@@ -66,38 +70,6 @@ public class Produto {
 		txtComplementoProduto.setBounds(30, 161, 210, 20);
 		frmCadastroDeProdutos.getContentPane().add(txtComplementoProduto);
 
-		JButton btnNovo = new JButton("Novo");
-		btnNovo.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {}
-		});
-		btnNovo.setBounds(14, 212, 89, 23);
-		frmCadastroDeProdutos.getContentPane().add(btnNovo);
-
-		JButton btnAlterar = new JButton("Alterar");
-		btnAlterar.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {}
-		});
-		btnAlterar.setBounds(128, 212, 89, 23);
-		frmCadastroDeProdutos.getContentPane().add(btnAlterar);
-
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {}
-		});
-		btnExcluir.setBounds(248, 212, 89, 23);
-		frmCadastroDeProdutos.getContentPane().add(btnExcluir);
-
-		JButton btnCancel = new JButton("Cancelar");
-		btnCancel.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {}
-		});
-		btnCancel.setBounds(363, 212, 89, 23);
-		frmCadastroDeProdutos.getContentPane().add(btnCancel);
-
 		JLabel lblCdigo = new JLabel("Código");
 		lblCdigo.setBounds(30, 26, 46, 14);
 		frmCadastroDeProdutos.getContentPane().add(lblCdigo);
@@ -109,5 +81,45 @@ public class Produto {
 		JLabel lblComplemento = new JLabel("Complemento");
 		lblComplemento.setBounds(30, 136, 73, 14);
 		frmCadastroDeProdutos.getContentPane().add(lblComplemento);
+
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Pes\u00E1vel", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(264, 36, 73, 55);
+		frmCadastroDeProdutos.getContentPane().add(panel);
+
+		Checkbox checkbox = new Checkbox("Sim");
+		panel.add(checkbox);
+
+		Panel panel_1 = new Panel();
+		panel_1.setBounds(30, 212, 291, 33);
+		frmCadastroDeProdutos.getContentPane().add(panel_1);
+
+		JButton btnNovo = new JButton("Novo");
+		panel_1.add(btnNovo);
+
+		JButton btnAlterar = new JButton("Alterar");
+		panel_1.add(btnAlterar);
+
+		JButton btnExcluir = new JButton("Excluir");
+		panel_1.add(btnExcluir);
+
+		JButton btnCancel = new JButton("Cancelar");
+		panel_1.add(btnCancel);
+		btnCancel.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {}
+		});
+		btnExcluir.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {}
+		});
+		btnAlterar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {}
+		});
+		btnNovo.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {}
+		});
 	}
 }
