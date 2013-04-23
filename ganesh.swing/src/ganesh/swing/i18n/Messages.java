@@ -38,4 +38,6 @@ public interface Messages {
 	String versao(String string);
 
 	String versaoAtualDoClienteGaneshSwing();
+
+	String desejaRealmenteEfetuarLogOut();
 }
