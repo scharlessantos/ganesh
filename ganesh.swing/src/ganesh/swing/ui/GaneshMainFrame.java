@@ -1,8 +1,8 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.ui;
 
-import ganesh.swing.GaneshSwing;
-import ganesh.swing.i18n.Messages;
+import ganesh.common.i18n.GaneshI18n;
+import ganesh.swing.Starter;
 import ganesh.swing.ui.images.Images;
 import ganesh.swing.ui.images.Images.Icons;
 
@@ -12,8 +12,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
@@ -56,23 +54,6 @@ public class GaneshMainFrame extends GaneshFrame {
 		setExtendedState(MAXIMIZED_BOTH);
 		setTitle(M.ganeshClient());
 
-		addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				//if (GaneshMainFrame.this.close) {
-				if (JOptionPane.showConfirmDialog(null, M.desejaRealmenteSair(), M.saindo() + "...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-					System.exit(0);
-				//					else {
-				//						txtUsuario.requestFocus();
-				//					}
-				//				} else {
-				//					new GaneshMain().start();
-				//					GaneshMainFrame.this.setVisible(false);
-				//				}
-			}
-
-		});
 	}
 
 	private JPanel getMainPanel() {
@@ -117,43 +98,20 @@ public class GaneshMainFrame extends GaneshFrame {
 	private JScrollPane getMenuPanel() {
 		if (menu == null) {
 			menu = new JScrollPane();
-			Node root = new Node("root", M.ganeshClient(), null);
+			Node root = new Node("root", "ganeshClient()", null);
 
-			Node cadastro = new Node("cadastro", M.cadastro(), Icons.COG);
-			cadastro.add(new Node("grupo", M.grupo(), Icons.GROUP));
+			Node cadastro = new Node("cadastro", "cadastro()", Icons.COG);
+			cadastro.add(new Node("grupo", "grupo()", Icons.GROUP));
 
 			root.add(cadastro);
-			root.add(new Node("logout", M.logout(), Icons.DOOR_OUT));
-			root.add(new Node("sair", M.sair(), Icons.DECLINE));
+			root.add(new Node("logout", "logout()", Icons.DOOR_OUT));
+			root.add(new Node("sair", "sair()", Icons.DECLINE));
 
 			final JTree tree = new JTree(root);
+
 			tree.setCellRenderer(new TreeRenderer());
 
-			tree.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
+			tree.addMouseListener(new MouseAdapter() {
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -166,15 +124,23 @@ public class GaneshMainFrame extends GaneshFrame {
 							if (obj instanceof Node) {
 								Node no = (Node)obj;
 
-								if (no.getId().equals("sair")) {
+								String id = no.getId();
+
+								if (id.equals("sair"))
 									GaneshMainFrame.this.processWindowEvent(new WindowEvent(GaneshMainFrame.this, WindowEvent.WINDOW_CLOSING));
+								else if (id.equals("logout"))
+									GaneshMainFrame.this.processWindowEvent(new WindowEvent(GaneshMainFrame.this, 0));
+								else {//if ()
+
 								}
+
 							}
 						}
 
 					}
 
 				}
+
 			});
 
 			for (int i = 0; i < tree.getRowCount(); i++) {
@@ -182,6 +148,7 @@ public class GaneshMainFrame extends GaneshFrame {
 			}
 
 			menu.setViewportView(tree);
+
 		}
 		return menu;
 	}
@@ -193,8 +160,10 @@ public class GaneshMainFrame extends GaneshFrame {
 			rodape.addSeparator();
 			rodape.add(new JLabel("Usuário root logado desde sempre!!"));
 			rodape.addSeparator();
-			rodape.add(Box.createHorizontalGlue());
-			//toolBar.add(new JLabel("Ctrl + T to create and Ctrl + W to close tabs"));
+			rodape.add(Box.createHorizontalGlue()); //Para criar a bagaceira que expande
+			//			rodape.addSeparator();
+			//			rodape.add(new I18nButton(Language.PT_BR));
+			//			rodape.add(new I18nButton(Language.EN_US));
 			rodape.addSeparator();
 			JLabel versao = new JLabel(M.versao("1.0"));
 			versao.setToolTipText(M.versaoAtualDoClienteGaneshSwing());
@@ -205,8 +174,31 @@ public class GaneshMainFrame extends GaneshFrame {
 	}
 
 	@Override
+	protected void processWindowEvent(WindowEvent e) {
+		switch (e.getID()) {
+			case 0:
+				if (JOptionPane.showConfirmDialog(null, M.desejaRealmenteEfetuarLogOut(), M.saindo() + "...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					Starter.login();
+					this.dispose();
+				}
+
+				break;
+			case WindowEvent.WINDOW_CLOSING:
+				if (JOptionPane.showConfirmDialog(null, M.desejaRealmenteSair(), M.saindo() + "...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+					System.exit(0);
+				break;
+			default:
+				super.processWindowEvent(e);
+				break;
+		}
+
+	}
+
+	@Override
 	public void onLanguageChanged() {
 		Hermes.warn("Troca de linguagem somente no login");
+
+		repaint();
 	}
 
 	private static class Node extends DefaultMutableTreeNode {
@@ -234,8 +226,6 @@ public class GaneshMainFrame extends GaneshFrame {
 
 	private static class TreeRenderer extends DefaultTreeCellRenderer {
 
-		protected static final Messages M = GaneshSwing.getMessages();
-
 		private static final long serialVersionUID = -3168064998184708624L;
 
 		@Override
@@ -244,6 +234,9 @@ public class GaneshMainFrame extends GaneshFrame {
 
 			if (row == 0) {
 				setIcon(Images.get("ganesh2.png"));
+
+				setText(GaneshI18n.translate(value.toString()));
+
 			} else if (value instanceof Node) {
 				Node n = (Node)value;
 				ImageIcon icon = Images.Icons.get(n.getIcon());

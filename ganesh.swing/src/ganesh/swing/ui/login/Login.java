@@ -4,8 +4,8 @@ package ganesh.swing.ui.login;
 import ganesh.common.request.LoginRequest;
 import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
+import ganesh.swing.Starter;
 import ganesh.swing.ui.GaneshFrame;
-import ganesh.swing.ui.GaneshMain;
 import ganesh.swing.ui.I18nButton;
 import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.images.Images;
@@ -151,8 +151,8 @@ public class Login extends GaneshFrame {
 					txtUsuario.requestFocus();
 				}
 			} else {
-				new GaneshMain().start();
-				Login.this.setVisible(false);
+				Starter.loadMain();
+				Login.this.dispose();
 			}
 		}
 

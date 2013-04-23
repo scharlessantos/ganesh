@@ -2,6 +2,7 @@
 package ganesh.swing;
 
 import ganesh.common.i18n.GaneshI18n;
+import ganesh.swing.ui.GaneshMain;
 import ganesh.swing.ui.login.Login;
 
 import javax.swing.UIManager;
@@ -45,10 +46,17 @@ public class Starter {
 
 		GaneshSwing.setLanguage(Language.PT_BR);
 
+		login();
+	}
+
+	public static void loadMain() {
+		new GaneshMain().start();
+	}
+
+	public static void login() {
 		GaneshStart start = new GaneshStart();
 		start.setName("Ganesh Start Thread");
 		start.start();
-
 	}
 
 	private static class GaneshStart extends GaneshThread {
