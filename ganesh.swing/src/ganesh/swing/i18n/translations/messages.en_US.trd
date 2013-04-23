@@ -9,4 +9,5 @@ acessar()=Access
 sair()=Close
 cancelar()=Cancel
 grupo()=Group
-ganeshClient()=Ganesh Client
+ganeshClient()=Ganesh Swing Client
+desejaRealmenteEfetuarLogOut()=Really logout?
