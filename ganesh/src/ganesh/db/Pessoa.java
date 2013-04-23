@@ -9,7 +9,7 @@ import ganesh.db.annotations.Property;
 public class Pessoa extends AbstractDBEntity {
 
 	@Id("id_pessoa")
-	protected Integer idPessoa;
+	protected Long idPessoa;
 
 	@Property("codigo")
 	protected String codigo;
@@ -37,7 +37,7 @@ public class Pessoa extends AbstractDBEntity {
 		this.endereco = other.endereco;
 	}
 
-	public Integer getIdPessoa() {
+	public Long getIdPessoa() {
 		return idPessoa;
 	}
 
@@ -61,7 +61,7 @@ public class Pessoa extends AbstractDBEntity {
 		return endereco;
 	}
 
-	protected void setIdPessoa(int idPessoa) {
+	protected void setIdPessoa(long idPessoa) {
 		this.idPessoa = idPessoa;
 	}
 

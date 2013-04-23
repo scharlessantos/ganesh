@@ -9,7 +9,7 @@ import ganesh.db.annotations.Property;
 public class Grupo extends AbstractDBEntity {
 
 	@Id("id_grupo")
-	protected Integer id;
+	protected Long id;
 
 	@Property("codigo")
 	protected String codigo = null;
@@ -17,7 +17,7 @@ public class Grupo extends AbstractDBEntity {
 	@Property("descricao")
 	protected String nome = null;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

@@ -12,7 +12,7 @@ import ganesh.db.utils.Filter.FilterType;
 public class Usuario extends Pessoa {
 
 	@Id("id_usuario")
-	protected Integer idUsuario;
+	protected Long idUsuario;
 
 	@Property("username")
 	protected String username;
@@ -20,7 +20,7 @@ public class Usuario extends Pessoa {
 	@Property("senha")
 	protected String senha;
 
-	public Integer getIdUsuario() {
+	public Long getIdUsuario() {
 		return idUsuario;
 	}
 

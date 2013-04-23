@@ -13,7 +13,7 @@ public class Caminhao extends AbstractDBEntity {
 	private Empresa empresa;
 
 	@Id("id_caminhao")
-	private int idCaminhao;
+	private long idCaminhao;
 
 	@Property("codigo")
 	private String codigo;
@@ -21,11 +21,11 @@ public class Caminhao extends AbstractDBEntity {
 	@Property("placa")
 	private String placa;
 
-	public int getIdEmpresa() {
+	public long getIdEmpresa() {
 		return empresa.getIdEmpresa();
 	}
 
-	public int getIdCaminhao() {
+	public long getIdCaminhao() {
 		return idCaminhao;
 	}
 

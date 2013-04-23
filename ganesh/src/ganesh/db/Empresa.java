@@ -9,7 +9,7 @@ import ganesh.db.annotations.Property;
 public class Empresa extends AbstractDBEntity {
 
 	@Id("id_empresa")
-	private int idEmpresa;
+	private long idEmpresa;
 	@Property("codigo")
 	private String codigo;
 	@Property("nome")
@@ -17,7 +17,7 @@ public class Empresa extends AbstractDBEntity {
 	@Property("cnpj")
 	private String cnpj;
 
-	public int getIdEmpresa() {
+	public long getIdEmpresa() {
 		return idEmpresa;
 	}
 
