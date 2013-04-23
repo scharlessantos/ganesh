@@ -9,6 +9,9 @@ import ganesh.i18n.Messages;
 import ganesh.programs.ProgramManager;
 import ganesh.programs.grupo.PrgGrupo;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+
 import org.scharlessantos.hermes.Hermes;
 
 public class Ganesh {
@@ -22,8 +25,15 @@ public class Ganesh {
 		return instance;
 	}
 
-	private Ganesh() {
+	private final int pid;
 
+	private Ganesh() {
+		RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
+		pid = Integer.parseInt(rt.getName().substring(0, rt.getName().indexOf("@")));
+	}
+
+	public int getPid() {
+		return pid;
 	}
 
 	public void start() {

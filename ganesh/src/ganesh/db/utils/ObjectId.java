@@ -1,6 +1,8 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db.utils;
 
+import ganesh.Ganesh;
+
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
@@ -25,7 +27,7 @@ public class ObjectId {
 	}
 
 	public ObjectId() {
-		int pid = 4533;
+		int pid = Ganesh.getInstance().getPid();
 		int mac = 832;
 		long random = getRandom();
 
