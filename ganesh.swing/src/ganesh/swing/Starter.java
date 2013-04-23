@@ -54,6 +54,7 @@ public class Starter {
 	}
 
 	public static void login() {
+		GaneshSwing.setSession(null);
 		GaneshStart start = new GaneshStart();
 		start.setName("Ganesh Start Thread");
 		start.start();

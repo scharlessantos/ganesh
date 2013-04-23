@@ -2,6 +2,7 @@
 package ganesh.swing.ui;
 
 import ganesh.common.i18n.GaneshI18n;
+import ganesh.swing.GaneshSwing;
 import ganesh.swing.Starter;
 import ganesh.swing.ui.images.Images;
 import ganesh.swing.ui.images.Images.Icons;
@@ -158,7 +159,7 @@ public class GaneshMainFrame extends GaneshFrame {
 			rodape = new JToolBar();
 			rodape.setFloatable(false);
 			rodape.addSeparator();
-			rodape.add(new JLabel("Usuário root logado desde sempre!!"));
+			rodape.add(new JLabel("Usuário root logado desde sempre!! " + GaneshSwing.getSession().getUuid())); //bacalhau
 			rodape.addSeparator();
 			rodape.add(Box.createHorizontalGlue()); //Para criar a bagaceira que expande
 			//			rodape.addSeparator();

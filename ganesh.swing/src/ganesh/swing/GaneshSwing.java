@@ -2,6 +2,7 @@
 package ganesh.swing;
 
 import ganesh.common.i18n.GaneshI18n;
+import ganesh.common.session.Session;
 import ganesh.swing.i18n.I18nListener;
 import ganesh.swing.i18n.Messages;
 
@@ -14,7 +15,17 @@ import org.scharlessantos.atlas.Language;
 
 public class GaneshSwing {
 
+	private static Session session;
+
 	private static Language language = null;
+
+	public static Session getSession() {
+		return session.copy();
+	}
+
+	public static void setSession(Session session) {
+		GaneshSwing.session = session;
+	}
 
 	public static Language getLanguage() {
 		return language;

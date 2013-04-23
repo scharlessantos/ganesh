@@ -2,18 +2,17 @@
 package ganesh.embed.http.handlers;
 
 import ganesh.Ganesh;
+import ganesh.access.AccessControl;
 import ganesh.common.exceptions.GException;
 import ganesh.common.i18n.GaneshI18n;
 import ganesh.common.request.LoginRequest;
 import ganesh.common.response.Message.ErrorMessage;
-import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.common.session.Session;
 import ganesh.db.Usuario;
 import ganesh.exception.ServerErrorCode;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +40,8 @@ public class _LoginHandler implements _MyHandler {
 			if (usuario == null || !usuario.checkPassword(req.getPassword())) {
 				resp.setMessage(new ErrorMessage(ServerErrorCode.ACESSO_NEGADO.toString() + ": " + Ganesh.getMessages().usuarioSenhaInvalido()));
 			} else {
-				Session session = new Session(UUID.randomUUID().toString(), req.getLanguage());
+				Session session = AccessControl.getInstance().newSession(req.getLanguage());
 				resp.setSession(session);
-				resp.setMessage(new InformationMessage("Sucesso!!! //TODO"));
 			}
 
 		} catch (GException e) {

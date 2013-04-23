@@ -128,6 +128,7 @@ public class Login extends GaneshFrame {
 				MessageHandler.show(resp.getMessage());
 
 			if (resp.getSession() != null) {
+				GaneshSwing.setSession(resp.getSession());
 				Login.this.close = false;
 				Login.this.processWindowEvent(new WindowEvent(Login.this, WindowEvent.WINDOW_CLOSING));
 			} else
