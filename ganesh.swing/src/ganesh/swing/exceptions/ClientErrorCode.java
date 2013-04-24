@@ -5,13 +5,13 @@ import ganesh.common.exceptions.ErrorCode;
 
 public enum ClientErrorCode implements ErrorCode {
 
-	DB_ERROR,
+	INVALID_DATA_SET,
 
-	INVALID_DATA_SET;
+	UI;
 
 	@Override
 	public String toString() {
-		return String.format("(GANESH-%03d)", ordinal());
+		return String.format("[CLI](GANESH-%03d)", ordinal());
 	};
 
 }

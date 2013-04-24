@@ -2,8 +2,10 @@
 package ganesh.swing;
 
 import ganesh.common.i18n.GaneshI18n;
+import ganesh.swing.i18n.GMessages;
 import ganesh.swing.ui.GaneshMain;
 import ganesh.swing.ui.login.Login;
+import ganesh.swing.ui.programs.grupo.PrgGrupo;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -45,6 +47,10 @@ public class Starter {
 		GaneshI18n.loadTranslations(Language.EN_US, Starter.class.getResourceAsStream("i18n/translations/messages.en_US.trd"));
 
 		GaneshSwing.setLanguage(Language.PT_BR);
+
+		GMessages GM = GaneshI18n.genI18nClass(GMessages.class);
+
+		ProgramManager.registerProgram("grupo", GM.grupo(), PrgGrupo.class);
 
 		login();
 	}
