@@ -245,6 +245,8 @@ public class GaneshMainFrame extends GaneshFrame {
 				if (icon != null)
 					setIcon(icon);
 
+				setText(GaneshI18n.translate(value.toString()));
+
 			}
 
 			return this;
