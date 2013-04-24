@@ -65,6 +65,6 @@ public class Usuario extends Pessoa {
 	}
 
 	public boolean checkPassword(String password) {
-		return senha.equals(password); //TODO melhorar isso, usar criptografia
+		return senha.equals(password);
 	}
 }
