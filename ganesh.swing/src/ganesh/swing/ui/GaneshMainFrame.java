@@ -1,10 +1,14 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.ui;
 
-import ganesh.common.i18n.GaneshI18n;
+import ganesh.common.i18n.GString;
 import ganesh.swing.GaneshSwing;
+import ganesh.swing.ProgramManager;
+import ganesh.swing.ProgramManager.Menu;
+import ganesh.swing.ProgramManager.ProgramDescriptor;
 import ganesh.swing.Starter;
 import ganesh.swing.ui.images.Images;
+import ganesh.swing.ui.images.Images.Flags;
 import ganesh.swing.ui.images.Images.Icons;
 
 import java.awt.BorderLayout;
@@ -14,6 +18,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -99,14 +109,34 @@ public class GaneshMainFrame extends GaneshFrame {
 	private JScrollPane getMenuPanel() {
 		if (menu == null) {
 			menu = new JScrollPane();
-			Node root = new Node("root", "ganeshClient()", null);
+			Node root = new Node("root", GM.ganeshClient(), null);
 
-			Node cadastro = new Node("cadastro", "cadastro()", Icons.COG);
-			cadastro.add(new Node("grupo", "grupo()", Icons.GROUP));
+			Map<Menu, Node> nodes = new LinkedHashMap<>();
 
-			root.add(cadastro);
-			root.add(new Node("logout", "logout()", Icons.DOOR_OUT));
-			root.add(new Node("sair", "sair()", Icons.DECLINE));
+			{
+				List<Menu> contextos = new ArrayList<>(Arrays.asList(Menu.values()));
+				Collections.sort(contextos);
+
+				for (Menu m: contextos)
+					nodes.put(m, new Node(m.name(), m.getTitle(), m.getIcon()));
+
+			}
+
+			for (ProgramDescriptor prg: ProgramManager.listPrograms()) {
+				Node node = nodes.get(prg.getMenu());
+
+				if (node != null)
+					node.add(new Node("program::" + prg.getName(), prg.getTitle(), prg.getIcon()));
+
+			}
+
+			for (Node node: nodes.values()) {
+				//if (!node.isLeaf())
+				root.add(node);
+			}
+
+			root.add(new Node("logout", GM.logout(), Icons.DOOR_OUT));
+			root.add(new Node("sair", GM.sair(), Icons.DECLINE));
 
 			final JTree tree = new JTree(root);
 
@@ -131,8 +161,8 @@ public class GaneshMainFrame extends GaneshFrame {
 									GaneshMainFrame.this.processWindowEvent(new WindowEvent(GaneshMainFrame.this, WindowEvent.WINDOW_CLOSING));
 								else if (id.equals("logout"))
 									GaneshMainFrame.this.processWindowEvent(new WindowEvent(GaneshMainFrame.this, 0));
-								else {//if ()
-
+								else if (id.startsWith("program::")) {
+									//TODO
 								}
 
 							}
@@ -158,15 +188,15 @@ public class GaneshMainFrame extends GaneshFrame {
 		if (rodape == null) {
 			rodape = new JToolBar();
 			rodape.setFloatable(false);
+			rodape.add(new JLabel(Icons.get(Icons.USER)));
+			rodape.add(new JLabel(M.usuario() + ": (" + GaneshSwing.getSession().getProperty("username") + ") " + GaneshSwing.getSession().getProperty("pessoa.nome")));
 			rodape.addSeparator();
-			rodape.add(new JLabel("Usuário root logado desde sempre!! " + GaneshSwing.getSession().getUuid())); //bacalhau
+			rodape.add(Box.createHorizontalGlue()); //Para que a barra se expanda
 			rodape.addSeparator();
-			rodape.add(Box.createHorizontalGlue()); //Para criar a bagaceira que expande
-			//			rodape.addSeparator();
-			//			rodape.add(new I18nButton(Language.PT_BR));
-			//			rodape.add(new I18nButton(Language.EN_US));
+			rodape.add(new JLabel(GaneshSwing.getLanguage().getDescripton()));
+			rodape.add(new JLabel(Flags.get(GaneshSwing.getLanguage().getAcronym().toLowerCase())));
 			rodape.addSeparator();
-			JLabel versao = new JLabel(M.versao("1.0"));
+			JLabel versao = new JLabel(M.versao("1.1"));
 			versao.setToolTipText(M.versaoAtualDoClienteGaneshSwing());
 			rodape.add(versao);
 		}
@@ -198,8 +228,7 @@ public class GaneshMainFrame extends GaneshFrame {
 	@Override
 	public void onLanguageChanged() {
 		Hermes.warn("Troca de linguagem somente no login");
-
-		repaint();
+		JOptionPane.showMessageDialog(null, M.naoEhPossivelAlterarOIdiomaAposALogin());
 	}
 
 	private static class Node extends DefaultMutableTreeNode {
@@ -208,7 +237,7 @@ public class GaneshMainFrame extends GaneshFrame {
 		private String id;
 		private String icon;
 
-		public Node(String id, String nome, String icon) {
+		public Node(String id, GString nome, String icon) {
 			super(nome);
 
 			this.id = id;
@@ -234,9 +263,7 @@ public class GaneshMainFrame extends GaneshFrame {
 			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasfocus);
 
 			if (row == 0) {
-				setIcon(Images.get("ganesh2.png"));
-
-				setText(GaneshI18n.translate(value.toString()));
+				setIcon(Images.get(Images.GANESH2));
 
 			} else if (value instanceof Node) {
 				Node n = (Node)value;
@@ -244,9 +271,6 @@ public class GaneshMainFrame extends GaneshFrame {
 
 				if (icon != null)
 					setIcon(icon);
-
-				setText(GaneshI18n.translate(value.toString()));
-
 			}
 
 			return this;

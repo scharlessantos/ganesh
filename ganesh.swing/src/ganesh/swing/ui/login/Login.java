@@ -23,6 +23,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import org.scharlessantos.atlas.Language;
 import org.scharlessantos.hermes.Hermes;
@@ -34,7 +35,8 @@ public class Login extends GaneshFrame {
 	 */
 	private static final long serialVersionUID = 734600433675637333L;
 
-	private JPanel contentPane;
+	private JPanel contentPanel;
+	private JPanel i18nPanel;
 	private JTextField txtUsuario;
 	private JTextField txtSenha;
 	private JLabel lblUsuario;
@@ -57,20 +59,20 @@ public class Login extends GaneshFrame {
 
 		setTitle("Ganesh Login");
 		setBounds(100, 100, 473, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPanel = new JPanel();
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPanel);
+		contentPanel.setLayout(null);
 
 		JLabel label = new JLabel();
 		label.setBounds(12, 0, 166, 255);
-		label.setIcon(Images.get("ganesh.png"));
-		contentPane.add(label);
+		label.setIcon(Images.get(Images.GANESH));
+		contentPanel.add(label);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel.setBounds(189, 12, 260, 202);
-		contentPane.add(panel);
+		contentPanel.add(panel);
 		panel.setLayout(null);
 
 		lblUsuario = new JLabel(M.usuario());
@@ -99,13 +101,20 @@ public class Login extends GaneshFrame {
 		btnSair.setBounds(131, 147, 117, 38);
 		panel.add(btnSair);
 
-		JButton btnPortugues = new I18nButton(Language.PT_BR);
-		btnPortugues.setBounds(376, 230, 36, 25);
-		contentPane.add(btnPortugues);
+		//Botões de i18n
+		i18nPanel = new JPanel();
+		i18nPanel.setBorder(new TitledBorder(M.idioma()));
+		i18nPanel.setBounds(350, 218, 100, 52);
+		contentPanel.add(i18nPanel);
+		i18nPanel.setLayout(null);
 
-		JButton btnIngles = new I18nButton(Language.EN_US);
-		btnIngles.setBounds(417, 230, 36, 25);
-		contentPane.add(btnIngles);
+		JButton btn = new I18nButton(Language.PT_BR, true);
+		btn.setBounds(13, 18, 36, 25);
+		i18nPanel.add(btn);
+
+		btn = new I18nButton(Language.EN_US, true);
+		btn.setBounds(52, 18, 36, 25);
+		i18nPanel.add(btn);
 
 		btnSair.addActionListener(new SairListener());
 		btnAcessar.addActionListener(new OkListener());
@@ -170,6 +179,10 @@ public class Login extends GaneshFrame {
 		txtSenha.setText("");
 
 		txtUsuario.requestFocus();
+
+		((TitledBorder)i18nPanel.getBorder()).setTitle(M.idioma());
+
+		repaint();
 	}
 
 }

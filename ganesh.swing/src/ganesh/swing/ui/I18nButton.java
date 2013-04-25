@@ -2,7 +2,7 @@
 package ganesh.swing.ui;
 
 import ganesh.swing.GaneshSwing;
-import ganesh.swing.ui.images.Images;
+import ganesh.swing.ui.images.Images.Flags;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,9 +21,13 @@ public class I18nButton extends JButton {
 	private Language language;
 
 	public I18nButton(Language language) {
+		this(language, false);
+	}
+
+	public I18nButton(Language language, boolean bigger) {
 		super("");
-		setToolTipText(language.getDescripton());
-		setIcon(Images.getFlag(language.getAcronym()));
+		setToolTipText(language.getAcronym() + ": " + language.getDescripton());
+		setIcon(Flags.get(language.getAcronym().toLowerCase() + (bigger ? "_2" : "")));
 
 		//Evento clicar
 		addActionListener(new MyAction());
