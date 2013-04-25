@@ -11,3 +11,4 @@ cancelar()=Cancel
 grupo()=Group
 ganeshClient()=Ganesh Swing Client
 desejaRealmenteEfetuarLogOut()=Really logout?
+idioma()=Language

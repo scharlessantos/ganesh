@@ -16,3 +16,4 @@ grupo()=Grupo
 versao(String)=Versão %s
 versaoAtualDoClienteGaneshSwing()=Versão atual do Cliente Swing Ganesh
 desejaRealmenteEfetuarLogOut()=Deseja realmente efetuar logout?
+idioma()=Idioma
