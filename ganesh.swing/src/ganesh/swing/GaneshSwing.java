@@ -3,6 +3,7 @@ package ganesh.swing;
 
 import ganesh.common.i18n.GaneshI18n;
 import ganesh.common.session.Session;
+import ganesh.swing.i18n.GMessages;
 import ganesh.swing.i18n.I18nListener;
 import ganesh.swing.i18n.Messages;
 
@@ -53,6 +54,10 @@ public class GaneshSwing {
 
 	public static Messages getMessages() {
 		return GaneshI18n.genI18nClass(Messages.class);
+	}
+
+	public static GMessages getGMessages() {
+		return GaneshI18n.genI18nClass(GMessages.class);
 	}
 
 	private static List<I18nListener> listeners = new ArrayList<>();

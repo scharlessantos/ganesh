@@ -3,10 +3,14 @@ package ganesh.swing;
 
 import ganesh.common.exceptions.GException;
 import ganesh.common.i18n.GString;
+import ganesh.common.i18n.GaneshI18n;
 import ganesh.swing.exceptions.ClientErrorCode;
-import ganesh.swing.ui.programs.GaneshProgram;
+import ganesh.swing.i18n.GMessages;
+import ganesh.swing.programs.GaneshProgram;
+import ganesh.swing.ui.images.Images.Icons;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,46 +52,40 @@ public class ProgramManager {
 
 	}
 
-	public static List<String> listPrograms() {
+	public static List<ProgramDescriptor> listPrograms() {
 		synchronized (programs) {
-			return new ArrayList<>(programs.keySet());
+			return new ArrayList<>(programs.values());
 		}
 	}
 
-	public static GString getTitle(String name) {
+	public static void registerProgram(ProgramDescriptor program) {
 		synchronized (programs) {
-			ProgramDescriptor program = programs.get(name);
-
-			if (program != null)
-				return program.getTitle();
-		}
-
-		return null;
-	}
-
-	public static void registerProgram(String name, ProgramDescriptor program) {
-		synchronized (programs) {
-			if (!programs.containsKey(name)) {
-				programs.put(name, program);
+			if (!programs.containsKey(program.getName())) {
+				programs.put(program.getName(), program);
 
 			} else
-				Hermes.warn("Programa " + name + " já registrado");
+				Hermes.warn("Programa " + program.getName() + " já registrado");
 		}
 	}
 
 	public static class ProgramDescriptor {
 
+		private String name;
 		private Class<? extends GaneshProgram> program;
 		private GString title;
-		private GString menu;
+		private Menu menu;
 		private String icon;
 
-		public ProgramDescriptor(Class<? extends GaneshProgram> program, GString title, GString menu, String icon) {
-			super();
+		public ProgramDescriptor(String name, Class<? extends GaneshProgram> program, GString title, Menu menu, String icon) {
+			this.name = name;
 			this.program = program;
 			this.title = title;
 			this.menu = menu;
 			this.icon = icon;
+		}
+
+		public String getName() {
+			return name;
 		}
 
 		public Class<? extends GaneshProgram> getProgram() {
@@ -98,12 +96,53 @@ public class ProgramManager {
 			return title;
 		}
 
-		public GString getMenu() {
+		public Menu getMenu() {
 			return menu;
 		}
 
 		public String getIcon() {
 			return icon;
+		}
+
+	}
+
+	private static GMessages GM = GaneshI18n.genI18nClass(GMessages.class);
+
+	public enum Menu implements Comparator<Menu> {
+
+		CADASTRO(GM.cadastro(), 0, Icons.APPLICATION_FORM),
+		OPERACAO(GM.operacao(), 1, Icons.COG),
+
+		;
+
+		private GString title;
+		private int order;
+		private String icon;
+
+		private Menu(GString title, int order, String icon) {
+			this.title = title;
+			this.order = order;
+			this.icon = icon;
+		}
+
+		public GString getTitle() {
+			return title;
+		}
+
+		public int getOrder() {
+			return order;
+		}
+
+		public String getIcon() {
+			return icon;
+		}
+
+		@Override
+		public int compare(Menu me, Menu other) {
+			if (me.order == other.order)
+				return 0;
+
+			return me.order > other.order ? 1 : -1;
 		}
 
 	}
