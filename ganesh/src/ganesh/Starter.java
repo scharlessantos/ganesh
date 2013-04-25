@@ -6,8 +6,6 @@ import ganesh.embed.database.DBServer;
 import ganesh.embed.http.HttpServer;
 import ganesh.log.FileLogger;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
 import java.util.Set;
 
 import org.scharlessantos.atlas.Language;
@@ -52,10 +50,9 @@ public class Starter {
 			Hermes.info("============================ Starting Ganesh Server");
 
 			try {
-				RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
-				final int runtimePid = Integer.parseInt(rt.getName().substring(0, rt.getName().indexOf("@")));
+				final int myPid = Ganesh.getInstance().getPid();
 
-				if (!getMonitoredVMs(runtimePid)) {
+				if (hasOtherGanesh(myPid)) {
 					Hermes.fatal("Já existe uma outra instância do Ganesh em execução");
 					System.exit(11);
 				}
@@ -96,24 +93,31 @@ public class Starter {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private static boolean getMonitoredVMs(int processPid) {
+	private static boolean hasOtherGanesh(int processPid) {
 		MonitoredHost host;
 		Set vms;
 		try {
+
+			//Lista todas as JVMS que estão rodando
 			host = MonitoredHost.getMonitoredHost(new HostIdentifier((String)null));
-			vms = host.activeVms();
+			vms = host.activeVms(); //Filtra para as ativas
+
 		} catch (java.net.URISyntaxException sx) {
 			throw new InternalError(sx.getMessage());
 		} catch (MonitorException mx) {
 			throw new InternalError(mx.getMessage());
 		}
+
 		MonitoredVm mvm = null;
 		String processName = null;
+
 		try {
+			//Pega o nome do meu processo
 			mvm = host.getMonitoredVm(new VmIdentifier(String.valueOf(processPid)));
 			processName = MonitoredVmUtil.commandLine(mvm);
 			processName = processName.substring(processName.lastIndexOf("\\") + 1, processName.length());
 			mvm.detach();
+
 		} catch (Exception ex) {
 
 		}
@@ -129,13 +133,14 @@ public class Starter {
 					name = name.substring(name.lastIndexOf("\\") + 1, name.length());
 					mvm.detach();
 					if ((name.equalsIgnoreCase(processName)) && (processPid != pid))
-						return false;
+						return true;
+
 				} catch (Exception x) {
 					// ignore  
 				}
 			}
 		}
 
-		return true;
+		return false;
 	}
 }
