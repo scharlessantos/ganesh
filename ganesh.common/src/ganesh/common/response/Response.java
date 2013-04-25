@@ -64,7 +64,7 @@ public class Response {
 								break;
 							case "property":
 								if (parents.size() > 1 && parents.get(1).equals("session")) {
-									//TODO
+									session.addProperty(se.getAttributeByName(new QName("key")).getValue(), se.getAttributeByName(new QName("value")).getValue());
 								}
 								break;
 							default:
