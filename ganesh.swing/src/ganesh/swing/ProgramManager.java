@@ -5,7 +5,6 @@ import ganesh.common.exceptions.GException;
 import ganesh.common.i18n.GString;
 import ganesh.swing.exceptions.ClientErrorCode;
 import ganesh.swing.ui.programs.GaneshProgram;
-import ganesh.swing.ui.programs.grupo.PrgGrupo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +23,12 @@ public class ProgramManager {
 				return null;
 			}
 
-			Class<? extends GaneshProgram> cls = programs.get(name);
+			ProgramDescriptor program = programs.get(name);
+
+			if (program == null)
+				throw new GException(ClientErrorCode.PROGRAM_NOT_REGISTERED, GaneshSwing.getMessages().programaNaoRegistrado());
+
+			Class<? extends GaneshProgram> cls = program.getProgram();
 
 			try {
 				if (cls.getConstructor() == null)
@@ -51,15 +55,21 @@ public class ProgramManager {
 	}
 
 	public static GString getTitle(String name) {
-		return titles.get(name);
+		synchronized (programs) {
+			ProgramDescriptor program = programs.get(name);
+
+			if (program != null)
+				return program.getTitle();
+		}
+
+		return null;
 	}
 
-	public static void registerProgram(String name, GString title, Class<? extends PrgGrupo> program) {
+	public static void registerProgram(String name, ProgramDescriptor program) {
 		synchronized (programs) {
 			if (!programs.containsKey(name)) {
 				programs.put(name, program);
 
-				titles.put(name, title);
 			} else
 				Hermes.warn("Programa " + name + " já registrado");
 		}
@@ -67,12 +77,12 @@ public class ProgramManager {
 
 	public static class ProgramDescriptor {
 
-		private GaneshProgram program;
+		private Class<? extends GaneshProgram> program;
 		private GString title;
 		private GString menu;
 		private String icon;
 
-		public ProgramDescriptor(GaneshProgram program, GString title, GString menu, String icon) {
+		public ProgramDescriptor(Class<? extends GaneshProgram> program, GString title, GString menu, String icon) {
 			super();
 			this.program = program;
 			this.title = title;
@@ -80,7 +90,7 @@ public class ProgramManager {
 			this.icon = icon;
 		}
 
-		public GaneshProgram getProgram() {
+		public Class<? extends GaneshProgram> getProgram() {
 			return program;
 		}
 

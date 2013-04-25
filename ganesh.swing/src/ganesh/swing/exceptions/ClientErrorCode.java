@@ -7,7 +7,9 @@ public enum ClientErrorCode implements ErrorCode {
 
 	INVALID_DATA_SET,
 
-	UI;
+	UI,
+
+	PROGRAM_NOT_REGISTERED;
 
 	@Override
 	public String toString() {

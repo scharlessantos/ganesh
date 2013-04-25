@@ -2,8 +2,10 @@
 package ganesh.swing;
 
 import ganesh.common.i18n.GaneshI18n;
+import ganesh.swing.ProgramManager.ProgramDescriptor;
 import ganesh.swing.i18n.GMessages;
 import ganesh.swing.ui.GaneshMain;
+import ganesh.swing.ui.images.Images.Icons;
 import ganesh.swing.ui.login.Login;
 import ganesh.swing.ui.programs.grupo.PrgGrupo;
 
@@ -50,7 +52,7 @@ public class Starter {
 
 		GMessages GM = GaneshI18n.genI18nClass(GMessages.class);
 
-		ProgramManager.registerProgram("grupo", GM.grupo(), PrgGrupo.class);
+		ProgramManager.registerProgram("grupo", new ProgramDescriptor(PrgGrupo.class, GM.grupo(), GM.cadastro(), Icons.GROUP));
 
 		login();
 	}

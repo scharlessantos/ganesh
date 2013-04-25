@@ -7,4 +7,6 @@ public interface GMessages {
 
 	GString grupo();
 
+	GString cadastro();
+
 }
