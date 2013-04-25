@@ -9,4 +9,14 @@ public interface GMessages {
 
 	GString cadastro();
 
+	GString operacao();
+
+	GString usuario();
+
+	GString logout();
+
+	GString sair();
+
+	GString ganeshClient();
+
 }
