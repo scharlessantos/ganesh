@@ -1,12 +1,17 @@
 /* Ganesh Swing Client, developed in 2013 */
-package ganesh.swing.ui;
+package ganesh.swing.ui.main;
 
+import ganesh.common.exceptions.GException;
 import ganesh.common.i18n.GString;
+import ganesh.common.response.Message.ErrorMessage;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.ProgramManager;
 import ganesh.swing.ProgramManager.Menu;
 import ganesh.swing.ProgramManager.ProgramDescriptor;
 import ganesh.swing.Starter;
+import ganesh.swing.ui.GaneshFrame;
+import ganesh.swing.ui.GaneshProgram;
+import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.images.Images;
 import ganesh.swing.ui.images.Images.Flags;
 import ganesh.swing.ui.images.Images.Icons;
@@ -14,7 +19,6 @@ import ganesh.swing.ui.images.Images.Icons;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -92,9 +96,14 @@ public class GaneshMainFrame extends GaneshFrame {
 
 					if (tabPane.getSelectedComponent() != null) {
 						if (e.getButton() == MouseEvent.BUTTON2 || e.getButton() == MouseEvent.BUTTON3)
-							if (JOptionPane.showConfirmDialog(null, "Do you really close this tab?", "Closing tab", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-								getMainPanel().getActionForKeyStroke(getMainPanel().getRegisteredKeyStrokes()[2]).actionPerformed(new ActionEvent(this, 0, ""));
+							if (JOptionPane.showConfirmDialog(null, M.desejaRealmenteFecharEstePrograma(), M.fechandoPrograma(), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								int selected = getProgramsPane().getSelectedIndex();
 
+								if (selected > 0)
+									getProgramsPane().setSelectedIndex(selected - 1);
+
+								getProgramsPane().removeTabAt(selected);
+							}
 					}
 
 				}
@@ -131,8 +140,8 @@ public class GaneshMainFrame extends GaneshFrame {
 			}
 
 			for (Node node: nodes.values()) {
-				//if (!node.isLeaf())
-				root.add(node);
+				if (!node.isLeaf())
+					root.add(node);
 			}
 
 			root.add(new Node("logout", GM.logout(), Icons.DOOR_OUT));
@@ -162,7 +171,7 @@ public class GaneshMainFrame extends GaneshFrame {
 								else if (id.equals("logout"))
 									GaneshMainFrame.this.processWindowEvent(new WindowEvent(GaneshMainFrame.this, 0));
 								else if (id.startsWith("program::")) {
-									//TODO
+									openProgram(id.substring("program::".length()));
 								}
 
 							}
@@ -221,6 +230,28 @@ public class GaneshMainFrame extends GaneshFrame {
 			default:
 				super.processWindowEvent(e);
 				break;
+		}
+
+	}
+
+	private void openProgram(String name) {
+		try {
+			GaneshProgram program = ProgramManager.newProgram(name);
+
+			JPanel panel = program.render();
+
+			if (panel != null) {
+				JTabbedPane tabs = getProgramsPane();
+				tabs.addTab(ProgramManager.getTitle(name).toString(), Icons.get(ProgramManager.getIcon(name)), panel, M.cliqueComOBotaoDireitoParaFechar());
+				tabs.setSelectedIndex(tabs.getTabCount() - 1);
+
+				panel.doLayout();
+			}
+
+		} catch (GException e) {
+			Hermes.error(e);
+
+			MessageHandler.show(new ErrorMessage(e.getCode().toString() + " " + M.naoFoiPossivelAbrirOPrograma()));
 		}
 
 	}

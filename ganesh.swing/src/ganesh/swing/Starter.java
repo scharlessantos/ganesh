@@ -7,9 +7,9 @@ import ganesh.swing.ProgramManager.ProgramDescriptor;
 import ganesh.swing.i18n.GMessages;
 import ganesh.swing.programs.cadastro.grupo.PrgGrupo;
 import ganesh.swing.programs.cadastro.usuario.PrgUsuario;
-import ganesh.swing.ui.GaneshMain;
 import ganesh.swing.ui.images.Images.Icons;
 import ganesh.swing.ui.login.Login;
+import ganesh.swing.ui.main.GaneshMain;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;

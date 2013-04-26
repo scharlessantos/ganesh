@@ -12,3 +12,6 @@ grupo()=Group
 ganeshClient()=Ganesh Swing Client
 desejaRealmenteEfetuarLogOut()=Really logout?
 idioma()=Language
+codigo()=Code
+nome()=Name
+cliqueComOBotaoDireitoParaFechar()=Click with right mouse button to close

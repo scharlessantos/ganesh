@@ -47,4 +47,12 @@ public interface Messages {
 
 	String naoEhPossivelAlterarOIdiomaAposALogin();
 
+	String naoFoiPossivelAbrirOPrograma();
+
+	String cliqueComOBotaoDireitoParaFechar();
+
+	String fechandoPrograma();
+
+	String desejaRealmenteFecharEstePrograma();
+
 }

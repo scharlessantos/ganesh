@@ -6,7 +6,7 @@ import ganesh.common.i18n.GString;
 import ganesh.common.i18n.GaneshI18n;
 import ganesh.swing.exceptions.ClientErrorCode;
 import ganesh.swing.i18n.GMessages;
-import ganesh.swing.programs.GaneshProgram;
+import ganesh.swing.ui.GaneshProgram;
 import ganesh.swing.ui.images.Images.Icons;
 
 import java.util.ArrayList;
@@ -65,6 +65,30 @@ public class ProgramManager {
 
 			} else
 				Hermes.warn("Programa " + program.getName() + " já registrado");
+		}
+	}
+
+	public static GString getTitle(String name) throws GException {
+		synchronized (programs) {
+
+			ProgramDescriptor program = programs.get(name);
+
+			if (program == null)
+				throw new GException(ClientErrorCode.PROGRAM_NOT_REGISTERED, GaneshSwing.getMessages().programaNaoRegistrado());
+
+			return program.getTitle();
+		}
+	}
+
+	public static String getIcon(String name) throws GException {
+		synchronized (programs) {
+
+			ProgramDescriptor program = programs.get(name);
+
+			if (program == null)
+				throw new GException(ClientErrorCode.PROGRAM_NOT_REGISTERED, GaneshSwing.getMessages().programaNaoRegistrado());
+
+			return program.getIcon();
 		}
 	}
 

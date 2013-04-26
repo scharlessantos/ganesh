@@ -19,4 +19,14 @@ public interface GMessages {
 
 	GString ganeshClient();
 
+	GString codigo();
+
+	GString nome();
+
+	GString novo();
+
+	GString editar();
+
+	GString excluir();
+
 }
