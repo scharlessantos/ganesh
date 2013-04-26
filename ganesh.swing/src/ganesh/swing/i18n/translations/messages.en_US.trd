@@ -14,4 +14,5 @@ desejaRealmenteEfetuarLogOut()=Really logout?
 idioma()=Language
 codigo()=Code
 nome()=Name
+versao(String)=Version %s
 cliqueComOBotaoDireitoParaFechar()=Click with right mouse button to close
