@@ -29,4 +29,12 @@ public interface GMessages {
 
 	GString excluir();
 
+	GString username();
+
+	GString documento();
+
+	GString contato();
+
+	GString endereco();
+
 }
