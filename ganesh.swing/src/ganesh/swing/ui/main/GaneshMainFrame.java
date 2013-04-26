@@ -202,8 +202,9 @@ public class GaneshMainFrame extends GaneshFrame {
 			rodape.addSeparator();
 			rodape.add(Box.createHorizontalGlue()); //Para que a barra se expanda
 			rodape.addSeparator();
-			rodape.add(new JLabel(GaneshSwing.getLanguage().getDescripton()));
 			rodape.add(new JLabel(Flags.get(GaneshSwing.getLanguage().getAcronym().toLowerCase())));
+			rodape.addSeparator();
+			rodape.add(new JLabel(GaneshSwing.getLanguage().getDescripton()));
 			rodape.addSeparator();
 			JLabel versao = new JLabel(M.versao("1.1"));
 			versao.setToolTipText(M.versaoAtualDoClienteGaneshSwing());
@@ -218,8 +219,8 @@ public class GaneshMainFrame extends GaneshFrame {
 		switch (e.getID()) {
 			case 0:
 				if (JOptionPane.showConfirmDialog(null, M.desejaRealmenteEfetuarLogOut(), M.saindo() + "...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-					Starter.login();
 					this.dispose();
+					Starter.login();
 				}
 
 				break;
@@ -257,10 +258,7 @@ public class GaneshMainFrame extends GaneshFrame {
 	}
 
 	@Override
-	public void onLanguageChanged() {
-		Hermes.warn("Troca de linguagem somente no login");
-		JOptionPane.showMessageDialog(null, M.naoEhPossivelAlterarOIdiomaAposALogin());
-	}
+	public void onLanguageChanged() {}
 
 	private static class Node extends DefaultMutableTreeNode {
 
