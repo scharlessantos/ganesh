@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import org.scharlessantos.hermes.Hermes;
+
 public class GaneshButton {
 
 	private GString label;
@@ -82,7 +84,7 @@ public class GaneshButton {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			Hermes.debug("Implementar");
 		}
 
 	}
