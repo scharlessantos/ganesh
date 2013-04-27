@@ -37,4 +37,6 @@ public interface GMessages {
 
 	GString endereco();
 
+	GString nota();
+
 }
