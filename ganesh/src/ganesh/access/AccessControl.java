@@ -50,11 +50,19 @@ public class AccessControl {
 	public Session getSession(String uuid) {
 		synchronized (sessions) {
 			for (Session session: sessions.keySet())
-				if (session.getUuid().equals(uuid))
+				if (session.getUuid().equals(uuid)) {
+					updateSession(session);
 					return session;
+				}
 		}
 
 		return null;
+	}
+
+	public void updateSession(Session session) {
+		synchronized (sessions) {
+			sessions.put(session, System.currentTimeMillis());
+		}
 	}
 
 	public void invalidateSession(String uuid) {
@@ -79,13 +87,13 @@ public class AccessControl {
 			while (true) {
 				synchronized (AccessControl.instance.sessions) {
 					for (Entry<Session, Long> session: AccessControl.instance.sessions.entrySet())
-						if (session.getValue() < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(5))
+						if (session.getValue() < System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(20))
 							AccessControl.instance.sessions.remove(session);
 
 				}
 
 				try {
-					wait(TimeUnit.SECONDS.toMillis(15));
+					sleep(TimeUnit.SECONDS.toMillis(5));
 				} catch (InterruptedException e) {
 					Hermes.error(e);
 					break;
