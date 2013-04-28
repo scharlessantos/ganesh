@@ -55,4 +55,6 @@ public interface Messages {
 
 	String desejaRealmenteFecharEstePrograma();
 
+	String caminhao();
+
 }

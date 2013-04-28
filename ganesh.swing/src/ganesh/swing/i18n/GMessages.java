@@ -39,4 +39,10 @@ public interface GMessages {
 
 	GString nota();
 
+	GString empresa();
+
+	GString placa();
+
+	GString caminhao();
+
 }

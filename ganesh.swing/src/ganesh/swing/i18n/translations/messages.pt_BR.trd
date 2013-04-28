@@ -1,7 +1,7 @@
 saindo()=Saindo
 desejaRealmenteSair()=Deseja realmente sair?
-#ok()=OK
-ok()=Tudo bem
+ok()=OK
+#ok()=Tudo bem
 nao()=Não
 sim()=Sim
 usuario()=Usuário
@@ -29,3 +29,5 @@ username()=Username
 documento()=Documento
 contato()=Contato
 endereco()=Endereço
+caminhao()=Caminhão
+nota()=Nota

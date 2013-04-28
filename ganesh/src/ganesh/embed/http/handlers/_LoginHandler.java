@@ -44,6 +44,7 @@ public class _LoginHandler implements _MyHandler {
 				session.addProperty("username", usuario.getUsername());
 				session.addProperty("pessoa.nome", usuario.getNome());
 				resp.setSession(session);
+
 			}
 
 		} catch (GException e) {

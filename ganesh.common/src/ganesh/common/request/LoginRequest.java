@@ -81,7 +81,7 @@ public class LoginRequest extends Request {
 
 		Response resp = new Response();
 		try {
-			URL url = new URL("http", "poseidon", 8833, "/login");
+			URL url = new URL("http", "127.0.0.1", 8833, "/login");
 
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			connection.setDoInput(true);
