@@ -59,7 +59,7 @@ class GenImageClass {
 
 	}
 
-	private static void writeContants(FileWriter wr, File folder) throws IOException {
+	private static void writeConstants(FileWriter wr, File folder) throws IOException {
 		for (File f: folder.listFiles()) {
 			String name = f.getName().replace(".png", "");
 			wr.append("\n");
