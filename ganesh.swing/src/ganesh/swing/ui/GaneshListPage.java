@@ -3,6 +3,7 @@ package ganesh.swing.ui;
 
 import ganesh.common.i18n.GString;
 import ganesh.swing.ui.custom.RowNumberTable;
+import ganesh.swing.ui.images.Images.Icons;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -13,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -65,6 +67,15 @@ public abstract class GaneshListPage extends GaneshPage {
 		panel.setLayout(new BorderLayout());
 
 		panel.add(getScrollTable(), BorderLayout.CENTER);
+
+		JToolBar toolbar = new JToolBar();
+		toolbar.setFloatable(false);
+
+		toolbar.add(new GaneshButton(null, "REFRESH", Icons.ARROW_REFRESH).setTooltip(GM.atualizar()).render());
+		toolbar.add(new GaneshButton(null, "REPORT_XLS", Icons.PAGE_EXCEL).setTooltip(GM.exportarComo_(GM.excel())).render());
+		toolbar.add(new GaneshButton(null, "REPORT_PDF", Icons.PAGE_WHITE_ACROBAT).setTooltip(GM.exportarComo_(GM.pdf())).render());
+
+		panel.add(toolbar, BorderLayout.SOUTH);
 
 		return panel;
 	}
