@@ -15,7 +15,7 @@ public enum ServerErrorCode implements ErrorCode {
 
 	ACESSO_NEGADO,
 
-	DB_ERROR;
+	DB_ERROR, LOAD_CONFIG;
 
 	@Override
 	public String toString() {

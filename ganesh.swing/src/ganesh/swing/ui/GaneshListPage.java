@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -128,6 +129,7 @@ public abstract class GaneshListPage extends GaneshPage {
 			};
 
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 			table.setAutoCreateRowSorter(true);
 			table.setModel(model);
@@ -135,6 +137,11 @@ public abstract class GaneshListPage extends GaneshPage {
 		}
 
 		return table;
+	}
+
+	@Override
+	protected boolean isDetailEnabled() {
+		return getTable().getSelectedRowCount() > 0;
 	}
 
 	protected static class Column {

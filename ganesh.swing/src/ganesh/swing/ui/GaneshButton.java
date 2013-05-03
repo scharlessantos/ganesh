@@ -31,44 +31,49 @@ public class GaneshButton {
 		return label;
 	}
 
-	public void setLabel(GString label) {
+	public GaneshButton setLabel(GString label) {
 		this.label = label;
+		return this;
 	}
 
 	public String getAction() {
 		return action;
 	}
 
-	public void setAction(String action) {
+	public GaneshButton setAction(String action) {
 		this.action = action;
+		return this;
 	}
 
 	public String getIcon() {
 		return icon;
 	}
 
-	public void setIcon(String icon) {
+	public GaneshButton setIcon(String icon) {
 		this.icon = icon;
+		return this;
 	}
 
 	public GString getTooltip() {
 		return tooltip;
 	}
 
-	public void setTooltip(GString tooltip) {
+	public GaneshButton setTooltip(GString tooltip) {
 		this.tooltip = tooltip;
+		return this;
 	}
 
 	public GaneshPage getPage() {
 		return page;
 	}
 
-	public void setPage(GaneshPage page) {
+	public GaneshButton setPage(GaneshPage page) {
 		this.page = page;
+		return this;
 	}
 
 	public JButton render() {
-		JButton button = new JButton(label.toString());
+		JButton button = new JButton(label == null ? null : label.toString());
 		button.setIcon(Icons.get(icon));
 
 		if (tooltip != null)

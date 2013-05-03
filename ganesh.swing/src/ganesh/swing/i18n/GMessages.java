@@ -45,4 +45,12 @@ public interface GMessages {
 
 	GString caminhao();
 
+	GString atualizar();
+
+	GString excel();
+
+	GString exportarComo_(GString oque);
+
+	GString pdf();
+
 }

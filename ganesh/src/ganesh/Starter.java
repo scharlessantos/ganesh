@@ -1,14 +1,12 @@
 package ganesh;
 
 import ganesh.common.exceptions.GException;
-import ganesh.common.i18n.GaneshI18n;
 import ganesh.embed.database.DBServer;
 import ganesh.embed.http.HttpServer;
 import ganesh.log.FileLogger;
 
 import java.util.Set;
 
-import org.scharlessantos.atlas.Language;
 import org.scharlessantos.hermes.HConfiguration;
 import org.scharlessantos.hermes.Hermes;
 import org.scharlessantos.hermes.logger.GenericHFilter;
@@ -61,8 +59,7 @@ public class Starter {
 				System.exit(12);
 			}
 
-			GaneshI18n.loadTranslations(Language.PT_BR, Starter.class.getResourceAsStream("i18n/translations/messages.pt_BR.trd"));
-			GaneshI18n.loadTranslations(Language.EN_US, Starter.class.getResourceAsStream("i18n/translations/messages.en_US.trd"));
+			Ganesh.getInstance().start();
 
 			try {
 				DBServer.getInstance().initDB();
@@ -72,8 +69,6 @@ public class Starter {
 
 				System.exit(13);
 			}
-
-			Ganesh.getInstance().start();
 
 			try {
 				HttpServer.getInstance().startServer();

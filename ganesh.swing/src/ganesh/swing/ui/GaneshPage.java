@@ -25,7 +25,7 @@ public abstract class GaneshPage {
 	private GaneshProgram program;
 
 	protected void addDetail(GaneshPage detail) {
-
+		details.add(detail);
 	}
 
 	protected void addButton(GaneshButton button) {
@@ -53,13 +53,25 @@ public abstract class GaneshPage {
 		if (details.size() > 0) {
 			panel.add(toJPanel());
 
-			JTabbedPane details = new JTabbedPane();
+			JTabbedPane dpanel = new JTabbedPane() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isEnabled() {
+					return isDetailEnabled();
+				}
+
+			};
 
 			for (GaneshPage detail: this.details)
 				if (detail != null)
-					details.addTab(detail.getTitle(), Icons.get(detail.getIcon()), detail.render());
+					dpanel.addTab(detail.getTitle(), Icons.get(detail.getIcon()), detail.render());
 
-			return panel;
+			panel.add(dpanel, BorderLayout.SOUTH); //TODO tamanho
 		}
 
 		panel.add(toJPanel(), BorderLayout.CENTER);
@@ -71,6 +83,10 @@ public abstract class GaneshPage {
 	protected abstract String getIcon();
 
 	protected abstract String getTitle();
+
+	protected boolean isDetailEnabled() {
+		return false;
+	}
 
 	public GaneshProgram getProgram() {
 		return program;

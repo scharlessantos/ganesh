@@ -1,6 +1,7 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.embed.http;
 
+import ganesh.Ganesh;
 import ganesh.common.exceptions.GException;
 import ganesh.embed.http.handlers.HttpHandler;
 import ganesh.exception.ServerErrorCode;
@@ -24,14 +25,15 @@ public class HttpServer {
 	private Server server;
 
 	public void startServer() throws GException {
-		server = new Server(8833); //TODO botar esta porta em cfg.ini
+		int port = Ganesh.getProperty("port", 8833);
+		server = new Server(port);
 		try {
 			server.setThreadPool(new GaneshHttpThreadPool());
 			server.setHandler(new HttpHandler());
 
 			server.start();
 
-			Hermes.info("Iniciado Serviço HTTP na porta %d (Jetty %s)", 8833, getVersion());
+			Hermes.info("Iniciado Serviço HTTP na porta %d (Jetty %s)", port, getVersion());
 
 			server.join();
 

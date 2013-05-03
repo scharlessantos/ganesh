@@ -14,6 +14,8 @@ public class PgListGrupo extends GaneshListPage {
 		addButton(new GaneshButton(GM.novo(), "", Icons.GROUP_ADD));
 		addButton(new GaneshButton(GM.editar(), "", Icons.GROUP_EDIT));
 		addButton(new GaneshButton(GM.excluir(), "", Icons.GROUP_DELETE));
+
+		addDetail(new PgListUsuarioDetail());
 	}
 
 	@Override

@@ -13,6 +13,11 @@ import ganesh.swing.ui.images.Images.Icons;
 import ganesh.swing.ui.login.Login;
 import ganesh.swing.ui.main.GaneshMain;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -41,6 +46,33 @@ public class Starter {
 			"along with this program. If not, see <http://www.gnu.org/licenses/>.\n");
 
 		Hermes.info("============================ Starting Ganesh Swing");
+
+		LineNumberReader reader;
+		try {
+			reader = new LineNumberReader(new FileReader(new File("config.ini")));
+
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				if (line.startsWith("#") || line.startsWith("//") || line.startsWith("--") || line.trim().isEmpty())
+					continue;
+
+				String[] prop = line.split("=");
+
+				if (prop == null || prop.length != 2) {
+					Hermes.warn("Ignoring malformed line specification: " + line);
+					continue;
+				}
+
+				System.setProperty(prop[0], prop[1]);
+			}
+
+			reader.close();
+
+		} catch (IOException e) {
+			Hermes.fatal("Nao foi possivel carregar as propriedades do client");
+			Hermes.fatal(e);
+			System.exit(45);
+		}
 
 		try {
 			Hermes.info("NimbusLookAndFeel");
@@ -92,4 +124,5 @@ public class Starter {
 		}
 
 	}
+
 }

@@ -42,7 +42,7 @@ public class RowNumberTable extends JTable implements ChangeListener, PropertyCh
 		addColumn(column);
 		column.setCellRenderer(new RowNumberRenderer());
 
-		getColumnModel().getColumn(0).setPreferredWidth(50);
+		getColumnModel().getColumn(0).setPreferredWidth(25);
 		setPreferredScrollableViewportSize(getPreferredSize());
 	}
 

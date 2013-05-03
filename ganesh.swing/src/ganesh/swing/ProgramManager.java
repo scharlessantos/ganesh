@@ -135,7 +135,7 @@ public class ProgramManager {
 	public enum Menu implements Comparator<Menu> {
 
 		CADASTRO(GM.cadastro(), 0, Icons.APPLICATION_FORM),
-		OPERACAO(GM.operacao(), 1, Icons.COG),
+		OPERACAO(GM.operacao(), 1, Icons.APPLICATION_VIEW_DETAIL),
 
 		;
 

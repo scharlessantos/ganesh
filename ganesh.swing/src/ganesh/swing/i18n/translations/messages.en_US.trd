@@ -24,3 +24,7 @@ username()=Username
 documento()=Document
 contato()=Contact
 endereco()=Address
+atualizar()=Refresh
+exportarComo_(GString)=Export as %s
+excel()=MS Excel
+pdf()=PDF

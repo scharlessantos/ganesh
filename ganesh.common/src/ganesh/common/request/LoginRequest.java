@@ -81,7 +81,8 @@ public class LoginRequest extends Request {
 
 		Response resp = new Response();
 		try {
-			URL url = new URL("http", "127.0.0.1", 8833, "/login");
+
+			URL url = new URL("http", System.getProperty("ganesh.server.address", "localhost"), Integer.parseInt(System.getProperty("ganesh.server.port", "8833")), "/login");
 
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			connection.setDoInput(true);
@@ -119,6 +120,11 @@ public class LoginRequest extends Request {
 
 	public Language getLanguage() {
 		return lang;
+	}
+
+	@Override
+	public final Response doRequest() {
+		throw new RuntimeException("Não é possivel usar este método nesta requisição");
 	}
 
 }
