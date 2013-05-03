@@ -25,7 +25,7 @@ class GenImageClass {
 			//Geral
 			File files = new File("src/ganesh/swing/ui/images/general");
 
-			writeContants(fw, files);
+			writeConstants(fw, files);
 
 			//flags
 			fw.append("\n\n\n//============================\n// Bandeiras\n//============================\n\n");
@@ -34,7 +34,7 @@ class GenImageClass {
 			fw.append("\n\n");
 			fw.append("public static class Flags {");
 
-			writeContants(fw, files);
+			writeConstants(fw, files);
 
 			fw.append("\n}\n");
 
@@ -44,7 +44,7 @@ class GenImageClass {
 			fw.append("\n\n\n//============================\n// Icones\n//============================\n\n");
 			fw.append("public static class Icons {");
 
-			writeContants(fw, files);
+			writeConstants(fw, files);
 
 			fw.append("\n}\n");
 
