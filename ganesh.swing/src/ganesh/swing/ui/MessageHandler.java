@@ -2,13 +2,14 @@
 package ganesh.swing.ui;
 
 import ganesh.common.response.Message;
+import ganesh.swing.GaneshSwing;
 
 import javax.swing.JOptionPane;
 
 public class MessageHandler {
 
 	public static void show(Message message) {
-		JOptionPane.showMessageDialog(null, message.getMessage(), "Aviso", getMessageType(message.getIcon()));
+		JOptionPane.showMessageDialog(null, message.getMessage(), message.getTitle() == null ? GaneshSwing.getMessages().aviso() : message.getTitle(), getMessageType(message.getIcon()));
 	}
 
 	private static int getMessageType(short icon) {

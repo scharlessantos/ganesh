@@ -2,12 +2,15 @@
 package ganesh.swing.ui;
 
 import ganesh.common.i18n.GString;
+import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.images.Images.Icons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 
@@ -91,18 +94,28 @@ public class GaneshButton {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			for (Method method: page.getClass().getMethods())
-				if (method.isAnnotationPresent(ButtonHandler.class))
+				if (method.isAnnotationPresent(ButtonHandler.class)) {
+					List<Object> params = new ArrayList<>();
+
 					if (method.getAnnotation(ButtonHandler.class).value().equals(action)) {
-						if (method.getParameterTypes().length > 0)
-							Hermes.info("Call method");
-						else
+						if (method.getParameterTypes().length > 0) {
+
+							for (Class<?> param: method.getParameterTypes()) {
+								if (param.equals(GaneshData.class))
+									params.add(page.getProgram().getData());
+							}
+
 							try {
-								method.invoke(page);
+								method.invoke(page, params.toArray());
 							} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 								Hermes.error(e1);
 							}
+
+						}
+
 						return;
 					}
+				}
 
 			Hermes.info(action + " nao tratado em " + page.getTitle());
 		}

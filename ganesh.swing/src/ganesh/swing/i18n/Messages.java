@@ -57,4 +57,10 @@ public interface Messages {
 
 	String caminhao();
 
+	String selecioneOItemADeletar();
+
+	String aviso();
+
+	String atencao();
+
 }

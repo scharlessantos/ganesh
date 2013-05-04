@@ -14,6 +14,7 @@ public class Message {
 	public static final short BUTTON_YESNOCANCEL = 3;
 
 	private String message;
+	private String title;
 	private short buttons;
 	private short icon;
 
@@ -33,6 +34,15 @@ public class Message {
 
 	public short getIcon() {
 		return icon;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public Message setTitle(String title) {
+		this.title = title;
+		return this;
 	}
 
 	@Override
@@ -56,6 +66,7 @@ public class Message {
 
 		public WarningMessage(String message) {
 			super(message, ICON_WARNING, BUTTON_OK);
+
 		}
 	}
 
