@@ -243,8 +243,18 @@ public class GaneshMainFrame extends GaneshFrame {
 
 			if (panel != null) {
 				JTabbedPane tabs = getProgramsPane();
-				tabs.addTab(ProgramManager.getTitle(name).toString(), Icons.get(ProgramManager.getIcon(name)), panel, M.cliqueComOBotaoDireitoParaFechar());
-				tabs.setSelectedIndex(tabs.getTabCount() - 1);
+
+				int i = 0;
+				for (i = 0; i < tabs.getTabCount(); i++)
+					if (tabs.getTitleAt(i).equals(ProgramManager.getTitle(name).toString())) {
+						tabs.setSelectedIndex(i);
+						break;
+					}
+
+				if (i >= tabs.getTabCount()) {
+					tabs.addTab(ProgramManager.getTitle(name).toString(), Icons.get(ProgramManager.getIcon(name)), panel, M.cliqueComOBotaoDireitoParaFechar());
+					tabs.setSelectedIndex(tabs.getTabCount() - 1);
+				}
 
 				panel.doLayout();
 			}
