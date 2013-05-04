@@ -104,7 +104,7 @@ public class GaneshButton {
 						return;
 					}
 
-			Hermes.info(action + " nao trato em " + page.getTitle());
+			Hermes.info(action + " nao tratado em " + page.getTitle());
 		}
 	}
 }
