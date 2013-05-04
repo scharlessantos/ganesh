@@ -3,7 +3,6 @@ package ganesh;
 
 import ganesh.common.exceptions.GException;
 import ganesh.common.i18n.GaneshI18n;
-import ganesh.db.Usuario;
 import ganesh.exception.ServerErrorCode;
 import ganesh.i18n.GMessages;
 import ganesh.i18n.Messages;
@@ -50,26 +49,6 @@ public class Ganesh {
 
 		registerPrograms();
 
-		try {
-			Hermes.info("Verificando Usuário root");
-			Usuario usuario = Usuario.getByUsername("root");
-
-			if (usuario == null) {
-				Hermes.info("Criando Usuário root");
-				usuario = new Usuario();
-				usuario.setCodigo("root");
-				usuario.setNome("Super Usuário");
-				usuario.setContato("root@ganesh");
-				usuario.setDocumento("GANESH");
-				usuario.setEndereco("R. India");
-				usuario.setSenha("123456");
-				usuario.setUsername("root");
-				usuario.save();
-			}
-
-		} catch (GException e) {
-			Hermes.error(e);
-		}
 	}
 
 	private void loadProperties() throws GException {

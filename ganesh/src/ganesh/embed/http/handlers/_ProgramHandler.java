@@ -1,10 +1,11 @@
 /* Ganesh Server, developed in 2013*/
+
 package ganesh.embed.http.handlers;
 
+import ganesh.Ganesh;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
 import ganesh.common.response.Message.ErrorMessage;
-import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.common.session.Session;
 import ganesh.common.session.SessionManager;
@@ -15,6 +16,7 @@ import ganesh.programs.ProgramManager.RequestType;
 import ganesh.programs.RequestHandler;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 import javax.servlet.ServletException;
@@ -35,11 +37,22 @@ public class _ProgramHandler implements _MyHandler {
 		Thread.currentThread().setName("Ganesh Program Thread");
 
 		Response resp = new Response(response);
-		Request req = new Request();
+		Request req = new Request() {
+
+			@Override
+			protected void write(PrintWriter wr) {
+
+			}
+
+			@Override
+			protected String getAction() {
+				return null;
+			}
+		};
 
 		try {
 			req.decode(request);
-			validateSession(req.getSession());
+			//validateSession(req.getSession());
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
@@ -53,7 +66,7 @@ public class _ProgramHandler implements _MyHandler {
 
 		String[] params = target.split("/");
 
-		if (params.length != 2) {
+		if (params.length < 2) {
 			Hermes.warn("Requisiçao " + target + " mal formada");
 			resp.setMessage(new ErrorMessage("Requisição mal formada"));
 		} else {
@@ -95,13 +108,37 @@ public class _ProgramHandler implements _MyHandler {
 							resp.setMessage(new ErrorMessage("Ação " + action + " não tratada em " + program.getClass().getName()));
 						} else {
 
-							//TODO: callMethod
-							resp.setMessage(new InformationMessage("A implementar"));
+							Class<?>[] mp = method.getParameterTypes();
+							if (mp != null && mp.length > 0) {
+								Object[] args = new Object[mp.length];
+
+								for (int i = 0; i < mp.length; i++) {
+									if (mp[i].equals(Request.class))
+										args[i] = req;
+									else if (mp[i].equals(Response.class))
+										args[i] = resp;
+									else if (mp[i].equals(Session.class))
+										args[i] = req.getSession();
+									else if (mp[i].equals(String.class)) {
+										String extra = "";
+										for (int j = 2; j < params.length; j++)
+											extra += params[j] + "/";
+
+										args[i] = extra;
+									} else
+										throw new GException(ServerErrorCode.INVALID_PARAM, Ganesh.getMessages()._naoEhUmParametroValido(mp[i].getSimpleName()));
+
+								}
+
+								method.invoke(program, args);
+							} else
+								method.invoke(program);
 						}
+
 					}
 
 				}
-			} catch (GException | RuntimeException e) {
+			} catch (Exception e) {
 				Hermes.error(e);
 				resp.setMessage(new ErrorMessage(e.getMessage()));
 			}

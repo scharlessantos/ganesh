@@ -29,6 +29,7 @@ public abstract class GaneshPage {
 	}
 
 	protected void addButton(GaneshButton button) {
+		button.setPage(this);
 		buttons.add(button);
 	}
 

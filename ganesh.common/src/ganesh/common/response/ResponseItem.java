@@ -4,4 +4,5 @@ package ganesh.common.response;
 public interface ResponseItem {
 
 	public String toXML();
+
 }

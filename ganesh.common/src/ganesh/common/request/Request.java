@@ -8,6 +8,7 @@ import ganesh.common.response.Response;
 import ganesh.common.session.Session;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -18,7 +19,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.scharlessantos.hermes.Hermes;
 
-public class Request {
+public abstract class Request {
 
 	public void decode(HttpServletRequest original) throws GException {
 		try {
@@ -35,11 +36,19 @@ public class Request {
 
 		Response resp = new Response();
 		try {
-			URL url = new URL("http", "poseidon", 8833, "/login");
+			String action = getAction();
+			if (action == null)
+				return null;
+
+			URL url = new URL("http", System.getProperty("ganesh.server.address", "localhost"), Integer.parseInt(System.getProperty("ganesh.server.port", "8833")), "/" + getAction());
 
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
 
 			connection.connect();
+
+			write(new PrintWriter(connection.getOutputStream()));
 
 			resp.decode(connection.getInputStream());
 
@@ -58,5 +67,14 @@ public class Request {
 	public Session getSession() {
 		return session;
 	}
+
+	public Request setSession(Session session) {
+		this.session = session;
+		return this;
+	}
+
+	protected abstract String getAction();
+
+	protected abstract void write(PrintWriter wr);
 
 }

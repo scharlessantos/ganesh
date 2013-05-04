@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
@@ -68,6 +70,20 @@ public class Response {
 								}
 								break;
 							default:
+								if (parents.size() > 2 && parents.get(2).equals("lists")) {
+									ResponseData data = new ResponseData();
+
+									@SuppressWarnings("unchecked")
+									Iterator<Attribute> attributes = se.getAttributes();
+									while (attributes.hasNext()) {
+										Attribute a = attributes.next();
+
+										data.put(a.getName().getLocalPart(), a.getValue());
+									}
+
+									addListItem(parents.get(1), data);
+								}
+
 								break;
 						}
 

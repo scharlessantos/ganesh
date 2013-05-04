@@ -2,6 +2,7 @@
 package ganesh.swing.ui;
 
 import ganesh.common.i18n.GString;
+import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.custom.RowNumberTable;
 import ganesh.swing.ui.images.Images.Icons;
 
@@ -19,6 +20,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
+import org.scharlessantos.hermes.Hermes;
 
 public abstract class GaneshListPage extends GaneshPage {
 
@@ -72,9 +75,9 @@ public abstract class GaneshListPage extends GaneshPage {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 
-		toolbar.add(new GaneshButton(null, "REFRESH", Icons.ARROW_REFRESH).setTooltip(GM.atualizar()).render());
-		toolbar.add(new GaneshButton(null, "REPORT_XLS", Icons.PAGE_EXCEL).setTooltip(GM.exportarComo_(GM.excel())).render());
-		toolbar.add(new GaneshButton(null, "REPORT_PDF", Icons.PAGE_WHITE_ACROBAT).setTooltip(GM.exportarComo_(GM.pdf())).render());
+		toolbar.add(new GaneshButton(null, "REFRESH", Icons.ARROW_REFRESH).setTooltip(GM.atualizar()).setPage(this).render());
+		toolbar.add(new GaneshButton(null, "REPORT_XLS", Icons.PAGE_EXCEL).setTooltip(GM.exportarComo_(GM.excel())).setPage(this).render());
+		toolbar.add(new GaneshButton(null, "REPORT_PDF", Icons.PAGE_WHITE_ACROBAT).setTooltip(GM.exportarComo_(GM.pdf())).setPage(this).render());
 
 		panel.add(toolbar, BorderLayout.SOUTH);
 
@@ -132,16 +135,55 @@ public abstract class GaneshListPage extends GaneshPage {
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 			table.setAutoCreateRowSorter(true);
+
 			table.setModel(model);
-			table.doLayout();
+
+			realLoadTableData(table);
 		}
 
 		return table;
 	}
 
+	protected final void realLoadTableData(JTable table) {
+		List<GaneshData> data = loadTableData();
+
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+
+		List<String> ordem = new ArrayList<>();
+
+		for (Column col: columns)
+			ordem.add(col.getField());
+
+		int t = model.getRowCount();
+		for (int i = 0; i < t; i++)
+			model.removeRow(0);
+
+		if (data != null)
+			for (GaneshData d: data) {
+				List<Object> row = new ArrayList<>();
+
+				for (String field: ordem)
+					row.add(d.get(field));
+
+				model.addRow(row.toArray());
+			}
+
+		table.doLayout();
+	}
+
+	protected List<GaneshData> loadTableData() {
+		Hermes.info("loadTableData nao implementado em " + getClass().getName());
+		return new ArrayList<>();
+	}
+
 	@Override
 	protected boolean isDetailEnabled() {
 		return getTable().getSelectedRowCount() > 0;
+	}
+
+	@ButtonHandler("REFRESH")
+	public void reloadData() {
+		realLoadTableData(getTable());
 	}
 
 	protected static class Column {

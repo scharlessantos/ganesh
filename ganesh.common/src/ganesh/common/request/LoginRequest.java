@@ -3,13 +3,9 @@ package ganesh.common.request;
 
 import ganesh.common.exceptions.CommonErrorCode;
 import ganesh.common.exceptions.GException;
-import ganesh.common.response.Message.ErrorMessage;
-import ganesh.common.response.Response;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
@@ -28,6 +24,14 @@ public class LoginRequest extends Request {
 	private String username = null;
 	private String password = null;
 	private Language lang = null;
+
+	public LoginRequest() {}
+
+	public LoginRequest(String usuario, String senha, Language lang) {
+		this.username = usuario;
+		this.password = senha;
+		this.lang = lang;
+	}
 
 	@Override
 	public void decode(HttpServletRequest original) throws GException {
@@ -74,40 +78,14 @@ public class LoginRequest extends Request {
 		}
 	}
 
-	public Response doRequest(String usuario, String senha, Language lang) {
-		this.username = usuario;
-		this.password = senha;
-		this.lang = lang;
+	@Override
+	protected void write(PrintWriter wr) {
+		wr.println("<?xml version='1.0' ?>");
+		wr.println("<request>");
+		wr.println("<login username='" + username + "' password='" + password + "' language='" + lang.toString() + "'/>");
+		wr.println("</request>");
+		wr.flush();
 
-		Response resp = new Response();
-		try {
-
-			URL url = new URL("http", System.getProperty("ganesh.server.address", "localhost"), Integer.parseInt(System.getProperty("ganesh.server.port", "8833")), "/login");
-
-			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setDoInput(true);
-			connection.setDoOutput(true);
-
-			connection.connect();
-
-			PrintWriter wr = new PrintWriter(connection.getOutputStream());
-
-			wr.println("<?xml version='1.0' ?>");
-			wr.println("<request>");
-			wr.println("<login username='" + usuario + "' password='" + senha + "' language='" + lang.toString() + "'/>");
-			wr.println("</request>");
-			wr.flush();
-
-			resp.decode(connection.getInputStream());
-
-			connection.disconnect();
-
-		} catch (GException | IOException e) {
-			Hermes.error(e);
-			resp.setMessage(new ErrorMessage(e.getMessage()));
-		}
-
-		return resp;
 	}
 
 	public String getUsername() {
@@ -123,8 +101,8 @@ public class LoginRequest extends Request {
 	}
 
 	@Override
-	public final Response doRequest() {
-		throw new RuntimeException("Não é possivel usar este método nesta requisição");
+	protected String getAction() {
+		return "login";
 	}
 
 }

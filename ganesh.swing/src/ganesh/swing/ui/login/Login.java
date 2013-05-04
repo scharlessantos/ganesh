@@ -130,8 +130,8 @@ public class Login extends GaneshFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			LoginRequest req = new LoginRequest();
-			Response resp = req.doRequest(txtUsuario.getText(), txtSenha.getText(), GaneshSwing.getLanguage());
+			LoginRequest req = new LoginRequest(txtUsuario.getText(), txtSenha.getText(), GaneshSwing.getLanguage());
+			Response resp = req.doRequest();
 
 			if (resp.getMessage() != null)
 				MessageHandler.show(resp.getMessage());

@@ -28,21 +28,24 @@ public class PrgGrupo extends GaneshProgram {
 	}
 
 	@RequestHandler(RequestType.LIST)
-	public void list(Request req, Response resp) {
+	public void list(Request req, Response resp, String extra) {
 		try {
-			List<Grupo> grupos = DB.list(Grupo.class);
+			if (extra == null || extra.isEmpty()) {
+				List<Grupo> grupos = DB.list(Grupo.class);
 
-			for (Grupo grupo: grupos)
-				resp.addListItem("grupos", grupo);
+				for (Grupo grupo: grupos)
+					resp.addListItem("grupos", grupo);
 
+			}
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
 		}
+
 	}
 
 	@RequestHandler(RequestType.SAVE)
-	public void save() {
+	public void save(Request req, Response resp, String o) {
 
 	}
 

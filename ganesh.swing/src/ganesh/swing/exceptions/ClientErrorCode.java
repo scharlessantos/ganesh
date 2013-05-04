@@ -13,7 +13,7 @@ public enum ClientErrorCode implements ErrorCode {
 
 	@Override
 	public String toString() {
-		return String.format("[CLI](GANESH-%03d)", ordinal());
+		return String.format("(GANESH-CLI-%03d)", ordinal());
 	};
 
 }
