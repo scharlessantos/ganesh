@@ -8,6 +8,7 @@ import ganesh.i18n.GMessages;
 import ganesh.i18n.Messages;
 import ganesh.programs.ProgramManager;
 import ganesh.programs.grupo.PrgGrupo;
+import ganesh.programs.nota.PrgNota;
 
 import java.io.File;
 import java.io.FileReader;
@@ -83,6 +84,7 @@ public class Ganesh {
 
 	private void registerPrograms() {
 		ProgramManager.registerProgram("grupo", PrgGrupo.class);
+		ProgramManager.registerProgram("nota", PrgNota.class);
 	}
 
 	public static Messages getMessages() {

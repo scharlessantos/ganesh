@@ -5,4 +5,7 @@ import ganesh.swing.ui.GaneshProgram;
 
 public class PrgNota extends GaneshProgram {
 
+	public PrgNota() {
+		setPage(new PgListNota());
+	}
 }

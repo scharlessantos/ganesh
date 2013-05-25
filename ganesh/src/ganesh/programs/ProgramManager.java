@@ -3,7 +3,6 @@ package ganesh.programs;
 
 import ganesh.common.exceptions.GException;
 import ganesh.exception.ServerErrorCode;
-import ganesh.programs.grupo.PrgGrupo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class ProgramManager {
 
 	}
 
-	public static void registerProgram(String name, Class<? extends PrgGrupo> program) {
+	public static void registerProgram(String name, Class<? extends GaneshProgram> program) {
 		synchronized (programs) {
 			if (!programs.containsKey(name))
 				programs.put(name, program);
