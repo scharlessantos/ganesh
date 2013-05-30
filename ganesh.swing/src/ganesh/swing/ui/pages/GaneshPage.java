@@ -53,35 +53,36 @@ public abstract class GaneshPage {
 			panel.add(toolbar, BorderLayout.PAGE_START);
 		}
 
-		if (details.size() > 0) {
-			panel.add(toJPanel());
+		if (isDetailEnabled())
+			if (details.size() > 0) {
+				panel.add(toJPanel());
 
-			JTabbedPane dpanel = new JTabbedPane() {
+				JTabbedPane dpanel = new JTabbedPane() {
 
-				/**
+					/**
 				 * 
 				 */
-				private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-				@Override
-				public boolean isEnabled() {
-					return isDetailEnabled();
-				}
+					@Override
+					public boolean isEnabled() {
+						return isDetailEnabled();
+					}
 
-			};
+				};
 
-			for (GaneshPage detail: this.details)
-				if (detail != null)
-					dpanel.addTab(detail.getTitle(), Icons.get(detail.getIcon()), detail.render());
+				for (GaneshPage detail: this.details)
+					if (detail != null)
+						dpanel.addTab(detail.getTitle(), Icons.get(detail.getIcon()), detail.render());
 
-			panel.add(dpanel, BorderLayout.SOUTH); //TODO tamanho
-		}
+				panel.add(dpanel, BorderLayout.SOUTH); //TODO tamanho
+			}
 
 		panel.add(toJPanel(), BorderLayout.CENTER);
 		return panel;
 	}
 
-	public abstract JPanel toJPanel();
+	protected abstract JPanel toJPanel();
 
 	protected abstract String getIcon();
 

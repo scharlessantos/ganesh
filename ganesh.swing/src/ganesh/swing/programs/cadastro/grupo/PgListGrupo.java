@@ -67,6 +67,11 @@ public class PgListGrupo extends GaneshListPage {
 		return data;
 	}
 
+	@ButtonHandler("GRP_NOVO")
+	public void adicionar() {
+		new PgDlgGrupo().renderize();
+	}
+
 	@ButtonHandler("GRP_DELETE")
 	public void delete(GaneshData selected) {
 		if (selected == null)

@@ -53,4 +53,10 @@ public interface GMessages {
 
 	GString pdf();
 
+	GString fechar();
+
+	GString salvar();
+
+	GString cancelar();
+
 }

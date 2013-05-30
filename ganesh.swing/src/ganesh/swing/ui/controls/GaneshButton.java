@@ -1,13 +1,15 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.ui.controls;
 
+import ganesh.common.exceptions.GException;
 import ganesh.common.i18n.GString;
+import ganesh.common.response.Message.ErrorMessage;
 import ganesh.swing.programs.GaneshData;
+import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.images.Images.Icons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,19 +77,22 @@ public class GaneshButton extends GaneshControl<JButton> {
 									params.add(page.getProgram().getData());
 							}
 
-							try {
-								method.invoke(page, params.toArray());
-							} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-								Hermes.error(e1);
-							}
+						}
 
+						try {
+							method.invoke(page, params.toArray());
+						} catch (Exception e1) {
+							Hermes.error(e1);
+
+							if (e1.getCause() != null && e1.getCause() instanceof GException)
+								MessageHandler.show(new ErrorMessage(e1.getCause().getMessage()));
 						}
 
 						return;
 					}
 				}
 
-			Hermes.info(action + " nao tratado em " + page.getTitle());
+			Hermes.info(String.format("Botão %s não tratado em %s: %s", action, page.getTitle(), page.getClass().getName()));
 		}
 	}
 }

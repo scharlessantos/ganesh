@@ -9,7 +9,18 @@ import javax.swing.JOptionPane;
 public class MessageHandler {
 
 	public static void show(Message message) {
-		JOptionPane.showMessageDialog(null, message.getMessage(), message.getTitle() == null ? GaneshSwing.getMessages().aviso() : message.getTitle(), getMessageType(message.getIcon()));
+		JOptionPane.showMessageDialog(null, message.getMessage(), message.getTitle() == null ? getTitle(message.getIcon()) : message.getTitle(), getMessageType(message.getIcon()));
+	}
+
+	private static String getTitle(short icon) {
+		switch (icon) {
+			case Message.ICON_ERROR:
+				return GaneshSwing.getMessages().erro();
+
+			default:
+				return GaneshSwing.getMessages().aviso();
+		}
+
 	}
 
 	private static int getMessageType(short icon) {

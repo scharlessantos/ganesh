@@ -65,4 +65,8 @@ public interface Messages {
 
 	String nota();
 
+	String erro();
+
+	String adicionar_(String oque);
+
 }
