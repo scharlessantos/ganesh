@@ -1,5 +1,5 @@
 /* Ganesh Swing Client, developed in 2013 */
-package ganesh.swing.ui;
+package ganesh.swing.ui.controls;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

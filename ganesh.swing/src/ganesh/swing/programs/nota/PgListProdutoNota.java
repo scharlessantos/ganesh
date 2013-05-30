@@ -7,9 +7,9 @@ import ganesh.common.response.Response;
 import ganesh.common.response.ResponseData;
 import ganesh.common.response.ResponseItem;
 import ganesh.swing.programs.GaneshData;
-import ganesh.swing.ui.GaneshButton;
-import ganesh.swing.ui.GaneshListPage;
+import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.images.Images.Icons;
+import ganesh.swing.ui.pages.GaneshListPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class PgListProdutoNota extends GaneshListPage {
 	}
 
 	@Override
-	protected String getTitle() {
+	public String getTitle() {
 		return "Produto";
 	}
 

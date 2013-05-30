@@ -2,9 +2,9 @@
 package ganesh.swing.programs.caminhao;
 
 import ganesh.swing.programs.GaneshData;
-import ganesh.swing.ui.GaneshButton;
-import ganesh.swing.ui.GaneshListPage;
+import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.images.Images.Icons;
+import ganesh.swing.ui.pages.GaneshListPage;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class PgListCaminhao extends GaneshListPage {
 	}
 
 	@Override
-	protected String getTitle() {
+	public String getTitle() {
 		return M.caminhao();
 	}
 

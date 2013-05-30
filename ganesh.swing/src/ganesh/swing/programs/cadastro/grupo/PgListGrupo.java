@@ -6,12 +6,13 @@ import ganesh.common.response.Message.WarningMessage;
 import ganesh.common.response.Response;
 import ganesh.common.response.ResponseData;
 import ganesh.common.response.ResponseItem;
+import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
-import ganesh.swing.ui.ButtonHandler;
-import ganesh.swing.ui.GaneshButton;
-import ganesh.swing.ui.GaneshListPage;
 import ganesh.swing.ui.MessageHandler;
+import ganesh.swing.ui.controls.ButtonHandler;
+import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.images.Images.Icons;
+import ganesh.swing.ui.pages.GaneshListPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class PgListGrupo extends GaneshListPage {
 		addButton(new GaneshButton(GM.editar(), "GRP_EDIT", Icons.GROUP_EDIT));
 		addButton(new GaneshButton(GM.excluir(), "GRP_DELETE", Icons.GROUP_DELETE));
 
-		addDetail(new PgListUsuarioDetail());
+		//addDetail(new PgListUsuarioDetail());
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class PgListGrupo extends GaneshListPage {
 	}
 
 	@Override
-	protected String getTitle() {
+	public String getTitle() {
 		return M.grupo();
 	}
 
@@ -43,7 +44,10 @@ public class PgListGrupo extends GaneshListPage {
 	protected List<GaneshData> loadTableData() {
 		List<GaneshData> data = new ArrayList<>();
 
-		Response resp = new ListRequest("grupo").doRequest();
+		ListRequest req = new ListRequest("grupo");
+		req.setSession(GaneshSwing.getSession());
+
+		Response resp = req.doRequest();
 
 		for (ResponseItem ri: resp.getList("grupos"))
 			if (ri instanceof ResponseData) {
@@ -56,6 +60,9 @@ public class PgListGrupo extends GaneshListPage {
 
 				data.add(d);
 			}
+
+		if (resp.getMessage() != null)
+			MessageHandler.show(resp.getMessage());
 
 		return data;
 	}

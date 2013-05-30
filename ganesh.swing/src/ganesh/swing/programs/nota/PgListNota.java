@@ -7,9 +7,9 @@ import ganesh.common.response.Response;
 import ganesh.common.response.ResponseData;
 import ganesh.common.response.ResponseItem;
 import ganesh.swing.programs.GaneshData;
-import ganesh.swing.ui.GaneshButton;
-import ganesh.swing.ui.GaneshListPage;
+import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.images.Images.Icons;
+import ganesh.swing.ui.pages.GaneshListPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class PgListNota extends GaneshListPage {
 		addButton(new GaneshButton(GM.excluir(), "ACT_EXCLUIR", Icons.SCRIPT_DELETE));
 		addButton(new GaneshButton(new GString("Emitir"), "ACT_EXCLUIR", Icons.SCRIPT_GEAR));
 
-		addDetail(new PgListProdutoNota());
+		//addDetail(new PgListProdutoNota());
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class PgListNota extends GaneshListPage {
 	}
 
 	@Override
-	protected String getTitle() {
+	public String getTitle() {
 		return M.nota();
 	}
 

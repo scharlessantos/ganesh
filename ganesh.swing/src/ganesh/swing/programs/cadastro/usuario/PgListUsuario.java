@@ -1,9 +1,9 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.programs.cadastro.usuario;
 
-import ganesh.swing.ui.GaneshButton;
-import ganesh.swing.ui.GaneshListPage;
+import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.images.Images.Icons;
+import ganesh.swing.ui.pages.GaneshListPage;
 
 public class PgListUsuario extends GaneshListPage {
 
@@ -26,7 +26,7 @@ public class PgListUsuario extends GaneshListPage {
 	}
 
 	@Override
-	protected String getTitle() {
+	public String getTitle() {
 		return M.usuario();
 	}
 

@@ -1,8 +1,10 @@
 /* Ganesh Swing Client, developed in 2013 */
-package ganesh.swing.ui;
+package ganesh.swing.ui.pages;
 
 import ganesh.common.i18n.GString;
 import ganesh.swing.programs.GaneshData;
+import ganesh.swing.ui.controls.ButtonHandler;
+import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.custom.RowNumberTable;
 import ganesh.swing.ui.images.Images.Icons;
 
@@ -195,9 +197,6 @@ public abstract class GaneshListPage extends GaneshPage {
 		private int width = 2;
 		private boolean filter = true;
 		private boolean order = true;
-		private boolean key = false;
-		private boolean description = false;
-		private boolean autoFilter = true;
 		private byte align = 8;
 
 		/**
@@ -299,39 +298,6 @@ public abstract class GaneshListPage extends GaneshPage {
 
 		public Column setFormat(String format) {
 			this.format = format;
-			return this;
-		}
-
-		/**
-		 * Usado somente construir lookups, é a chave de busca do lookup
-		 */
-		public boolean isKey() {
-			return key;
-		}
-
-		public Column setKey(boolean key) {
-			this.key = key;
-			return this;
-		}
-
-		/**
-		 * Usado construir lookups, é o campo descrição do lookup
-		 */
-		public boolean isDescription() {
-			return description;
-		}
-
-		public Column setDescription(boolean description) {
-			this.description = description;
-			return this;
-		}
-
-		public boolean isAutoFilter() {
-			return autoFilter;
-		}
-
-		public Column setAutoFilter(boolean autoFilter) {
-			this.autoFilter = autoFilter;
 			return this;
 		}
 

@@ -1,9 +1,11 @@
 /* Ganesh Swing Client, developed in 2013 */
-package ganesh.swing.ui;
+package ganesh.swing.ui.pages;
 
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.i18n.GMessages;
 import ganesh.swing.i18n.Messages;
+import ganesh.swing.ui.GaneshProgram;
+import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.images.Images.Icons;
 
 import java.awt.BorderLayout;
@@ -83,7 +85,7 @@ public abstract class GaneshPage {
 
 	protected abstract String getIcon();
 
-	protected abstract String getTitle();
+	public abstract String getTitle();
 
 	protected boolean isDetailEnabled() {
 		return false;

@@ -5,6 +5,7 @@ import ganesh.swing.GaneshSwing;
 import ganesh.swing.i18n.GMessages;
 import ganesh.swing.i18n.Messages;
 import ganesh.swing.programs.GaneshData;
+import ganesh.swing.ui.pages.GaneshPage;
 
 import javax.swing.JPanel;
 
