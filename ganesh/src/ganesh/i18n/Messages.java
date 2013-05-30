@@ -19,4 +19,6 @@ public interface Messages {
 
 	String _naoEhUmParametroValido(String simpleName);
 
+	String sessaoInvalida();
+
 }

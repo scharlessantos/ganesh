@@ -50,10 +50,9 @@ public class AccessControl {
 	public Session getSession(String uuid) {
 		synchronized (sessions) {
 			for (Session session: sessions.keySet())
-				if (session.getUuid().equals(uuid)) {
-					updateSession(session);
+				if (session.getUuid().equals(uuid))
 					return session;
-				}
+
 		}
 
 		return null;
@@ -61,7 +60,12 @@ public class AccessControl {
 
 	public void updateSession(Session session) {
 		synchronized (sessions) {
-			sessions.put(session, System.currentTimeMillis());
+			Session s = getSession(session.getUuid());
+
+			if (s == null)
+				sessions.put(session, System.currentTimeMillis());
+			else
+				s.update(session);
 		}
 	}
 

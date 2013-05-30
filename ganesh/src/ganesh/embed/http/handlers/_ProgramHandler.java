@@ -3,6 +3,7 @@
 package ganesh.embed.http.handlers;
 
 import ganesh.Ganesh;
+import ganesh.access.AccessControl;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
 import ganesh.common.response.Message.ErrorMessage;
@@ -52,7 +53,7 @@ public class _ProgramHandler implements _MyHandler {
 
 		try {
 			req.decode(request);
-			//validateSession(req.getSession());
+			validateSession(req.getSession());
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
@@ -151,7 +152,14 @@ public class _ProgramHandler implements _MyHandler {
 
 	private void validateSession(Session session) throws GException {
 		if (session == null)
-			throw new GException(ServerErrorCode.ACESSO_NEGADO, "Sessão inválida");
+			throw new GException(ServerErrorCode.ACESSO_NEGADO, Ganesh.getMessages().sessaoInvalida());
+
+		Session s = AccessControl.getInstance().getSession(session.getUuid());
+
+		if (s == null)
+			throw new GException(ServerErrorCode.ACESSO_NEGADO, Ganesh.getMessages().sessaoInvalida());
+
+		s.update(session);
 	}
 
 	private RequestType getRequestType(String action) {
