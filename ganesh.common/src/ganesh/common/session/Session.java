@@ -4,6 +4,7 @@ package ganesh.common.session;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.scharlessantos.atlas.Language;
 
@@ -50,6 +51,14 @@ public class Session implements Serializable {
 		return uuid;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Session)
+			return ((Session)other).getUuid().equals(uuid);
+
+		return false;
+	}
+
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
@@ -58,12 +67,24 @@ public class Session implements Serializable {
 		return new Session(this);
 	}
 
+	public void update(Session session) {
+		synchronized (this) {
+			for (Entry<String, String> e: session.properties.entrySet()) {
+				String s = properties.get(e.getKey());
+
+				if (s != null && !s.equals(e.getValue()))
+					properties.put(e.getKey(), e.getValue());
+			}
+		}
+	}
+
 	public String toXML() {
 		String xml = "<session uuid='" + uuid + "' language='" + language.toString() + "'>\n";
 
 		for (String key: properties.keySet())
-			xml += "\n<property key='" + key + "' value='" + properties.get(key) + "' />";
+			xml += "<property key='" + key + "' value='" + properties.get(key) + "' />\n";
 
-		return xml + "\n</session>";
+		return xml + "</session>";
 	}
+
 }

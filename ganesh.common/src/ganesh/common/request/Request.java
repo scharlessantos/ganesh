@@ -11,24 +11,75 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 
+import org.scharlessantos.atlas.Language;
 import org.scharlessantos.hermes.Hermes;
 
 public abstract class Request {
 
 	public void decode(HttpServletRequest original) throws GException {
 		try {
+
+			if (original.getInputStream() == null)
+				return;
+
 			XMLInputFactory factory = XMLInputFactory.newFactory();
 			XMLEventReader reader = factory.createXMLEventReader(original.getInputStream());
 
+			List<String> parents = new ArrayList<>();
+
+			while (reader.hasNext()) {
+
+				XMLEvent event = reader.nextEvent();
+
+				switch (event.getEventType()) {
+					case XMLEvent.START_ELEMENT:
+						StartElement se = event.asStartElement();
+						parents.add(0, se.getName().getLocalPart());
+
+						switch (parents.get(0)) {
+							case "session":
+								String uuid = "";
+								if (se.getAttributeByName(new QName("uuid")) != null)
+									uuid = se.getAttributeByName(new QName("uuid")).getValue();
+
+								Language lang = null;
+								if (se.getAttributeByName(new QName("language")) != null)
+									lang = Language.getByAcronym(se.getAttributeByName(new QName("language")).getValue());
+
+								session = new Session(uuid, lang);
+								break;
+							case "property":
+								if (parents.size() > 1 && parents.get(1).equals("session")) {
+									session.addProperty(se.getAttributeByName(new QName("key")).getValue(), se.getAttributeByName(new QName("value")).getValue());
+								}
+								break;
+							default:
+
+								break;
+						}
+
+						break;
+					case XMLEvent.END_ELEMENT:
+						parents.remove(0);
+						break;
+				}
+
+			}
+
 		} catch (XMLStreamException | IOException e) {
 			Hermes.error(e);
-			throw new GException(CommonErrorCode.XML_PARSE, e);
+			throw new GException(CommonErrorCode.XML_PARSE, "Bad Request");
 		}
 	}
 
@@ -48,7 +99,16 @@ public abstract class Request {
 
 			connection.connect();
 
-			write(new PrintWriter(connection.getOutputStream()));
+			PrintWriter wr = new PrintWriter(connection.getOutputStream());
+			wr.println("<?xml version='1.0' ?>");
+			wr.println("<request>");
+
+			if (getSession() != null)
+				wr.println(session.toXML());
+
+			write(wr);
+			wr.println("</request>");
+			wr.flush();
 
 			resp.decode(connection.getInputStream());
 

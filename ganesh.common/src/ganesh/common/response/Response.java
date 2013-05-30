@@ -97,7 +97,7 @@ public class Response {
 
 		} catch (XMLStreamException e) {
 			Hermes.error(e);
-			throw new GException(CommonErrorCode.XML_PARSE, "Response mal formada");
+			throw new GException(CommonErrorCode.XML_PARSE, "Bad Response");
 		}
 	}
 

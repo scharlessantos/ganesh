@@ -80,12 +80,7 @@ public class LoginRequest extends Request {
 
 	@Override
 	protected void write(PrintWriter wr) {
-		wr.println("<?xml version='1.0' ?>");
-		wr.println("<request>");
 		wr.println("<login username='" + username + "' password='" + password + "' language='" + lang.toString() + "'/>");
-		wr.println("</request>");
-		wr.flush();
-
 	}
 
 	public String getUsername() {
