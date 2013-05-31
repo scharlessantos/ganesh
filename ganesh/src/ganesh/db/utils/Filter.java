@@ -37,20 +37,21 @@ public class Filter {
 		String query = null;
 
 		if (field != null) {
+			String aliasField = field;
 
 			if (alias != null) {
 				String a = alias.getAlias(cls);
 
 				if (a != null)
-					field = a + "." + field;
+					aliasField = a + "." + aliasField;
 			}
 
 			if (value == null)
-				query = field + " is null";
+				query = aliasField + " is null";
 			else if (value instanceof String && type == FilterType.LIKE)
-				query = "upper(" + field + ") like '" + value.toString().toUpperCase() + "'";
+				query = "upper(" + aliasField + ") like '" + value.toString().toUpperCase() + "'";
 			else
-				query = field + type.getType() + "'" + value + "'";
+				query = aliasField + type.getType() + "'" + value + "'";
 		} else if (sql != null)
 			query = sql;
 
