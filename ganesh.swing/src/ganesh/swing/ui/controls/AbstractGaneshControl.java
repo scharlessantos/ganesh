@@ -9,11 +9,17 @@ import javax.swing.JComponent;
 public abstract class AbstractGaneshControl<G extends JComponent> {
 
 	protected AbstractGaneshPage page;
+	protected String name;
 	protected GString label;
 	protected GString tooltip;
 
-	public AbstractGaneshControl(GString label) {
+	public AbstractGaneshControl(String name, GString label) {
+		this.name = name;
 		this.label = label;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public GString getLabel() {
@@ -44,4 +50,10 @@ public abstract class AbstractGaneshControl<G extends JComponent> {
 	}
 
 	public abstract G render();
+
+	public abstract boolean isResponsible();
+
+	public Object get() {
+		return null;
+	}
 }

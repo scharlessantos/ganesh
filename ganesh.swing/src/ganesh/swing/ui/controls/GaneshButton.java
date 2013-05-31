@@ -28,7 +28,7 @@ public class GaneshButton extends AbstractGaneshControl<JButton> {
 	private String icon;
 
 	public GaneshButton(GString label, String action, String icon) {
-		super(label);
+		super("", label);
 
 		this.action = action;
 		this.icon = icon;
@@ -50,6 +50,11 @@ public class GaneshButton extends AbstractGaneshControl<JButton> {
 	public GaneshButton setIcon(String icon) {
 		this.icon = icon;
 		return this;
+	}
+
+	@Override
+	public boolean isResponsible() {
+		return false;
 	}
 
 	@Override
@@ -78,7 +83,7 @@ public class GaneshButton extends AbstractGaneshControl<JButton> {
 
 							for (Class<?> param: method.getParameterTypes()) {
 								if (param.equals(GaneshData.class))
-									params.add(page.getProgram().getData());
+									params.add(page.getData());
 							}
 
 						}

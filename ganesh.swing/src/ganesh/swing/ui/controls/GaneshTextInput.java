@@ -13,8 +13,8 @@ import javax.swing.JTextField;
 
 public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 
-	public GaneshTextInput(GString label) {
-		super(label);
+	public GaneshTextInput(String name, GString label) {
+		super(name, label);
 	}
 
 	private JTextField text;
@@ -31,7 +31,7 @@ public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 		c.insets = new Insets(7, 0, 3, 0);
 
 		JPanel panel = new JPanel(new GridBagLayout());
-		panel.add(new JLabel(label.toString()), c);
+		panel.add(new JLabel(label == null ? "" : label.toString()), c);
 
 		c.gridy = 1;
 		c.insets = new Insets(0, 0, 0, 0);
@@ -42,7 +42,13 @@ public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 		return panel;
 	}
 
-	public String getText() {
+	@Override
+	public boolean isResponsible() {
+		return true;
+	}
+
+	@Override
+	public Object get() {
 		if (text != null)
 			return text.getText();
 
