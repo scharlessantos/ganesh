@@ -69,7 +69,7 @@ public class PgListGrupo extends GaneshListPage {
 
 	@ButtonHandler("GRP_NOVO")
 	public void adicionar() {
-		new PgDlgGrupo().renderize();
+		new PgDlgGrupo(getProgram()).renderize();
 	}
 
 	@ButtonHandler("GRP_DELETE")
