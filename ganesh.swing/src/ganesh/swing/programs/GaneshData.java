@@ -145,7 +145,7 @@ public final class GaneshData implements XMLItem {
 		for (String key: mydata.keySet()) {
 			Object value = mydata.get(key);
 
-			sb.append(key);
+			sb.append(key.toLowerCase());
 			sb.append("='");
 
 			if (value instanceof List<?>)
