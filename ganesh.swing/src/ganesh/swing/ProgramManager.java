@@ -65,14 +65,14 @@ public class ProgramManager {
 
 		if (file.isDirectory())
 			for (File f: file.listFiles())
-				loadPrograms(f);
+				loadPrograms(f, "ganesh.swing.programs");
 
 	}
 
-	private static void loadPrograms(File file) {
+	private static void loadPrograms(File file, String folder) {
 		if (file.isFile() && (file.getName().startsWith("Prg") && file.getName().endsWith(".class"))) {
 			try {
-				Class<?> t = Class.forName("ganesh.programs." + file.getName().replace(".class", ""));
+				Class<?> t = Class.forName(folder + "." + file.getName().replace(".class", ""));
 
 				Class<?> s = t.getSuperclass();
 
@@ -86,12 +86,15 @@ public class ProgramManager {
 			}
 		} else if (file.isDirectory()) {
 			for (File f: file.listFiles())
-				loadPrograms(f);
+				loadPrograms(f, folder + "." + file.getName());
 		}
 
 	}
 
 	private static void registerProgram(ProgramDescriptor program) {
+		if (program == null)
+			return;
+
 		synchronized (programs) {
 			if (!programs.containsKey(program.getName())) {
 				programs.put(program.getName(), program);

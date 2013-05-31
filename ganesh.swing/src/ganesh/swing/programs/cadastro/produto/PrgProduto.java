@@ -8,7 +8,6 @@ public class PrgProduto extends GaneshProgram {
 
 	@Override
 	public ProgramDescriptor getProgramDescriptor() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
