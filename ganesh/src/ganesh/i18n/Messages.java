@@ -1,7 +1,6 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.i18n;
 
-
 /**
  * Interface para trauções diretas
  */
@@ -20,5 +19,13 @@ public interface Messages {
 	String _naoEhUmParametroValido(String simpleName);
 
 	String sessaoInvalida();
+
+	String codigo();
+
+	String _EhObrigatorio(String oque);
+
+	String produto();
+
+	String _jahCadastradoCom_IgualA_(String entidade, String field, String valor);
 
 }

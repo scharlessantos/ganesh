@@ -1,12 +1,16 @@
+#_EhObrigatorio(String)=
+#_jahCadastradoCom_IgualA_(String, String, String)=
 #_naoEhUmParametroValido(String)=
 #arquivoDeDadosExistePoremNaoEhUmDiretorio()=
 #bancoMaisNovoDoQueGaneshEspera()=
+#codigo()=
 erroAoAtualizarOBancoDeDados()=Error on update database scheme
 #erroAoInserir_(GString)=
 erroAoInserir_(String)=Error on insert %s
 #erroAoSalvar()=
 #grupos()=
 #naoFoiPossivelCriarODiretorioDeDados()=
+#produto()=
 #requisicaoInvalida()=
 #sessaoInvalida()=
 usuarioSenhaInvalido()=User or Password is invalid
