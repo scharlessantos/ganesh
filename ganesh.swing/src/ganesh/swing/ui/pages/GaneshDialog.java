@@ -3,8 +3,8 @@ package ganesh.swing.ui.pages;
 
 import ganesh.common.exceptions.GException;
 import ganesh.common.i18n.GString;
-import ganesh.swing.ui.controls.ButtonHandler;
 import ganesh.swing.ui.controls.GaneshButton;
+import ganesh.swing.ui.controls.GaneshButton.ButtonHandler;
 import ganesh.swing.ui.images.Images.Icons;
 
 import java.awt.BorderLayout;
@@ -16,7 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-public abstract class GaneshDialog extends GaneshPage {
+public abstract class GaneshDialog extends AbstractGaneshPage {
 
 	private boolean modal = true;
 	private int width = 450;
@@ -35,28 +35,38 @@ public abstract class GaneshDialog extends GaneshPage {
 		this.lblFechar = lblFechar;
 	}
 
+	private GaneshPage page;
+
+	protected void setPage(GaneshPage page) {
+		this.page = page;
+	}
+
+	@Override
 	public void renderize() {
 		dialog = new JDialog();
 		dialog.setModal(modal);
+		dialog.setResizable(false);
 		dialog.setTitle(getTitle());
+		dialog.setSize(width, heigth);
 
 		ImageIcon icon = Icons.get(getIcon());
 		if (icon != null)
 			dialog.setIconImage(icon.getImage());
 
-		dialog.setResizable(false);
-		dialog.setContentPane(toJPanel());
-		dialog.setSize(width, heigth);
+		dialog.add(toJPanel());
+		dialog.doLayout();
 
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	}
 
-	@Override
 	protected final JPanel toJPanel() {
 
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
+
+		if (page != null)
+			panel.add(page.render(), BorderLayout.CENTER);
 
 		JToolBar base = new JToolBar();
 		base.setFloatable(false);
@@ -74,7 +84,7 @@ public abstract class GaneshDialog extends GaneshPage {
 		base.add(cancelar.render());
 
 		panel.add(base, BorderLayout.SOUTH);
-
+		panel.doLayout();
 		return panel;
 	}
 

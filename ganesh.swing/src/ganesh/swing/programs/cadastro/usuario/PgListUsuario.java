@@ -21,7 +21,7 @@ public class PgListUsuario extends GaneshListPage {
 	}
 
 	@Override
-	protected String getIcon() {
+	public String getIcon() {
 		return Icons.USER;
 	}
 

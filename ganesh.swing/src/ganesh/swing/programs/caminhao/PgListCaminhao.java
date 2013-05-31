@@ -19,7 +19,7 @@ public class PgListCaminhao extends GaneshListPage {
 	}
 
 	@Override
-	protected String getIcon() {
+	public final String getIcon() {
 		return Icons.LORRY;
 	}
 

@@ -10,6 +10,10 @@ import ganesh.swing.ui.images.Images.Icons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +22,7 @@ import javax.swing.JButton;
 
 import org.scharlessantos.hermes.Hermes;
 
-public class GaneshButton extends GaneshControl<JButton> {
+public class GaneshButton extends AbstractGaneshControl<JButton> {
 
 	private String action;
 	private String icon;
@@ -94,5 +98,12 @@ public class GaneshButton extends GaneshControl<JButton> {
 
 			Hermes.info(String.format("Botão %s não tratado em %s: %s", action, page.getTitle(), page.getClass().getName()));
 		}
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ ElementType.METHOD })
+	public @interface ButtonHandler {
+
+		String value();
 	}
 }

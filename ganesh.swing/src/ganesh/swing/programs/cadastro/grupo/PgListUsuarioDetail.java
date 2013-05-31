@@ -13,7 +13,7 @@ public class PgListUsuarioDetail extends GaneshListPage {
 	}
 
 	@Override
-	protected String getIcon() {
+	public String getIcon() {
 		return Icons.USER;
 	}
 

@@ -26,7 +26,7 @@ public class PgListProdutoNota extends GaneshListPage {
 	}
 
 	@Override
-	protected String getIcon() {
+	public String getIcon() {
 		return Icons.PACKAGE;
 	}
 

@@ -3,8 +3,8 @@ package ganesh.swing.ui.pages;
 
 import ganesh.common.i18n.GString;
 import ganesh.swing.programs.GaneshData;
-import ganesh.swing.ui.controls.ButtonHandler;
 import ganesh.swing.ui.controls.GaneshButton;
+import ganesh.swing.ui.controls.GaneshButton.ButtonHandler;
 import ganesh.swing.ui.custom.RowNumberTable;
 import ganesh.swing.ui.images.Images.Icons;
 
@@ -68,9 +68,8 @@ public abstract class GaneshListPage extends GaneshPage {
 
 	@Override
 	public final JPanel toJPanel() {
-		JPanel panel = new JPanel();
+		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
-		panel.setLayout(new BorderLayout());
 
 		panel.add(getScrollTable(), BorderLayout.CENTER);
 

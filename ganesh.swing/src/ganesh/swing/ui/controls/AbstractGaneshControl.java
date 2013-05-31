@@ -2,17 +2,17 @@
 package ganesh.swing.ui.controls;
 
 import ganesh.common.i18n.GString;
-import ganesh.swing.ui.pages.GaneshPage;
+import ganesh.swing.ui.pages.AbstractGaneshPage;
 
 import javax.swing.JComponent;
 
-public abstract class GaneshControl<E extends JComponent> {
+public abstract class AbstractGaneshControl<G extends JComponent> {
 
-	protected GaneshPage page;
+	protected AbstractGaneshPage page;
 	protected GString label;
 	protected GString tooltip;
 
-	public GaneshControl(GString label) {
+	public AbstractGaneshControl(GString label) {
 		this.label = label;
 	}
 
@@ -20,16 +20,16 @@ public abstract class GaneshControl<E extends JComponent> {
 		return label;
 	}
 
-	public GaneshControl<E> setLabel(GString label) {
+	public AbstractGaneshControl<G> setLabel(GString label) {
 		this.label = label;
 		return this;
 	}
 
-	public GaneshPage getPages() {
+	public AbstractGaneshPage getPages() {
 		return page;
 	}
 
-	public GaneshControl<E> setPage(GaneshPage page) {
+	public AbstractGaneshControl<G> setPage(AbstractGaneshPage page) {
 		this.page = page;
 		return this;
 	}
@@ -38,11 +38,10 @@ public abstract class GaneshControl<E extends JComponent> {
 		return tooltip;
 	}
 
-	public GaneshControl<E> setTooltip(GString tooltip) {
+	public AbstractGaneshControl<G> setTooltip(GString tooltip) {
 		this.tooltip = tooltip;
 		return this;
 	}
 
-	public abstract E render();
-
+	public abstract G render();
 }

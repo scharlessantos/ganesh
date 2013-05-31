@@ -9,8 +9,8 @@ import ganesh.common.response.ResponseItem;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.MessageHandler;
-import ganesh.swing.ui.controls.ButtonHandler;
 import ganesh.swing.ui.controls.GaneshButton;
+import ganesh.swing.ui.controls.GaneshButton.ButtonHandler;
 import ganesh.swing.ui.images.Images.Icons;
 import ganesh.swing.ui.pages.GaneshListPage;
 
@@ -31,7 +31,7 @@ public class PgListGrupo extends GaneshListPage {
 	}
 
 	@Override
-	protected String getIcon() {
+	public String getIcon() {
 		return Icons.GROUP;
 	}
 

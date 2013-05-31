@@ -28,7 +28,7 @@ public class PgListNota extends GaneshListPage {
 	}
 
 	@Override
-	protected String getIcon() {
+	public String getIcon() {
 		return Icons.SCRIPT;
 	}
 
