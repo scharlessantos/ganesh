@@ -2,14 +2,6 @@
 package ganesh.swing;
 
 import ganesh.common.i18n.GaneshI18n;
-import ganesh.swing.ProgramManager.Menu;
-import ganesh.swing.ProgramManager.ProgramDescriptor;
-import ganesh.swing.i18n.GMessages;
-import ganesh.swing.programs.cadastro.grupo.PrgGrupo;
-import ganesh.swing.programs.cadastro.usuario.PrgUsuario;
-import ganesh.swing.programs.caminhao.PrgCaminhao;
-import ganesh.swing.programs.nota.PrgNota;
-import ganesh.swing.ui.images.Images.Icons;
 import ganesh.swing.ui.login.Login;
 import ganesh.swing.ui.main.GaneshMain;
 
@@ -86,12 +78,7 @@ public class Starter {
 
 		GaneshSwing.setLanguage(Language.PT_BR);
 
-		GMessages GM = GaneshSwing.getGMessages();
-
-		ProgramManager.registerProgram(new ProgramDescriptor("grupo", PrgGrupo.class, GM.grupo(), Menu.CADASTRO, Icons.GROUP));
-		ProgramManager.registerProgram(new ProgramDescriptor("usuario", PrgUsuario.class, GM.usuario(), Menu.CADASTRO, Icons.USER));
-		ProgramManager.registerProgram(new ProgramDescriptor("nota", PrgNota.class, GM.nota(), Menu.OPERACAO, Icons.SCRIPT));
-		ProgramManager.registerProgram(new ProgramDescriptor("caminhao", PrgCaminhao.class, GM.caminhao(), Menu.OPERACAO, Icons.LORRY));
+		ProgramManager.loadPrograms();
 
 		login();
 	}

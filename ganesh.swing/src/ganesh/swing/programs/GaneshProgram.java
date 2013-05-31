@@ -1,10 +1,9 @@
 /* Ganesh Swing Client, developed in 2013 */
-package ganesh.swing.ui;
+package ganesh.swing.programs;
 
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.i18n.GMessages;
 import ganesh.swing.i18n.Messages;
-import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.pages.GaneshPage;
 
 import javax.swing.JPanel;
@@ -35,4 +34,6 @@ public abstract class GaneshProgram {
 	public GaneshData getData() {
 		return null;
 	}
+
+	public abstract ProgramDescriptor getProgramDescriptor();
 }

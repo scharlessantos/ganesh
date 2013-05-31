@@ -6,8 +6,8 @@ import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.Starter;
 import ganesh.swing.ui.GaneshFrame;
-import ganesh.swing.ui.I18nButton;
 import ganesh.swing.ui.MessageHandler;
+import ganesh.swing.ui.controls.I18nButton;
 import ganesh.swing.ui.images.Images;
 
 import java.awt.event.ActionEvent;

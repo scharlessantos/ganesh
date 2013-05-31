@@ -4,7 +4,7 @@ package ganesh.swing.ui.pages;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.i18n.GMessages;
 import ganesh.swing.i18n.Messages;
-import ganesh.swing.ui.GaneshProgram;
+import ganesh.swing.programs.GaneshProgram;
 import ganesh.swing.ui.controls.GaneshButton;
 
 import java.util.ArrayList;

@@ -6,9 +6,11 @@ import ganesh.common.i18n.GString;
 import ganesh.common.i18n.GaneshI18n;
 import ganesh.swing.exceptions.ClientErrorCode;
 import ganesh.swing.i18n.GMessages;
-import ganesh.swing.ui.GaneshProgram;
+import ganesh.swing.programs.GaneshProgram;
+import ganesh.swing.programs.ProgramDescriptor;
 import ganesh.swing.ui.images.Images.Icons;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -58,7 +60,38 @@ public class ProgramManager {
 		}
 	}
 
-	public static void registerProgram(ProgramDescriptor program) {
+	public static void loadPrograms() {
+		File file = new File("bin/ganesh/swing/programs");
+
+		if (file.isDirectory())
+			for (File f: file.listFiles())
+				loadPrograms(f);
+
+	}
+
+	private static void loadPrograms(File file) {
+		if (file.isFile() && (file.getName().startsWith("Prg") && file.getName().endsWith(".class"))) {
+			try {
+				Class<?> t = Class.forName("ganesh.programs." + file.getName().replace(".class", ""));
+
+				Class<?> s = t.getSuperclass();
+
+				if (s != null && s.equals(GaneshProgram.class)) {
+					GaneshProgram p = (GaneshProgram)t.newInstance();
+					registerProgram(p.getProgramDescriptor());
+				}
+
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+				Hermes.error(e);
+			}
+		} else if (file.isDirectory()) {
+			for (File f: file.listFiles())
+				loadPrograms(f);
+		}
+
+	}
+
+	private static void registerProgram(ProgramDescriptor program) {
 		synchronized (programs) {
 			if (!programs.containsKey(program.getName())) {
 				programs.put(program.getName(), program);
@@ -90,44 +123,6 @@ public class ProgramManager {
 
 			return program.getIcon();
 		}
-	}
-
-	public static class ProgramDescriptor {
-
-		private String name;
-		private Class<? extends GaneshProgram> program;
-		private GString title;
-		private Menu menu;
-		private String icon;
-
-		public ProgramDescriptor(String name, Class<? extends GaneshProgram> program, GString title, Menu menu, String icon) {
-			this.name = name;
-			this.program = program;
-			this.title = title;
-			this.menu = menu;
-			this.icon = icon;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public Class<? extends GaneshProgram> getProgram() {
-			return program;
-		}
-
-		public GString getTitle() {
-			return title;
-		}
-
-		public Menu getMenu() {
-			return menu;
-		}
-
-		public String getIcon() {
-			return icon;
-		}
-
 	}
 
 	private static GMessages GM = GaneshI18n.genI18nClass(GMessages.class);
