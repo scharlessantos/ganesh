@@ -29,6 +29,10 @@ public class Embalagem extends AbstractDBEntity {
 		idProduto = produto.getIdProduto();
 	}
 
+	public Long getIdProduto() {
+		return idProduto;
+	}
+
 	public Long getIdEmbalagem() {
 		return idEmbalagem;
 	}

@@ -1,9 +1,12 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import ganesh.common.exceptions.GException;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
 import ganesh.db.annotations.Property;
+import ganesh.db.utils.Filter;
+import ganesh.db.utils.Filter.FilterType;
 
 @Entity("produto")
 public class Produto extends AbstractDBEntity {
@@ -79,4 +82,10 @@ public class Produto extends AbstractDBEntity {
 		}
 	}
 
+	public static Produto getById(Long id) throws GException {
+		if (id == null)
+			return null;
+
+		return DB.first(Produto.class, new Filter(Produto.class, "id_produto", id, FilterType.EQUALS));
+	}
 }
