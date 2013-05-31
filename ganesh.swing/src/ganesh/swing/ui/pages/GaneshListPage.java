@@ -27,6 +27,8 @@ import org.scharlessantos.hermes.Hermes;
 
 public abstract class GaneshListPage extends GaneshPage {
 
+	public static final String SELECTED_ROWS = "$SELECTED_ROWS";
+
 	private List<Column> columns = new ArrayList<>();
 	private boolean multi = false;
 
@@ -77,8 +79,8 @@ public abstract class GaneshListPage extends GaneshPage {
 		toolbar.setFloatable(false);
 
 		toolbar.add(new GaneshButton(null, "REFRESH", Icons.ARROW_REFRESH).setTooltip(GM.atualizar()).setPage(this).render());
-		toolbar.add(new GaneshButton(null, "REPORT_XLS", Icons.PAGE_EXCEL).setTooltip(GM.exportarComo_(GM.excel())).setPage(this).render());
-		toolbar.add(new GaneshButton(null, "REPORT_PDF", Icons.PAGE_WHITE_ACROBAT).setTooltip(GM.exportarComo_(GM.pdf())).setPage(this).render());
+		//		toolbar.add(new GaneshButton(null, "REPORT_XLS", Icons.PAGE_EXCEL).setTooltip(GM.exportarComo_(GM.excel())).setPage(this).render());
+		//		toolbar.add(new GaneshButton(null, "REPORT_PDF", Icons.PAGE_WHITE_ACROBAT).setTooltip(GM.exportarComo_(GM.pdf())).setPage(this).render());
 
 		panel.add(toolbar, BorderLayout.SOUTH);
 
@@ -145,6 +147,27 @@ public abstract class GaneshListPage extends GaneshPage {
 		return table;
 	}
 
+	@Override
+	public GaneshData getData() {
+		JTable table = getTable();
+
+		GaneshData data = new GaneshData();
+
+		int column = columns.size();
+		if (table.getSelectedRowCount() == 1) {
+			data = (GaneshData)table.getModel().getValueAt(table.getSelectedRow(), column);
+		} else if (table.getSelectedRowCount() > 1) {
+			List<GaneshData> list = new ArrayList<>();
+
+			for (int r: table.getSelectedRows())
+				list.add((GaneshData)table.getModel().getValueAt(r, column));
+
+			data.setGaneshDataList(SELECTED_ROWS, list);
+		}
+
+		return data;
+	}
+
 	protected final void realLoadTableData(JTable table) {
 		List<GaneshData> data = loadTableData();
 
@@ -166,8 +189,13 @@ public abstract class GaneshListPage extends GaneshPage {
 				for (String field: ordem)
 					row.add(d.get(field));
 
+				row.add(d);
+
 				model.addRow(row.toArray());
 			}
+
+		if (model.getRowCount() > 0)
+			System.out.println(model.getValueAt(0, ordem.size()));
 
 		table.doLayout();
 	}
@@ -175,11 +203,6 @@ public abstract class GaneshListPage extends GaneshPage {
 	protected List<GaneshData> loadTableData() {
 		Hermes.info("loadTableData nao implementado em " + getClass().getName());
 		return new ArrayList<>();
-	}
-
-	@Override
-	protected boolean isDetailEnabled() {
-		return getTable().getSelectedRowCount() > 0;
 	}
 
 	@ButtonHandler("REFRESH")

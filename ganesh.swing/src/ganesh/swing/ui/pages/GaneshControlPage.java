@@ -1,6 +1,7 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.ui.pages;
 
+import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.controls.AbstractGaneshControl;
 
 import java.awt.GridBagConstraints;
@@ -42,7 +43,7 @@ public abstract class GaneshControlPage extends GaneshPage {
 				c.gridx = 0;
 				c.gridy = i;
 
-				c.insets = new Insets(7, 0, 0, 0);
+				c.insets = new Insets(7, 10, 0, 10);
 
 				panel.add(component, c);
 
@@ -53,4 +54,14 @@ public abstract class GaneshControlPage extends GaneshPage {
 		return panel;
 	}
 
+	@Override
+	public GaneshData getData() {
+		GaneshData data = new GaneshData();
+
+		for (AbstractGaneshControl<? extends JComponent> control: controls)
+			if (control.isResponsible())
+				data.setObject(control.getName(), control.get());
+
+		return data;
+	}
 }

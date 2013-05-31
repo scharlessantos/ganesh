@@ -4,6 +4,7 @@ package ganesh.swing.ui.pages;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.i18n.GMessages;
 import ganesh.swing.i18n.Messages;
+import ganesh.swing.programs.GaneshData;
 import ganesh.swing.programs.GaneshProgram;
 import ganesh.swing.ui.controls.GaneshButton;
 
@@ -35,10 +36,13 @@ public abstract class AbstractGaneshPage {
 		return program;
 	}
 
-	public void setProgram(GaneshProgram program) {
+	public AbstractGaneshPage setProgram(GaneshProgram program) {
 		this.program = program;
+		return this;
 	}
 
 	public abstract void renderize();
+
+	public abstract GaneshData getData();
 
 }
