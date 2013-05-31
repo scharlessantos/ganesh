@@ -1,6 +1,7 @@
 /* Ganesh Commons, developed in 2013 */
 package ganesh.common.request;
 
+import ganesh.common.XMLData;
 import ganesh.common.exceptions.CommonErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.common.response.Message.ErrorMessage;
@@ -12,6 +13,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
@@ -48,6 +51,9 @@ public abstract class Request {
 						parents.add(0, se.getName().getLocalPart());
 
 						switch (parents.get(0)) {
+							case "request":
+								break;
+
 							case "session":
 								String uuid = "";
 								if (se.getAttributeByName(new QName("uuid")) != null)
@@ -66,6 +72,27 @@ public abstract class Request {
 								break;
 							default:
 
+								XMLData data = new XMLData();
+
+								@SuppressWarnings("unchecked")
+								Iterator<Attribute> attributes = se.getAttributes();
+								while (attributes.hasNext()) {
+									Attribute a = attributes.next();
+
+									data.put(a.getName().getLocalPart(), a.getValue());
+								}
+
+								if (parents.size() > 2 && items.size() > 0) {
+									XMLData d = items.get(0);
+
+									if (d == null)
+										items.add(d);
+									else
+										d.add(parents.get(1), data);
+
+								} else
+									items.add(0, data);
+
 								break;
 						}
 
@@ -81,6 +108,12 @@ public abstract class Request {
 			Hermes.error(e);
 			throw new GException(CommonErrorCode.XML_PARSE, "Bad Request");
 		}
+	}
+
+	private List<XMLData> items = new ArrayList<>();
+
+	public List<XMLData> listItems() {
+		return new ArrayList<>(items);
 	}
 
 	public Response doRequest() {
