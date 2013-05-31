@@ -2,6 +2,7 @@
 package ganesh.swing.programs;
 
 import ganesh.common.exceptions.GRuntimeException;
+import ganesh.common.request.RequestItem;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.exceptions.ClientErrorCode;
 import ganesh.swing.i18n.Messages;
@@ -10,14 +11,15 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public final class GaneshData {
+public final class GaneshData implements RequestItem {
 
 	private Messages M = GaneshSwing.getMessages();
 
 	private HashMap<String, Object> mydata = new HashMap<>();
 
-	private void setObject(String key, Object value) {
+	public void setObject(String key, Object value) {
 		if (key == null)
 			throw new GRuntimeException(ClientErrorCode.INVALID_DATA_SET, M.chaveInvalida());
 
@@ -112,5 +114,65 @@ public final class GaneshData {
 
 		return null;
 
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder data = new StringBuilder();
+
+		data.append("GaneshData[");
+
+		for (String key: mydata.keySet()) {
+			data.append(key);
+			data.append("=");
+			data.append(mydata.get(key));
+			data.append("; ");
+		}
+
+		data.append("]");
+
+		return data.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String toXML(String name) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<");
+
+		Map<String, List<GaneshData>> subs = new HashMap<>();
+
+		for (String key: mydata.keySet()) {
+			Object value = mydata.get(key);
+
+			sb.append(key);
+			sb.append("='");
+
+			if (value instanceof List<?>)
+				subs.put(key, (List<GaneshData>)value);
+			else
+				sb.append(value);
+
+			sb.append("' ");
+		}
+
+		if (subs.isEmpty())
+			sb.append(" />");
+		else {
+			sb.append(" >\n");
+
+			for (String key: subs.keySet())
+				for (GaneshData d: subs.get(key)) {
+					sb.append(d.toXML(key));
+					sb.append("\n");
+				}
+
+			sb.append("</ ");
+			sb.append(name);
+			sb.append(">");
+
+		}
+
+		return sb.toString();
 	}
 }

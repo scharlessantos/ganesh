@@ -32,7 +32,11 @@ public abstract class GaneshProgram {
 	}
 
 	public GaneshData getData() {
-		return null;
+		if (page == null)
+			return null;
+
+		return page.getData();
+
 	}
 
 	public abstract ProgramDescriptor getProgramDescriptor();
