@@ -11,11 +11,12 @@ public class GaneshBooleanInput extends AbstractGaneshControl<JCheckBox> {
 		super(name, label);
 	}
 
-	private JCheckBox check;
+	private JCheckBox check = new JCheckBox();
 
 	@Override
 	public JCheckBox render() {
-		return check = new JCheckBox(label == null ? "" : label.toString());
+		check.setText(label == null ? "" : label.toString());
+		return check;
 	}
 
 	@Override
@@ -25,9 +26,15 @@ public class GaneshBooleanInput extends AbstractGaneshControl<JCheckBox> {
 
 	@Override
 	public Object get() {
-		if (check != null)
-			return check.isSelected();
+		return check.isSelected();
+	}
 
-		return null;
+	@Override
+	public void set(Object set) {
+		if (set instanceof Boolean) {
+			check.setSelected((Boolean)set);
+
+		} else
+			super.set(set);
 	}
 }

@@ -17,11 +17,10 @@ public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 		super(name, label);
 	}
 
-	private JTextField text;
+	private JTextField text = new JTextField();
 
 	@Override
 	public JPanel render() {
-		text = new JTextField(5);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -49,9 +48,15 @@ public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 
 	@Override
 	public Object get() {
-		if (text != null)
-			return text.getText();
+		return text.getText();
+	}
 
-		return null;
+	@Override
+	public void set(Object set) {
+		if (set != null) {
+			text.setText(set.toString());
+
+		} else
+			super.set(set);
 	}
 }

@@ -65,4 +65,15 @@ public abstract class GaneshControlPage extends GaneshPage {
 
 		return data;
 	}
+
+	@Override
+	public void setData(GaneshData data) {
+		super.setData(data);
+
+		if (data != null)
+			for (AbstractGaneshControl<? extends JComponent> control: controls)
+				if (control.isResponsible())
+					control.set(data.get(control.getName()));
+
+	}
 }

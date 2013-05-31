@@ -56,4 +56,6 @@ public abstract class AbstractGaneshControl<G extends JComponent> {
 	public Object get() {
 		return null;
 	}
+
+	public void set(Object set) {}
 }
