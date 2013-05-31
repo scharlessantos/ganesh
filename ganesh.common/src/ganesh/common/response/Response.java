@@ -52,6 +52,9 @@ public class Response {
 						parents.add(0, se.getName().getLocalPart());
 
 						switch (parents.get(0)) {
+							case "response":
+								break;
+
 							case "message":
 								message = new Message(se.getAttributeByName(new QName("message")).getValue(), new Short(se.getAttributeByName(new QName("icon")).getValue()).shortValue(), new Short(se.getAttributeByName(new QName("icon")).getValue()).shortValue());
 								break;
@@ -72,18 +75,21 @@ public class Response {
 								}
 								break;
 							default:
+
+								XMLData data = new XMLData();
+
+								@SuppressWarnings("unchecked")
+								Iterator<Attribute> attributes = se.getAttributes();
+								while (attributes.hasNext()) {
+									Attribute a = attributes.next();
+
+									data.put(a.getName().getLocalPart(), a.getValue());
+								}
+
 								if (parents.size() > 2 && parents.get(2).equals("lists")) {
-									XMLData data = new XMLData();
-
-									@SuppressWarnings("unchecked")
-									Iterator<Attribute> attributes = se.getAttributes();
-									while (attributes.hasNext()) {
-										Attribute a = attributes.next();
-
-										data.put(a.getName().getLocalPart(), a.getValue());
-									}
-
 									addListItem(parents.get(1), data);
+								} else {
+									addListItem("list", data);
 								}
 
 								break;
