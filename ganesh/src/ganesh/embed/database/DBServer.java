@@ -3,7 +3,6 @@ package ganesh.embed.database;
 
 import ganesh.Ganesh;
 import ganesh.common.exceptions.GException;
-import ganesh.db.Grupo;
 import ganesh.db.Usuario;
 import ganesh.exception.ServerErrorCode;
 import ganesh.i18n.GMessages;
@@ -59,10 +58,6 @@ public class DBServer {
 				usuario.setUsername("root");
 				usuario.save();
 
-				Grupo g = new Grupo();
-				g.setCodigo("G001");
-				g.setNome("Grupo de Teste 1");
-				g.save();
 			}
 
 		} catch (GException e) {
@@ -177,7 +172,7 @@ public class DBServer {
 	/**
 	 * Versão do banco de dados, a cada atualização do Banco de Dados, ou seja, mudanças na estrutura, criar script de update e incrementar 1 aqui
 	 */
-	private final short dbver = 3;
+	private final int dbver = new File("bin/ganesh/embed/database/maintenance").list().length;
 
 	private int validateDBVer(Connection conn, String module) throws GException {
 
