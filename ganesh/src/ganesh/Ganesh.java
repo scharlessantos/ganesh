@@ -7,8 +7,6 @@ import ganesh.exception.ServerErrorCode;
 import ganesh.i18n.GMessages;
 import ganesh.i18n.Messages;
 import ganesh.programs.ProgramManager;
-import ganesh.programs.grupo.PrgGrupo;
-import ganesh.programs.nota.PrgNota;
 
 import java.io.File;
 import java.io.FileReader;
@@ -48,8 +46,7 @@ public class Ganesh {
 		GaneshI18n.loadTranslations(Language.PT_BR, Starter.class.getResourceAsStream("i18n/translations/messages.pt_BR.trd"));
 		GaneshI18n.loadTranslations(Language.EN_US, Starter.class.getResourceAsStream("i18n/translations/messages.en_US.trd"));
 
-		registerPrograms();
-
+		ProgramManager.loadPrograms();
 	}
 
 	private void loadProperties() throws GException {
@@ -80,11 +77,6 @@ public class Ganesh {
 
 			throw new GException(ServerErrorCode.LOAD_CONFIG);
 		}
-	}
-
-	private void registerPrograms() {
-		ProgramManager.registerProgram("grupo", PrgGrupo.class);
-		ProgramManager.registerProgram("nota", PrgNota.class);
 	}
 
 	public static Messages getMessages() {
