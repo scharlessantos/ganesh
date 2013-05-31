@@ -107,7 +107,7 @@ public abstract class Request {
 				wr.println(session.toXML());
 
 			write(wr);
-			wr.println("</request>");
+			wr.println("\n</request>");
 			wr.flush();
 
 			resp.decode(connection.getInputStream());

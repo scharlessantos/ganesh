@@ -1,6 +1,7 @@
 /* Ganesh Commons, developed in 2013 */
 package ganesh.common.response;
 
+import ganesh.common.XMLItem;
 import ganesh.common.exceptions.CommonErrorCode;
 import ganesh.common.exceptions.GException;
 import ganesh.common.session.Session;
@@ -150,7 +151,7 @@ public class Response {
 			for (String name: lists.keySet()) {
 				wr.println("<" + name + ">");
 
-				for (ResponseItem item: lists.get(name))
+				for (XMLItem item: lists.get(name))
 					wr.println(item.toXML());
 
 				wr.println("</" + name + ">");
@@ -161,20 +162,20 @@ public class Response {
 		wr.println("</response>");
 	}
 
-	Map<String, List<ResponseItem>> lists = new HashMap<String, List<ResponseItem>>();
+	Map<String, List<XMLItem>> lists = new HashMap<String, List<XMLItem>>();
 
 	public void addListItem(String name) {
 		if (!lists.containsKey(name)) {
-			lists.put(name, new ArrayList<ResponseItem>());
+			lists.put(name, new ArrayList<XMLItem>());
 		}
 	}
 
-	public void addListItem(String name, ResponseItem item) {
+	public void addListItem(String name, XMLItem item) {
 		addListItem(name);
 		lists.get(name).add(item);
 	}
 
-	public List<ResponseItem> getList(String name) {
+	public List<XMLItem> getList(String name) {
 		addListItem(name);
 		return new ArrayList<>(lists.get(name));
 

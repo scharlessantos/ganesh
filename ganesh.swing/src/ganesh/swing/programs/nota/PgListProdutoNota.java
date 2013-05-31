@@ -1,11 +1,11 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.programs.nota;
 
+import ganesh.common.XMLItem;
 import ganesh.common.i18n.GString;
 import ganesh.common.request.ListRequest;
 import ganesh.common.response.Response;
 import ganesh.common.response.ResponseData;
-import ganesh.common.response.ResponseItem;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.images.Images.Icons;
@@ -41,7 +41,7 @@ public class PgListProdutoNota extends GaneshListPage {
 
 		Response resp = new ListRequest("nota", "produto").doRequest();
 
-		for (ResponseItem ri: resp.getList("produtos"))
+		for (XMLItem ri: resp.getList("produtos"))
 			if (ri instanceof ResponseData) {
 				GaneshData d = new GaneshData();
 

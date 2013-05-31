@@ -1,10 +1,10 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.programs.cadastro.produto;
 
+import ganesh.common.XMLItem;
 import ganesh.common.request.ListRequest;
 import ganesh.common.response.Response;
 import ganesh.common.response.ResponseData;
-import ganesh.common.response.ResponseItem;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.MessageHandler;
@@ -48,7 +48,7 @@ public class PgListProduto extends GaneshListPage {
 
 		Response resp = req.doRequest();
 
-		for (ResponseItem ri: resp.getList("produtos"))
+		for (XMLItem ri: resp.getList("produtos"))
 			if (ri instanceof ResponseData) {
 				GaneshData d = new GaneshData();
 

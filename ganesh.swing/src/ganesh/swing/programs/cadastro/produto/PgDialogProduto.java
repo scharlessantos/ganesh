@@ -1,8 +1,13 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.programs.cadastro.produto;
 
+import ganesh.common.exceptions.GException;
+import ganesh.common.request.UpdateRequest;
+import ganesh.common.response.Message.ErrorMessage;
+import ganesh.common.response.Response;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.programs.GaneshProgram;
+import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.controls.GaneshBooleanInput;
 import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.controls.GaneshButton.ButtonHandler;
@@ -54,7 +59,19 @@ public class PgDialogProduto extends GaneshDialog {
 
 	@ButtonHandler("SALVAR")
 	public void onSalvar(GaneshData data) {
-		System.err.println();
+		UpdateRequest req = new UpdateRequest("produto");
+		req.addItem(data);
+
+		Response resp = req.doRequest();
+
+		if (resp.getMessage() != null)
+			MessageHandler.show(resp.getMessage());
+		else
+			try {
+				close();
+			} catch (GException e) {
+				MessageHandler.show(new ErrorMessage(e.getMessage()));
+			}
 	}
 
 }

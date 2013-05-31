@@ -1,8 +1,8 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.programs;
 
+import ganesh.common.XMLItem;
 import ganesh.common.exceptions.GRuntimeException;
-import ganesh.common.request.RequestItem;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.exceptions.ClientErrorCode;
 import ganesh.swing.i18n.Messages;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class GaneshData implements RequestItem {
+public final class GaneshData implements XMLItem {
 
 	private Messages M = GaneshSwing.getMessages();
 
@@ -136,9 +136,9 @@ public final class GaneshData implements RequestItem {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String toXML(String name) {
+	public String toXML() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<");
+		sb.append("<data ");
 
 		Map<String, List<GaneshData>> subs = new HashMap<>();
 
@@ -163,14 +163,11 @@ public final class GaneshData implements RequestItem {
 
 			for (String key: subs.keySet())
 				for (GaneshData d: subs.get(key)) {
-					sb.append(d.toXML(key));
+					sb.append(d.toXML());
 					sb.append("\n");
 				}
 
-			sb.append("</ ");
-			sb.append(name);
-			sb.append(">");
-
+			sb.append("</ data>");
 		}
 
 		return sb.toString();

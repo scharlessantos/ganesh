@@ -1,9 +1,9 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.programs;
 
+import ganesh.common.XMLItem;
 import ganesh.common.request.Request;
 import ganesh.common.response.Response;
-import ganesh.common.response.ResponseItem;
 import ganesh.programs.ProgramManager.RequestType;
 
 public class PrgNota extends GaneshProgram {
@@ -28,7 +28,7 @@ public class PrgNota extends GaneshProgram {
 
 	}
 
-	private static class FakeNota implements ResponseItem {
+	private static class FakeNota implements XMLItem {
 
 		private String codigo = "";
 		private String cliente = "";
@@ -45,7 +45,7 @@ public class PrgNota extends GaneshProgram {
 
 	}
 
-	private static class FakeProduto implements ResponseItem {
+	private static class FakeProduto implements XMLItem {
 
 		private String codigo = "";
 		private String nome = "";

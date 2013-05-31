@@ -1,12 +1,13 @@
 /* Ganesh Commons, developed in 2013 */
 package ganesh.common.response;
 
+import ganesh.common.XMLItem;
 import ganesh.common.exceptions.CommonErrorCode;
 import ganesh.common.exceptions.GRuntimeException;
 
 import java.util.HashMap;
 
-public class ResponseData extends HashMap<String, String> implements ResponseItem {
+public class ResponseData extends HashMap<String, String> implements XMLItem {
 
 	/**
 	 * 

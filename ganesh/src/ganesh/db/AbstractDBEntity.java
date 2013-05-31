@@ -2,8 +2,8 @@
 package ganesh.db;
 
 import ganesh.Ganesh;
+import ganesh.common.XMLItem;
 import ganesh.common.exceptions.GException;
-import ganesh.common.response.ResponseItem;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
 import ganesh.db.annotations.Property;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.scharlessantos.hermes.Hermes;
 
-public abstract class AbstractDBEntity implements ResponseItem {
+public abstract class AbstractDBEntity implements XMLItem {
 
 	protected static final Messages M = Ganesh.getMessages();
 
