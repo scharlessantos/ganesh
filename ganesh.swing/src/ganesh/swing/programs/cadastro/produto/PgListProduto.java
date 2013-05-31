@@ -56,8 +56,8 @@ public class PgListProduto extends GaneshListPage {
 				for (String key: rd.keySet()) {
 					if (key.equalsIgnoreCase("pesavel"))
 						d.setString("PESAVEL_TRATADO", rd.get(key).equalsIgnoreCase("true") ? M.sim() : M.nao());
-					else
-						d.setString(key.toUpperCase(), rd.get(key));
+
+					d.setString(key.toUpperCase(), rd.get(key));
 				}
 
 				data.add(d);
