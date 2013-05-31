@@ -69,4 +69,6 @@ public interface Messages {
 
 	String adicionar_(String oque);
 
+	String produto();
+
 }

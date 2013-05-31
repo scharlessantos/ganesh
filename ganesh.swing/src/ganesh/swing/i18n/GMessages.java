@@ -59,4 +59,10 @@ public interface GMessages {
 
 	GString cancelar();
 
+	GString produto();
+
+	GString complemento();
+
+	GString pesavel();
+
 }
