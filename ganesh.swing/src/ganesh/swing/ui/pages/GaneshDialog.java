@@ -116,4 +116,12 @@ public abstract class GaneshDialog extends AbstractGaneshPage {
 
 		return page.getData();
 	}
+
+	@Override
+	public void setData(GaneshData data) {
+		if (page != null)
+			page.setData(data);
+
+		super.setData(data);
+	}
 }

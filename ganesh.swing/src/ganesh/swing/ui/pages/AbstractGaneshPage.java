@@ -18,6 +18,7 @@ public abstract class AbstractGaneshPage {
 
 	private List<GaneshButton> buttons = new ArrayList<>();
 	private GaneshProgram program;
+	protected GaneshData data;
 
 	public abstract String getTitle();
 
@@ -42,6 +43,10 @@ public abstract class AbstractGaneshPage {
 	}
 
 	public abstract void renderize();
+
+	public void setData(GaneshData data) {
+		this.data = data;
+	}
 
 	public abstract GaneshData getData();
 

@@ -151,22 +151,24 @@ public abstract class GaneshListPage extends GaneshPage {
 	public GaneshData getData() {
 		JTable table = getTable();
 
-		GaneshData data = new GaneshData();
+		if (data == null)
+			data = new GaneshData();
 
-		int column = columns.size();
 		if (table.getSelectedRowCount() == 1) {
-			data = (GaneshData)table.getModel().getValueAt(table.getSelectedRow(), column);
+			data = mydata.get(table.getSelectedRow());
 		} else if (table.getSelectedRowCount() > 1) {
 			List<GaneshData> list = new ArrayList<>();
 
 			for (int r: table.getSelectedRows())
-				list.add((GaneshData)table.getModel().getValueAt(r, column));
+				list.add(mydata.get(r));
 
 			data.setGaneshDataList(SELECTED_ROWS, list);
 		}
 
 		return data;
 	}
+
+	private List<GaneshData> mydata = new ArrayList<>();
 
 	protected final void realLoadTableData(JTable table) {
 		List<GaneshData> data = loadTableData();
@@ -182,6 +184,8 @@ public abstract class GaneshListPage extends GaneshPage {
 		for (int i = 0; i < t; i++)
 			model.removeRow(0);
 
+		mydata.clear();
+
 		if (data != null)
 			for (GaneshData d: data) {
 				List<Object> row = new ArrayList<>();
@@ -189,13 +193,10 @@ public abstract class GaneshListPage extends GaneshPage {
 				for (String field: ordem)
 					row.add(d.get(field));
 
-				row.add(d);
+				mydata.add(d);
 
 				model.addRow(row.toArray());
 			}
-
-		if (model.getRowCount() > 0)
-			System.out.println(model.getValueAt(0, ordem.size()));
 
 		table.doLayout();
 	}
