@@ -28,7 +28,7 @@ public class UpdateRequest extends Request {
 			items.add(item);
 	}
 
-	public List<XMLItem> listItems() {
+	public List<XMLItem> listItemsToUpdate() {
 		return new ArrayList<>(items);
 	}
 
