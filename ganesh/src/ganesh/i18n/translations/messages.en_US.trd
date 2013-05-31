@@ -1,4 +1,12 @@
-grupo()=Group
-erroAoInserir_(String)=Error on insert %s
+#_naoEhUmParametroValido(String)=
+#arquivoDeDadosExistePoremNaoEhUmDiretorio()=
+#bancoMaisNovoDoQueGaneshEspera()=
 erroAoAtualizarOBancoDeDados()=Error on update database scheme
+#erroAoInserir_(GString)=
+erroAoInserir_(String)=Error on insert %s
+#erroAoSalvar()=
+#grupos()=
+#naoFoiPossivelCriarODiretorioDeDados()=
+#requisicaoInvalida()=
+#sessaoInvalida()=
 usuarioSenhaInvalido()=User or Password is invalid

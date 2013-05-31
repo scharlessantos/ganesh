@@ -1,4 +1,12 @@
-grupo()=Grupo
-erroAoInserir_(String)=Erro ao inserir %s
+_naoEhUmParametroValido(String)=%s não é um parâmetro válido
+arquivoDeDadosExistePoremNaoEhUmDiretorio()=Arquivo de Dados existe porém não é um diretório
+bancoMaisNovoDoQueGaneshEspera()=Banco de Dados mais novo do que Ganesh espera
 erroAoAtualizarOBancoDeDados()=Erro ao atualizar o Banco de Dados
+erroAoInserir_(GString)=Erro ao inserir %s
+erroAoInserir_(String)=Erro ao inserir %s
+erroAoSalvar()=Erro ao salvar
+grupos()=Grupos
+naoFoiPossivelCriarODiretorioDeDados()=Não foi possivel criar o diretório de dados
+requisicaoInvalida()=Requisição inválida
+sessaoInvalida()=Sessão inválida
 usuarioSenhaInvalido()=Usuário ou Senha inválido
