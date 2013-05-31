@@ -31,10 +31,13 @@ public class GaneshBooleanInput extends AbstractGaneshControl<JCheckBox> {
 
 	@Override
 	public void set(Object set) {
-		if (set instanceof Boolean) {
-			check.setSelected((Boolean)set);
+		if (set != null)
+			try {
+				boolean b = Boolean.parseBoolean(set.toString());
+				check.setSelected(b);
+				return;
+			} catch (Exception ignore) {}
 
-		} else
-			super.set(set);
+		super.set(set);
 	}
 }
