@@ -22,10 +22,10 @@ public class PgListProduto extends GaneshListPage {
 		addColumn("CODIGO", GM.codigo());
 		addColumn("NOME", GM.nome());
 		addColumn("COMPLEMENTO", GM.complemento());
-		addColumn("PESAVEL", GM.pesavel());
+		addColumn("PESAVEL_TRATADO", GM.pesavel());
 
 		addButton(new GaneshButton(GM.novo(), "NOVO", Icons.BRICK_ADD));
-		addButton(new GaneshButton(GM.editar(), "EDIT", Icons.BRICK_EDIT));
+		addButton(new GaneshButton(GM.editar(), "EDITAR", Icons.BRICK_EDIT));
 		addButton(new GaneshButton(GM.excluir(), "DELETE", Icons.BRICK_DELETE));
 	}
 
@@ -55,7 +55,7 @@ public class PgListProduto extends GaneshListPage {
 				XMLData rd = (XMLData)ri;
 				for (String key: rd.keySet()) {
 					if (key.equalsIgnoreCase("pesavel"))
-						d.setString(key.toUpperCase(), rd.get(key).equalsIgnoreCase("true") ? M.sim() : M.nao());
+						d.setString("PESAVEL_TRATADO", rd.get(key).equalsIgnoreCase("true") ? M.sim() : M.nao());
 					else
 						d.setString(key.toUpperCase(), rd.get(key));
 				}
@@ -72,6 +72,17 @@ public class PgListProduto extends GaneshListPage {
 	@ButtonHandler("NOVO")
 	public void adicionar() {
 		new PgDialogProduto(getProgram()).renderize();
+
+		reloadData();
+	}
+
+	@ButtonHandler("EDITAR")
+	public void editar(GaneshData data) {
+		PgDialogProduto dialog = new PgDialogProduto(getProgram());
+		dialog.setData(data);
+
+		dialog.renderize();
+		reloadData();
 	}
 
 }
