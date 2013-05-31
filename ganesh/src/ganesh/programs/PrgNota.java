@@ -1,14 +1,17 @@
 /* Ganesh Server, developed in 2013*/
-package ganesh.programs.nota;
+package ganesh.programs;
 
 import ganesh.common.request.Request;
 import ganesh.common.response.Response;
 import ganesh.common.response.ResponseItem;
-import ganesh.programs.GaneshProgram;
 import ganesh.programs.ProgramManager.RequestType;
-import ganesh.programs.RequestHandler;
 
 public class PrgNota extends GaneshProgram {
+
+	@Override
+	protected String getName() {
+		return "nota";
+	}
 
 	@RequestHandler(RequestType.LIST)
 	public void list(Request req, Response resp, String extra) {

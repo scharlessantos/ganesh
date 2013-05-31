@@ -4,6 +4,7 @@ package ganesh.programs;
 import ganesh.common.exceptions.GException;
 import ganesh.exception.ServerErrorCode;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,29 @@ public class ProgramManager {
 
 	}
 
-	public static void registerProgram(String name, Class<? extends GaneshProgram> program) {
+	public static void loadPrograms() {
+		File file = new File("bin/ganesh/programs");
+
+		if (file.isDirectory())
+			for (File f: file.listFiles())
+				if (f.isFile() && (f.getName().startsWith("Prg") && f.getName().endsWith(".class"))) {
+					try {
+						Class<?> t = Class.forName("ganesh.programs." + f.getName().replace(".class", ""));
+
+						Class<?> s = t.getSuperclass();
+
+						if (s != null && s.equals(GaneshProgram.class)) {
+							GaneshProgram p = (GaneshProgram)t.newInstance();
+							registerProgram(p.getName(), p.getClass());
+						}
+
+					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+						Hermes.error(e);
+					}
+				}
+	}
+
+	protected static void registerProgram(String name, Class<? extends GaneshProgram> program) {
 		synchronized (programs) {
 			if (!programs.containsKey(name))
 				programs.put(name, program);
