@@ -5,6 +5,7 @@ import ganesh.common.exceptions.GException;
 import ganesh.common.request.UpdateRequest;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Response;
+import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.programs.GaneshProgram;
 import ganesh.swing.ui.MessageHandler;
@@ -60,6 +61,7 @@ public class PgDialogProduto extends GaneshDialog {
 	@ButtonHandler("SALVAR")
 	public void onSalvar(GaneshData data) {
 		UpdateRequest req = new UpdateRequest("produto");
+		req.setSession(GaneshSwing.getSession());
 		req.addItem(data);
 
 		Response resp = req.doRequest();

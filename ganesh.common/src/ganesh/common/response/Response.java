@@ -1,6 +1,7 @@
 /* Ganesh Commons, developed in 2013 */
 package ganesh.common.response;
 
+import ganesh.common.XMLData;
 import ganesh.common.XMLItem;
 import ganesh.common.exceptions.CommonErrorCode;
 import ganesh.common.exceptions.GException;
@@ -72,7 +73,7 @@ public class Response {
 								break;
 							default:
 								if (parents.size() > 2 && parents.get(2).equals("lists")) {
-									ResponseData data = new ResponseData();
+									XMLData data = new XMLData();
 
 									@SuppressWarnings("unchecked")
 									Iterator<Attribute> attributes = se.getAttributes();

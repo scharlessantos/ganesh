@@ -1,11 +1,11 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.programs.cadastro.grupo;
 
+import ganesh.common.XMLData;
 import ganesh.common.XMLItem;
 import ganesh.common.request.ListRequest;
 import ganesh.common.response.Message.WarningMessage;
 import ganesh.common.response.Response;
-import ganesh.common.response.ResponseData;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.MessageHandler;
@@ -50,10 +50,10 @@ public class PgListGrupo extends GaneshListPage {
 		Response resp = req.doRequest();
 
 		for (XMLItem ri: resp.getList("grupos"))
-			if (ri instanceof ResponseData) {
+			if (ri instanceof XMLData) {
 				GaneshData d = new GaneshData();
 
-				ResponseData rd = (ResponseData)ri;
+				XMLData rd = (XMLData)ri;
 				for (String key: rd.keySet()) {
 					d.setString(key.toUpperCase(), rd.get(key));
 				}
