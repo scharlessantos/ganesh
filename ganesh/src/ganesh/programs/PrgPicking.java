@@ -126,7 +126,7 @@ public class PrgPicking extends GaneshProgram {
 						pp.setQtd(Long.valueOf(data.get("qtd")));
 						pp.save();
 					} catch (NumberFormatException e) {
-						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.quantidade())));
+						resp.setMessage(new ErrorMessage(M.quantidadeDeveSerNumerico()));
 						resp.setResponseValue(Response.NAO_OK);
 					}
 				}

@@ -54,4 +54,6 @@ public interface Messages {
 
 	String picking();
 
+	String quantidadeDeveSerNumerico();
+
 }

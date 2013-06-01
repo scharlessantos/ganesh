@@ -24,6 +24,7 @@ nome()=Nome
 picking()=Picking
 produto()=Produto
 quantidade()=Quantidade
+quantidadeDeveSerNumerico()=Quantidade deve ser numérico
 requisicaoInvalida()=Requisição inválida
 sessaoInvalida()=Sessão inválida
 usuarioSenhaInvalido()=Usuário ou Senha inválido
