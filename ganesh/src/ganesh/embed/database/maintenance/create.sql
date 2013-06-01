@@ -87,8 +87,8 @@ create table embalagem(
 );
 
 create table produto_nota(
-	id_embalagem int,
-	id_nota int,
+	id_embalagem bigint,
+	id_nota bigintbigint,
 	qtd bigint not null,
 	
 	constraint pkProdutoNota primary key (id_embalagem, id_nota),
@@ -104,7 +104,7 @@ create table grupo(
 );
 
 create table grupo_role(
-	id_grupo int,
+	id_grupo bigint,
 	rolename varchar(15),
 	
 	constraint pkGrupoRole primary key (id_grupo, rolename),
@@ -122,8 +122,8 @@ create table usuario(
 );
 
 create table usuario_grupo(
-	id_grupo int,
-	id_usuario int,
+	id_grupo bigint,
+	id_usuario bigint,
 	
 	constraint pkUsuarioGrupo primary key (id_usuario, id_grupo),
 	constraint fkUsuarioGrupoUsuario foreign key (id_usuario) references usuario(id_usuario),
