@@ -54,6 +54,12 @@ public class GaneshMainFrame extends GaneshFrame {
 	private JScrollPane menu;
 	private JToolBar rodape;
 
+	private static GaneshMainFrame instance;
+
+	public static GaneshMainFrame getInstance() {
+		return instance;
+	}
+
 	public GaneshMainFrame() {
 		super();
 		setSize(640, 480);
@@ -69,6 +75,7 @@ public class GaneshMainFrame extends GaneshFrame {
 		setExtendedState(MAXIMIZED_BOTH);
 		setTitle(M.ganeshClient());
 
+		instance = this;
 	}
 
 	private JPanel getMainPanel() {
@@ -169,7 +176,7 @@ public class GaneshMainFrame extends GaneshFrame {
 								if (id.equals("sair"))
 									GaneshMainFrame.this.processWindowEvent(new WindowEvent(GaneshMainFrame.this, WindowEvent.WINDOW_CLOSING));
 								else if (id.equals("logout"))
-									GaneshMainFrame.this.processWindowEvent(new WindowEvent(GaneshMainFrame.this, 0));
+									logout(false);
 								else if (id.startsWith("program::")) {
 									openProgram(id.substring("program::".length()));
 								}
@@ -191,6 +198,10 @@ public class GaneshMainFrame extends GaneshFrame {
 
 		}
 		return menu;
+	}
+
+	public void logout(boolean force) {
+		processWindowEvent(new WindowEvent(GaneshMainFrame.this, force ? 1 : 0));
 	}
 
 	private JToolBar getBottomToolbar() {
@@ -218,7 +229,8 @@ public class GaneshMainFrame extends GaneshFrame {
 	protected void processWindowEvent(WindowEvent e) {
 		switch (e.getID()) {
 			case 0:
-				if (JOptionPane.showConfirmDialog(null, M.desejaRealmenteEfetuarLogOut(), M.saindo() + "...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+			case 1:
+				if (e.getID() == 1 || JOptionPane.showConfirmDialog(null, M.desejaRealmenteEfetuarLogOut(), M.saindo() + "...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					this.dispose();
 					Starter.login();
 				}
