@@ -75,6 +75,6 @@ public class PgListGrupo extends GaneshListPage {
 	@ButtonHandler("GRP_DELETE")
 	public void delete(GaneshData selected) {
 		if (selected == null)
-			MessageHandler.show(new WarningMessage(M.selecioneOItemADeletar()).setTitle(M.atencao()));
+			MessageHandler.show(new WarningMessage(M.selecioneOItemA_(M.apagar())));
 	}
 }
