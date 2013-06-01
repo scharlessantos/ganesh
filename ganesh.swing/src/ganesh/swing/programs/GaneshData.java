@@ -19,6 +19,10 @@ public final class GaneshData implements XMLItem {
 
 	private HashMap<String, Object> mydata = new HashMap<>();
 
+	public int count() {
+		return mydata.size();
+	}
+
 	public void setObject(String key, Object value) {
 		if (key == null)
 			throw new GRuntimeException(ClientErrorCode.INVALID_DATA_SET, M.chaveInvalida());
