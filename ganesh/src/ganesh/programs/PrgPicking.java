@@ -103,40 +103,33 @@ public class PrgPicking extends GaneshProgram {
 				}
 
 			} else if (extra.startsWith("produtos/")) {
-				if (extra.endsWith("add/")) {
-					for (XMLData data: req.listItems()) {
-						if (data.get("qtd") == null) {
-							resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.quantidade())));
-							return;
-						}
 
-						String embalagem = data.get("id_embalagem");
-						String picking = data.get("id_picking");
-
-						PickingProduto pp = DB.first(PickingProduto.class, new Filter(PickingProduto.class, "id_picking", picking, FilterType.EQUALS).and(new Filter(PickingProduto.class, "id_embalagem", embalagem, FilterType.EQUALS)));
-
-						if (pp == null) {
-							pp = new PickingProduto();
-							pp.setEmbalagem(Embalagem.getById(Long.valueOf(embalagem)));
-							pp.setPicking(Picking.getById(Long.valueOf(picking)));
-						}
-
-						pp.setQtd(Long.valueOf(data.get("qtd")));
-						pp.save();
+				for (XMLData data: req.listItems()) {
+					if (data.get("qtd") == null) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.quantidade())));
+						return;
 					}
 
-				} else {
-					List<RequestFilter> filters = req.listFilters();
+					String embalagem = data.get("id_embalagem");
+					String picking = data.get("id_picking");
 
-					if (filters.size() <= 0)
-						return;
+					PickingProduto pp = DB.first(PickingProduto.class, new Filter(PickingProduto.class, "id_picking", picking, FilterType.EQUALS).and(new Filter(PickingProduto.class, "id_embalagem", embalagem, FilterType.EQUALS)));
 
-					List<PickingProduto> produtos = DB.list(PickingProduto.class, new Filter(PickingProduto.class, filters.get(0).getField(), filters.get(0).getValue(), filters.get(0).getType()));
+					if (pp == null) {
+						pp = new PickingProduto();
+						pp.setEmbalagem(Embalagem.getById(Long.valueOf(embalagem)));
+						pp.setPicking(Picking.getById(Long.valueOf(picking)));
 
-					for (PickingProduto produto: produtos)
-						resp.addListItem("produtos", produto);
+					}
 
+					try {
+						pp.setQtd(Long.valueOf(data.get("qtd")));
+						pp.save();
+					} catch (NumberFormatException e) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.quantidade())));
+					}
 				}
+
 			}
 
 		} catch (GException e) {
@@ -162,6 +155,27 @@ public class PrgPicking extends GaneshProgram {
 						picking.delete();
 
 						resp.setMessage(new InformationMessage(M._apagadoComSucesso(M.picking())));
+					}
+				}
+
+			} else if (extra.startsWith("produtos/")) {
+
+				for (XMLData data: req.listItems()) {
+					if (data.get("qtd") == null) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.quantidade())));
+						return;
+					}
+
+					String embalagem = data.get("id_embalagem");
+					String picking = data.get("id_picking");
+
+					PickingProduto pp = DB.first(PickingProduto.class, new Filter(PickingProduto.class, "id_picking", picking, FilterType.EQUALS).and(new Filter(PickingProduto.class, "id_embalagem", embalagem, FilterType.EQUALS)));
+
+					if (pp == null) {
+						resp.setMessage(new ErrorMessage(M._naoEncontrado(M.produto())));
+					} else {
+						pp.delete();
+						resp.setMessage(new InformationMessage(M._apagadoComSucesso(M.produto())));
 					}
 				}
 			}
