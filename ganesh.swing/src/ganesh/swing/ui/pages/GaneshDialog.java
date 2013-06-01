@@ -67,6 +67,22 @@ public abstract class GaneshDialog extends AbstractGaneshPage {
 		dialog.setVisible(true);
 	}
 
+	@Override
+	public final String getTitle() {
+		if (page != null)
+			return page.getTitle();
+
+		return M.ganeshClient();
+	}
+
+	@Override
+	public final String getIcon() {
+		if (page != null)
+			return page.getIcon();
+
+		return Icons.APPLICATION_FORM;
+	}
+
 	protected final JPanel toJPanel() {
 
 		JPanel panel = new JPanel(new BorderLayout());

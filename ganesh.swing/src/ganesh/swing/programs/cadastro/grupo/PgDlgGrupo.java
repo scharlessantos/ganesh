@@ -25,25 +25,15 @@ public class PgDlgGrupo extends GaneshDialog {
 
 			@Override
 			public String getTitle() {
-				return null;
+				return M.adicionar_(M.grupo());
 			}
 
 			@Override
 			public String getIcon() {
-				return null;
+				return Icons.GROUP_ADD;
 			}
 		});
 
-	}
-
-	@Override
-	public String getTitle() {
-		return M.adicionar_(M.grupo());
-	}
-
-	@Override
-	public String getIcon() {
-		return Icons.GROUP_ADD;
 	}
 
 }
