@@ -46,6 +46,8 @@ public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 		c.gridy = 1;
 		c.insets = new Insets(0, 0, 0, 0);
 		text.setEditable(!readOnly);
+		text.setFocusable(!readOnly);
+
 		panel.add(text, c);
 
 		panel.doLayout();
