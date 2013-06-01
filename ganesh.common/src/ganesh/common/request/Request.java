@@ -191,6 +191,10 @@ public abstract class Request {
 			if (getSession() != null)
 				wr.println(session.toXML());
 
+			if (filters.size() > 0)
+				for (RequestFilter f: filters)
+					wr.println(f.toXML());
+
 			write(wr);
 			wr.println("\n</request>");
 			wr.flush();
