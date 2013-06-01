@@ -8,6 +8,7 @@
 #caminhao()=
 #cnpj()=
 #codigo()=
+#documento()=
 #embalagem()=
 #empresa()=
 #erroAoApagar()=
@@ -17,6 +18,7 @@ erroAoInserir_(String)=Error on insert %s
 #erroAoSalvar()=
 #grupo()=
 #grupos()=
+#motorista()=
 #naoFoiPossivelCriarODiretorioDeDados()=
 #nome()=
 #picking()=

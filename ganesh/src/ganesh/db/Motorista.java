@@ -12,10 +12,10 @@ import ganesh.db.utils.Filter;
 public class Motorista extends Pessoa {
 
 	@Id("id_motorista")
-	private Long idMotorista;
+	protected Long idMotorista;
 
 	@Property("id_empresa")
-	private Long idEmpresa;
+	protected Long idEmpresa;
 
 	public Long getIdEmpresa() {
 		return idEmpresa;

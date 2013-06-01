@@ -89,6 +89,8 @@ public interface GMessages {
 
 	GString desejaRealmenteApagarOsCaminhoesSelecionados();
 
+	GString motorista();
+
 	GString picking();
 
 	GString data();

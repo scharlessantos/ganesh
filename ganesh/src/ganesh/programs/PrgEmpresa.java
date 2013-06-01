@@ -12,6 +12,8 @@ import ganesh.common.response.Response;
 import ganesh.db.Caminhao;
 import ganesh.db.DB;
 import ganesh.db.Empresa;
+import ganesh.db.Motorista;
+import ganesh.db.Pessoa;
 import ganesh.db.utils.Filter;
 import ganesh.programs.ProgramManager.RequestType;
 
@@ -45,6 +47,17 @@ public class PrgEmpresa extends GaneshProgram {
 
 				for (Caminhao caminhao: caminhoes)
 					resp.addListItem("caminhoes", caminhao);
+
+			} else if (extra.startsWith("motorista/")) {
+				List<RequestFilter> filters = req.listFilters();
+
+				if (filters.size() <= 0)
+					return;
+
+				List<Motorista> motoristas = DB.list(Motorista.class, new Filter(Motorista.class, filters.get(0).getField(), filters.get(0).getValue(), filters.get(0).getType()));
+
+				for (Motorista motorista: motoristas)
+					resp.addListItem("motoristas", motorista);
 			}
 
 		} catch (GException e) {
@@ -131,6 +144,55 @@ public class PrgEmpresa extends GaneshProgram {
 					caminhao.save();
 
 				}
+			} else if (extra.startsWith("motorista/")) {
+				for (XMLData data: req.listItems()) {
+					String empresa = data.get("id_empresa");
+					if (empresa == null || empresa.trim().isEmpty()) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.empresa())));
+						return;
+					}
+
+					String codigo = data.get("codigo");
+					if (codigo == null || codigo.trim().isEmpty()) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.codigo())));
+						return;
+					}
+
+					String nome = data.get("nome");
+					if (nome == null || nome.trim().isEmpty()) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.nome())));
+						return;
+					}
+
+					String documento = data.get("documento");
+					if (documento == null || documento.trim().isEmpty()) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.documento())));
+						return;
+
+					}
+					Motorista motorista = null;
+
+					if (data.get("id_motorista") != null)
+						motorista = DB.first(Motorista.class, new Filter(Motorista.class, "id_motorista", data.get("id_motorista"), FilterType.EQUALS));
+					else if (DB.first(Motorista.class, new Filter(Pessoa.class, "codigo", codigo, FilterType.LIKE)) != null) {
+						resp.setMessage(new ErrorMessage(M._jahCadastradoCom_IgualA_(M.motorista(), M.codigo(), codigo)));
+						return;
+					}
+
+					if (motorista == null) {
+						motorista = new Motorista();
+						motorista.setEmpresa(DB.first(Empresa.class, new Filter(Empresa.class, "id_empresa", empresa, FilterType.EQUALS)));
+					}
+
+					motorista.setCodigo(codigo);
+					motorista.setNome(nome);
+					motorista.setDocumento(documento);
+					motorista.setContato(data.get("contato"));
+					motorista.setEndereco(data.get("endereco"));
+
+					motorista.save();
+
+				}
 			}
 
 		} catch (GException e) {
@@ -175,6 +237,23 @@ public class PrgEmpresa extends GaneshProgram {
 
 						resp.setMessage(new InformationMessage(M._apagadoComSucesso(M.caminhao())));
 
+					}
+				}
+
+			} else if (extra.startsWith("motorista")) {
+				for (XMLData data: req.listItems()) {
+
+					Motorista motorista = null;
+
+					if (data.get("id_empresa") != null)
+						motorista = DB.first(Motorista.class, new Filter(Motorista.class, "id_empresa", data.get("id_empresa"), FilterType.EQUALS));
+
+					if (motorista == null)
+						resp.setMessage(new ErrorMessage(M._naoEncontrado(M.motorista())));
+					else {
+						motorista.delete();
+
+						resp.setMessage(new InformationMessage(M._apagadoComSucesso(M.motorista())));
 					}
 				}
 

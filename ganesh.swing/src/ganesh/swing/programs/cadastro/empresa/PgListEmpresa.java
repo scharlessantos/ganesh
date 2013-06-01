@@ -11,6 +11,7 @@ import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.programs.cadastro.empresa.caminhao.PgDialogListCaminhao;
+import ganesh.swing.programs.cadastro.empresa.motorista.PgDialogListMotorista;
 import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.controls.GaneshButton.ButtonHandler;
@@ -32,6 +33,7 @@ public class PgListEmpresa extends GaneshListPage {
 		addButton(new GaneshButton(GM.excluir(), "DELETE", Icons.BUILDING_DELETE).setConfirmation(GM.desejaRealmenteApagarAsEmpresasSelecionadas()));
 
 		addButton(new GaneshButton(GM.caminhoes(), "CAMINHAO", Icons.LORRY));
+		addButton(new GaneshButton(GM.motorista(), "MOTORISTA", Icons.LORRY_GROUP));
 
 	}
 
@@ -130,4 +132,17 @@ public class PgListEmpresa extends GaneshListPage {
 		reloadData();
 	}
 
+	@ButtonHandler("MOTORISTA")
+	public void motorista(GaneshData data) {
+		if (data == null || data.count() <= 0) {
+			MessageHandler.show(new WarningMessage(M.selecioneOItemA_(M.visualizar().toLowerCase())));
+			return;
+
+		}
+
+		new PgDialogListMotorista(getProgram()).renderize();
+
+		reloadData();
+
+	}
 }

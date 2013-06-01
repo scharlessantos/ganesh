@@ -48,6 +48,10 @@ public interface Messages {
 
 	String caminhao();
 
+	String motorista();
+
+	String documento();
+
 	String picking();
 
 }
