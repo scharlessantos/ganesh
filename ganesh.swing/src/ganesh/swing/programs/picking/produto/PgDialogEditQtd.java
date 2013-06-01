@@ -11,7 +11,7 @@ import ganesh.swing.ui.pages.GaneshDialog;
 public class PgDialogEditQtd extends GaneshDialog {
 
 	public PgDialogEditQtd(GaneshProgram program) {
-		super(true, 150, 100, program);
+		super(true, 250, 300, program);
 
 		setPage(new GaneshControlPage() {
 

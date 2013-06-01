@@ -136,7 +136,12 @@ public abstract class GaneshListPage extends GaneshPage {
 
 			table.setDefaultEditor(Object.class, null);
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+			if (isMulti())
+				table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			else
+				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 			table.setAutoCreateRowSorter(true);
 
 			table.setModel(model);
