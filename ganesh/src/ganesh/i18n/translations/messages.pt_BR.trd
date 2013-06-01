@@ -5,6 +5,7 @@ _naoEhUmParametroValido(String)=%s não é um parâmetro válido
 _naoEncontrado(String)=%s não encontrado
 arquivoDeDadosExistePoremNaoEhUmDiretorio()=Arquivo de Dados existe porém não é um diretório
 bancoMaisNovoDoQueGaneshEspera()=Banco de Dados mais novo do que Ganesh espera
+caminhao()=Caminhão
 cnpj()=CNPJ
 codigo()=Código
 embalagem()=Embalagem

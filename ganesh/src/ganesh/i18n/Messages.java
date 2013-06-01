@@ -46,4 +46,6 @@ public interface Messages {
 
 	String embalagem();
 
+	String caminhao();
+
 }

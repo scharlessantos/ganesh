@@ -12,16 +12,16 @@ import ganesh.db.utils.Filter;
 public class Caminhao extends AbstractDBEntity {
 
 	@Id("id_caminhao")
-	private Long idCaminhao;
+	protected Long idCaminhao;
 
 	@Property("id_empresa")
-	private Long idEmpresa;
+	protected Long idEmpresa;
 
 	@Property("codigo")
-	private String codigo;
+	protected String codigo;
 
 	@Property("placa")
-	private String placa;
+	protected String placa;
 
 	public Long getIdEmpresa() {
 		return idEmpresa;

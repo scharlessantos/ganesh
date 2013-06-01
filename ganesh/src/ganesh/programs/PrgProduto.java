@@ -88,7 +88,7 @@ public class PrgProduto extends GaneshProgram {
 					produto.save();
 				}
 
-			} else if (extra.startsWith("embalagem")) {
+			} else if (extra.startsWith("embalagem/")) {
 				for (XMLData data: req.listItems()) {
 					String produto = data.get("id_produto");
 					if (produto == null || produto.trim().isEmpty()) {
