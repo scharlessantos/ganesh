@@ -53,6 +53,7 @@ public class Response {
 
 						switch (parents.get(0)) {
 							case "response":
+								responseValue = new Integer(se.getAttributeByName(new QName("value")).getValue());
 								break;
 
 							case "message":
@@ -109,6 +110,16 @@ public class Response {
 		}
 	}
 
+	private Integer responseValue;
+
+	public Integer getResponseValue() {
+		return responseValue;
+	}
+
+	public void setResponseValue(Integer responseValue) {
+		this.responseValue = responseValue;
+	}
+
 	public Response(HttpServletResponse original) {
 		this.original = original;
 	}
@@ -144,7 +155,7 @@ public class Response {
 		PrintWriter wr = original.getWriter();
 
 		wr.println("<?xml version='1.0' ?>");
-		wr.println("<response>");
+		wr.println("<response value='" + (responseValue == null ? OK : responseValue) + "'>");
 
 		if (session != null)
 			wr.println(session.toXML());
@@ -187,4 +198,8 @@ public class Response {
 		return new ArrayList<>(lists.get(name));
 
 	}
+
+	public static final int SESSAO_INVALIDA = 100;
+	public static final int OK = 200;
+	public static final int ACESSO_NEGADO = 300;
 }

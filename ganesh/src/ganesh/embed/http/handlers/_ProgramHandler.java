@@ -57,6 +57,7 @@ public class _ProgramHandler implements _MyHandler {
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
+			resp.setResponseValue(Response.SESSAO_INVALIDA);
 			resp.writeResponse();
 			return;
 		}

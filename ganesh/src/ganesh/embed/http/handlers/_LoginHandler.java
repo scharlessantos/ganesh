@@ -38,6 +38,7 @@ public class _LoginHandler implements _MyHandler {
 			Usuario usuario = Usuario.getByUsername(req.getUsername());
 
 			if (usuario == null || !usuario.checkPassword(req.getPassword())) {
+				resp.setResponseValue(Response.ACESSO_NEGADO);
 				resp.setMessage(new ErrorMessage(ServerErrorCode.ACESSO_NEGADO.toString() + ": " + Ganesh.getMessages().usuarioSenhaInvalido()));
 			} else {
 				Session session = AccessControl.getInstance().newSession(req.getLanguage());
