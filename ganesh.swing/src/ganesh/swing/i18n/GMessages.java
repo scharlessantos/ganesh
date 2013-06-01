@@ -77,4 +77,10 @@ public interface GMessages {
 
 	GString desejaRealmenteApagarAsEmbalagensSelecionadas();
 
+	GString cnpj();
+
+	GString desejaRealmenteApagarAsEmpresasSelecionadas();
+
+	GString desejaRealmenteApagarOsGruposSelecionados();
+
 }

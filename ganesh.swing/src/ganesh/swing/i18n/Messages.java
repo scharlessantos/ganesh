@@ -79,4 +79,6 @@ public interface Messages {
 
 	String visualizar();
 
+	String empresa();
+
 }
