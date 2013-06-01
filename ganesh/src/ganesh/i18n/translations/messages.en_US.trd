@@ -7,6 +7,7 @@
 #bancoMaisNovoDoQueGaneshEspera()=
 #cnpj()=
 #codigo()=
+#embalagem()=
 #empresa()=
 #erroAoApagar()=
 erroAoAtualizarOBancoDeDados()=Error on update database scheme
@@ -18,6 +19,7 @@ erroAoInserir_(String)=Error on insert %s
 #naoFoiPossivelCriarODiretorioDeDados()=
 #nome()=
 #produto()=
+#quantidade()=
 #requisicaoInvalida()=
 #sessaoInvalida()=
 usuarioSenhaInvalido()=User or Password is invalid
