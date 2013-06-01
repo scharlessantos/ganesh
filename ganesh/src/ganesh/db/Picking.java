@@ -1,9 +1,12 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import ganesh.common.exceptions.GException;
+import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
 import ganesh.db.annotations.Property;
+import ganesh.db.utils.Filter;
 
 @Entity("picking")
 public class Picking extends AbstractDBEntity {
@@ -49,6 +52,13 @@ public class Picking extends AbstractDBEntity {
 			} else if (this.id.equals(grp.id))
 				this.descricao = grp.descricao;
 		}
+	}
+
+	public static Picking getById(Long id) throws GException {
+		if (id == null)
+			return null;
+
+		return DB.first(Picking.class, new Filter(Picking.class, "id_picking", id, FilterType.EQUALS));
 	}
 
 }

@@ -8,7 +8,7 @@ import ganesh.db.annotations.Property;
 
 import org.scharlessantos.hermes.Hermes;
 
-@Entity("picking_produto")
+@Entity("produto_picking")
 public class PickingProduto extends AbstractDBEntity {
 
 	@Id("id_embalagem")

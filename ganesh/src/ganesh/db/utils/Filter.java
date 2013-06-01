@@ -83,12 +83,14 @@ public class Filter {
 		return query == null ? "" : query;
 	}
 
-	public void and(Filter query) {
+	public Filter and(Filter query) {
 		join(JoinType.AND, query);
+		return this;
 	}
 
-	public void or(Filter query) {
+	public Filter or(Filter query) {
 		join(JoinType.OR, query);
+		return this;
 	}
 
 	private void join(JoinType j, Filter q) {

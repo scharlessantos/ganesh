@@ -2,6 +2,7 @@
 package ganesh.programs;
 
 import ganesh.common.XMLData;
+import ganesh.common.XMLItem;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
 import ganesh.common.request.RequestFilter;
@@ -10,6 +11,7 @@ import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.db.DB;
+import ganesh.db.Embalagem;
 import ganesh.db.Empresa;
 import ganesh.db.Picking;
 import ganesh.db.PickingProduto;
@@ -36,6 +38,26 @@ public class PrgPicking extends GaneshProgram {
 
 				for (Picking picking: pickings)
 					resp.addListItem("pickings", picking);
+
+			} else if (extra.startsWith("produtos/")) {
+				if (extra.endsWith("add/")) {
+					List<Embalagem> embalagens = DB.list(Embalagem.class);
+
+					for (Embalagem embalagem: embalagens)
+						resp.addListItem("embalagens", new ProdutoToAdd(embalagem));
+
+				} else {
+					List<RequestFilter> filters = req.listFilters();
+
+					if (filters.size() <= 0)
+						return;
+
+					List<PickingProduto> produtos = DB.list(PickingProduto.class, new Filter(PickingProduto.class, filters.get(0).getField(), filters.get(0).getValue(), filters.get(0).getType()));
+
+					for (PickingProduto produto: produtos)
+						resp.addListItem("produtos", produto);
+
+				}
 			}
 
 		} catch (GException e) {
@@ -79,18 +101,42 @@ public class PrgPicking extends GaneshProgram {
 
 					picking.save();
 				}
+
 			} else if (extra.startsWith("produtos/")) {
-				List<RequestFilter> filters = req.listFilters();
+				if (extra.endsWith("add/")) {
+					for (XMLData data: req.listItems()) {
+						if (data.get("qtd") == null) {
+							resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.quantidade())));
+							return;
+						}
 
-				if (filters.size() <= 0)
-					return;
+						String embalagem = data.get("id_embalagem");
+						String picking = data.get("id_picking");
 
-				List<PickingProduto> produtos = DB.list(PickingProduto.class, new Filter(PickingProduto.class, filters.get(0).getField(), filters.get(0).getValue(), filters.get(0).getType()));
+						PickingProduto pp = DB.first(PickingProduto.class, new Filter(PickingProduto.class, "id_picking", picking, FilterType.EQUALS).and(new Filter(PickingProduto.class, "id_embalagem", embalagem, FilterType.EQUALS)));
 
-				for (PickingProduto produto: produtos) {
-					resp.addListItem("produtos", produto);
+						if (pp == null) {
+							pp = new PickingProduto();
+							pp.setEmbalagem(Embalagem.getById(Long.valueOf(embalagem)));
+							pp.setPicking(Picking.getById(Long.valueOf(picking)));
+						}
+
+						pp.setQtd(Long.valueOf(data.get("qtd")));
+						pp.save();
+					}
+
+				} else {
+					List<RequestFilter> filters = req.listFilters();
+
+					if (filters.size() <= 0)
+						return;
+
+					List<PickingProduto> produtos = DB.list(PickingProduto.class, new Filter(PickingProduto.class, filters.get(0).getField(), filters.get(0).getValue(), filters.get(0).getType()));
+
+					for (PickingProduto produto: produtos)
+						resp.addListItem("produtos", produto);
+
 				}
-
 			}
 
 		} catch (GException e) {
@@ -127,4 +173,26 @@ public class PrgPicking extends GaneshProgram {
 		}
 	}
 
+	private class ProdutoToAdd implements XMLItem {
+
+		private Embalagem embalagem;
+
+		public ProdutoToAdd(Embalagem embalagem) {
+			this.embalagem = embalagem;
+		}
+
+		@Override
+		public String toXML() {
+			if (embalagem == null)
+				return "<item/>";
+
+			try {
+				return "<item id_embalagem='" + embalagem.getIdEmbalagem() + "' embalagem='" + embalagem.getDescricao() + "' qtd='" + embalagem.getQtd() + "' produto='" + embalagem.getProduto().getCodigo() + " - " + embalagem.getProduto().getNome() + "' />";
+			} catch (GException e) {
+				Hermes.error(e);
+			}
+
+			return "<item/>";
+		}
+	}
 }
