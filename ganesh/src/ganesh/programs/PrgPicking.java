@@ -4,6 +4,7 @@ package ganesh.programs;
 import ganesh.common.XMLData;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
+import ganesh.common.request.RequestFilter;
 import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Message.InformationMessage;
@@ -11,6 +12,7 @@ import ganesh.common.response.Response;
 import ganesh.db.DB;
 import ganesh.db.Empresa;
 import ganesh.db.Picking;
+import ganesh.db.PickingProduto;
 import ganesh.db.utils.Filter;
 import ganesh.programs.ProgramManager.RequestType;
 
@@ -77,6 +79,18 @@ public class PrgPicking extends GaneshProgram {
 
 					picking.save();
 				}
+			} else if (extra.startsWith("produtos/")) {
+				List<RequestFilter> filters = req.listFilters();
+
+				if (filters.size() <= 0)
+					return;
+
+				List<PickingProduto> produtos = DB.list(PickingProduto.class, new Filter(PickingProduto.class, filters.get(0).getField(), filters.get(0).getValue(), filters.get(0).getType()));
+
+				for (PickingProduto produto: produtos) {
+					resp.addListItem("produtos", produto);
+				}
+
 			}
 
 		} catch (GException e) {

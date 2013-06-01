@@ -10,6 +10,7 @@ import ganesh.common.response.Message.WarningMessage;
 import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
+import ganesh.swing.programs.picking.produto.PgDialogListProduto;
 import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.controls.GaneshButton.ButtonHandler;
@@ -123,7 +124,7 @@ public class PgListPicking extends GaneshListPage {
 			return;
 		}
 
-		new PgDialogPicking(getProgram()).renderize();
+		new PgDialogListProduto(getProgram()).renderize();
 
 		reloadData();
 	}

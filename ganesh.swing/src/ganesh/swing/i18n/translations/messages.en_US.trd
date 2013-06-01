@@ -1,5 +1,8 @@
 acessar()=Access
+#adicionar()=
 adicionar_(String)=Add %s
+#alterarQtde()=
+#alterarQuantidade()=
 #apagar()=
 #atencao()=
 atualizar()=Refresh
@@ -60,6 +63,7 @@ programaNaoRegistrado()=Program not registered
 programas()=Programs
 #qtde()=
 #quantidade()=
+#remover()=
 saindo()=Closing
 sair()=Close
 salvar()=Save

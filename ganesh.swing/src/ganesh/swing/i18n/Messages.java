@@ -85,4 +85,8 @@ public interface Messages {
 
 	String picking();
 
+	String alterarQuantidade();
+
+	String produtos();
+
 }

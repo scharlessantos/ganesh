@@ -2,9 +2,11 @@
 package ganesh.db;
 
 import ganesh.common.exceptions.GException;
+import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
 import ganesh.db.annotations.Property;
+import ganesh.db.utils.Filter;
 
 @Entity("Embalagem")
 public class Embalagem extends AbstractDBEntity {
@@ -70,6 +72,13 @@ public class Embalagem extends AbstractDBEntity {
 			}
 		}
 
+	}
+
+	public static Embalagem getById(Long id) throws GException {
+		if (id == null)
+			return null;
+
+		return DB.first(Embalagem.class, new Filter(Embalagem.class, "id_embalagem", id, FilterType.EQUALS));
 	}
 
 }

@@ -99,4 +99,12 @@ public interface GMessages {
 
 	GString produtos();
 
+	GString embalagem();
+
+	GString adicionar();
+
+	GString alterarQtde();
+
+	GString remover();
+
 }
