@@ -1,0 +1,1 @@
+alter table embalagem add descricao varchar(84);
