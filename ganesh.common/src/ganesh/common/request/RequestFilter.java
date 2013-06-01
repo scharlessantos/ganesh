@@ -148,9 +148,49 @@ public class RequestFilter implements XMLItem {
 				}
 
 				sb.append("</join>\n");
-				sb.append("</filter>");
+
 			}
 
+			sb.append("</filter>");
+		}
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Filter [field=");
+		sb.append(field == null ? "" : field);
+		sb.append(" value=");
+		sb.append(value == null ? "" : value);
+		sb.append(" type=");
+		sb.append(type == null ? "" : type.getType());
+
+		if (joins.isEmpty()) {
+			sb.append("]");
+		} else {
+			sb.append(" joins={");
+
+			for (JoinType j: joins.keySet()) {
+				if (joins.get(j) == null)
+					continue;
+
+				sb.append("join [");
+				sb.append(" type=");
+				sb.append(j.toJoinText());
+				sb.append(" filters={");
+
+				for (RequestFilter f: joins.get(j)) {
+					sb.append(f.toString());
+					sb.append("; ");
+				}
+
+				sb.append("]; ");
+			}
+
+			sb.append("]");
 		}
 
 		return sb.toString();
