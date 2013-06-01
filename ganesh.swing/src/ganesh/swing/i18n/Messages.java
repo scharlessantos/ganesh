@@ -3,6 +3,8 @@ package ganesh.swing.i18n;
 
 public interface Messages {
 
+	String motorista();
+
 	String usuario();
 
 	String senha();

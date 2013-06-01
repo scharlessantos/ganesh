@@ -85,4 +85,8 @@ public interface GMessages {
 
 	GString quantidade();
 
+	GString caminhoes();
+
+	GString desejaRealmenteApagarOsCaminhoesSelecionados();
+
 }
