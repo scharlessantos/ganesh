@@ -111,8 +111,13 @@ public abstract class GaneshListPage extends GaneshPage {
 				private static final long serialVersionUID = 1L;
 
 				{
+					final TableCellRenderer renderer = getTableHeader().getDefaultRenderer();
+
 					for (int i = 0; i < getColumnCount(); ++i)
-						getColumnModel().getColumn(i).setPreferredWidth(Math.max(GaneshListPage.this.columns.get(i).getWidth(), 75));
+						getColumnModel().getColumn(i).setPreferredWidth(
+							Math.max(renderer.getTableCellRendererComponent(this, getModel().getColumnName(i), false, false, 0, i).getPreferredSize().width,
+								Math.max(GaneshListPage.this.columns.get(i).getWidth(), 75)));
+
 				}
 
 				@Override
@@ -123,15 +128,15 @@ public abstract class GaneshListPage extends GaneshPage {
 						return prepareRenderer;
 
 					final TableColumn tableColumn = getColumnModel().getColumn(column);
-					tableColumn.setPreferredWidth(Math.max(GaneshListPage.this.columns.get(column).getWidth(), 75));
+					tableColumn.setPreferredWidth(Math.max(tableColumn.getPreferredWidth(), Math.max(GaneshListPage.this.columns.get(column).getWidth(), 75)));
 
 					return prepareRenderer;
 				}
 			};
 
+			table.setDefaultEditor(Object.class, null);
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
 			table.setAutoCreateRowSorter(true);
 
 			table.setModel(model);
