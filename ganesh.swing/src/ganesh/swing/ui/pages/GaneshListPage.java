@@ -111,13 +111,8 @@ public abstract class GaneshListPage extends GaneshPage {
 				private static final long serialVersionUID = 1L;
 
 				{
-					final TableCellRenderer renderer = getTableHeader().getDefaultRenderer();
-
 					for (int i = 0; i < getColumnCount(); ++i)
-						getColumnModel().getColumn(i).setPreferredWidth(
-							renderer.getTableCellRendererComponent(this,
-								getModel().getColumnName(i), false, false, 0, i)
-								.getPreferredSize().width);
+						getColumnModel().getColumn(i).setPreferredWidth(Math.max(GaneshListPage.this.columns.get(i).getWidth(), 75));
 				}
 
 				@Override
@@ -128,7 +123,7 @@ public abstract class GaneshListPage extends GaneshPage {
 						return prepareRenderer;
 
 					final TableColumn tableColumn = getColumnModel().getColumn(column);
-					tableColumn.setPreferredWidth(Math.max(prepareRenderer.getPreferredSize().width, tableColumn.getPreferredWidth()));
+					tableColumn.setPreferredWidth(Math.max(GaneshListPage.this.columns.get(column).getWidth(), 75));
 
 					return prepareRenderer;
 				}
@@ -217,7 +212,7 @@ public abstract class GaneshListPage extends GaneshPage {
 		private String format;
 		private GString title;
 		private GString tooltip;
-		private int width = 2;
+		private int width = 75;
 		private boolean filter = true;
 		private boolean order = true;
 		private byte align = 8;
@@ -230,7 +225,7 @@ public abstract class GaneshListPage extends GaneshPage {
 		 * @param title Título da coluna
 		 */
 		public Column(String field, GString title) {
-			this(field, title, 2);
+			this(field, title, 75);
 		}
 
 		/**
