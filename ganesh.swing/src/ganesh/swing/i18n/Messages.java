@@ -75,4 +75,8 @@ public interface Messages {
 
 	String editar();
 
+	String embalagem();
+
+	String visualizar();
+
 }

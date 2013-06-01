@@ -5,6 +5,8 @@ import ganesh.common.i18n.GString;
 
 public interface GMessages {
 
+	GString embalagens();
+
 	GString grupo();
 
 	GString cadastro();
@@ -66,5 +68,13 @@ public interface GMessages {
 	GString pesavel();
 
 	GString desejaRealmenteApagarOsProdutosSelecionados();
+
+	GString descricao();
+
+	GString qtde();
+
+	GString visualizarAsEmbalagensQuePertencamAoProdutoSelecionado();
+
+	GString desejaRealmenteApagarAsEmbalagensSelecionadas();
 
 }
