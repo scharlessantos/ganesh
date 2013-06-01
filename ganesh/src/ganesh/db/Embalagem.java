@@ -56,6 +56,9 @@ public class Embalagem extends AbstractDBEntity {
 
 			if (emb.idEmbalagem != null && emb.idEmbalagem.equals(idEmbalagem)) {
 				qtd = emb.qtd;
+
+				if (emb.descricao != null && !emb.descricao.equals(descricao))
+					descricao = emb.descricao;
 			}
 		}
 
