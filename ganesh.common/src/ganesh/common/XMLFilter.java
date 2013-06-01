@@ -81,6 +81,14 @@ public class XMLFilter implements XMLItem {
 		public String toJoinText() {
 			return join;
 		}
+
+		public static JoinType getByType(String type) {
+			for (JoinType j: values())
+				if (j.join.equals(type))
+					return j;
+
+			return null;
+		}
 	}
 
 	public enum FilterType {
