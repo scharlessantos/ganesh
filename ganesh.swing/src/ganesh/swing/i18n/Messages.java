@@ -57,7 +57,7 @@ public interface Messages {
 
 	String caminhao();
 
-	String selecioneOItemADeletar();
+	String selecioneOItemA_(String oque);
 
 	String aviso();
 
@@ -70,5 +70,9 @@ public interface Messages {
 	String adicionar_(String oque);
 
 	String produto();
+
+	String apagar();
+
+	String editar();
 
 }

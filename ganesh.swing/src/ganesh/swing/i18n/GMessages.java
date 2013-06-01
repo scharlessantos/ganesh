@@ -65,4 +65,6 @@ public interface GMessages {
 
 	GString pesavel();
 
+	GString desejaRealmenteApagarOsProdutosSelecionados();
+
 }
