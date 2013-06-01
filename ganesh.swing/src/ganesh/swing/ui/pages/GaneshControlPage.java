@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 public abstract class GaneshControlPage extends GaneshPage {
 
@@ -28,7 +29,7 @@ public abstract class GaneshControlPage extends GaneshPage {
 	@Override
 	protected JPanel toJPanel() {
 		JPanel panel = new JPanel(new GridBagLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(4, 2, 4, 2));
+		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -43,7 +44,7 @@ public abstract class GaneshControlPage extends GaneshPage {
 				c.gridx = 0;
 				c.gridy = i;
 
-				c.insets = new Insets(7, 10, 0, 10);
+				c.insets = new Insets(4, 10, 4, 10);
 
 				panel.add(component, c);
 
