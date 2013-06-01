@@ -40,4 +40,6 @@ public interface Messages {
 
 	String empresa();
 
+	String grupo();
+
 }
