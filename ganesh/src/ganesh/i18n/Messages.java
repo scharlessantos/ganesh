@@ -28,4 +28,8 @@ public interface Messages {
 
 	String _jahCadastradoCom_IgualA_(String entidade, String field, String valor);
 
+	String erroAoApagar();
+
+	String _naoEncontrado(String produto);
+
 }

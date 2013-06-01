@@ -217,4 +217,50 @@ public abstract class AbstractDBEntity implements XMLItem {
 
 	protected abstract void merge(AbstractDBEntity other);
 
+	@SuppressWarnings("unchecked")
+	public void delete() throws GException {
+		StringBuilder sql = new StringBuilder();
+		sql.append(genDeleteSQL(getClass()));
+
+		Class<?> cls = getClass().getSuperclass();
+
+		while (!cls.equals(AbstractDBEntity.class)) {
+			sql.append("; ");
+			sql.append(genDeleteSQL((Class<? extends AbstractDBEntity>)cls));
+		}
+
+		DBServer.getInstance().executeUpdate(sql.toString());
+
+	}
+
+	protected String genDeleteSQL(Class<? extends AbstractDBEntity> cls) throws GException {
+		StringBuilder sb = new StringBuilder();
+
+		String entity = null;
+
+		if (cls.isAnnotationPresent(Entity.class))
+			entity = cls.getAnnotation(Entity.class).value();
+
+		if (entity == null)
+			throw new GException(ServerErrorCode.DB_ERROR, M.erroAoApagar());
+
+		sb.append("delete from ");
+		sb.append(entity);
+		sb.append(" where ");
+
+		Filter id = new Filter();
+
+		for (Field f: cls.getDeclaredFields())
+			if (f.isAnnotationPresent(Id.class))
+				try {
+					id.and(new Filter(getClass(), f.getAnnotation(Id.class).value(), f.get(this), FilterType.EQUALS));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					Hermes.error(e);
+					throw new GException(ServerErrorCode.DB_ERROR, e);
+				}
+
+		sb.append(id.genSQL(null));
+
+		return sb.toString();
+	}
 }

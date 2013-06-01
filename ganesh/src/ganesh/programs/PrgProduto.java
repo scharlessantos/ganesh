@@ -32,7 +32,10 @@ public class PrgProduto extends GaneshProgram {
 				for (Produto produto: produtos)
 					resp.addListItem("produtos", produto);
 
+			} else if (extra.equals("embalagem")) {
+
 			}
+
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
@@ -71,6 +74,37 @@ public class PrgProduto extends GaneshProgram {
 					produto.setPesavel(data.get("pesavel").endsWith("true"));
 
 					produto.save();
+				}
+
+			}
+		} catch (GException e) {
+			Hermes.error(e);
+			resp.setMessage(new ErrorMessage(e.getMessage()));
+
+		}
+	}
+
+	@RequestHandler(RequestType.DELETE)
+	public void delete(Request req, Response resp, String extra) {
+		try {
+			if (extra == null || extra.trim().isEmpty()) {
+
+				for (XMLData data: req.listItems()) {
+					String codigo = data.get("codigo");
+					if (codigo == null || codigo.trim().isEmpty()) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.codigo())));
+						return;
+					}
+
+					Produto produto = null;
+
+					if (data.get("id_produto") != null)
+						produto = DB.first(Produto.class, new Filter(Produto.class, "id_produto", data.get("id_produto"), FilterType.EQUALS));
+
+					if (produto == null)
+						resp.setMessage(new ErrorMessage(M._naoEncontrado(M.produto())));
+					else
+						produto.delete();
 				}
 
 			}
