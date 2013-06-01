@@ -4,13 +4,15 @@ package ganesh.programs;
 import ganesh.common.XMLData;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
+import ganesh.common.request.RequestFilter;
+import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.db.DB;
+import ganesh.db.Embalagem;
 import ganesh.db.Produto;
 import ganesh.db.utils.Filter;
-import ganesh.db.utils.Filter.FilterType;
 import ganesh.programs.ProgramManager.RequestType;
 
 import java.util.List;
@@ -34,6 +36,15 @@ public class PrgProduto extends GaneshProgram {
 					resp.addListItem("produtos", produto);
 
 			} else if (extra.equals("embalagem")) {
+				List<RequestFilter> filters = req.listFilters();
+
+				if (filters.size() <= 0)
+					return;
+
+				List<Embalagem> embalagens = DB.list(Embalagem.class, new Filter(Embalagem.class, filters.get(0).getField(), filters.get(0).getValue(), filters.get(0).getType()));
+
+				for (Embalagem embalagem: embalagens)
+					resp.addListItem("embalagens", embalagem);
 
 			}
 
@@ -77,7 +88,38 @@ public class PrgProduto extends GaneshProgram {
 					produto.save();
 				}
 
+			} else if (extra.equals("embalagem")) {
+				for (XMLData data: req.listItems()) {
+					String produto = data.get("id_produto");
+					if (produto == null || produto.trim().isEmpty()) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.produto())));
+						return;
+					}
+
+					String qtd = data.get("qtd");
+					if (qtd == null || qtd.trim().isEmpty()) {
+						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.quantidade())));
+						return;
+					}
+
+					Filter f = new Filter();
+					f.and(new Filter(Embalagem.class, "id_produto", produto, FilterType.EQUALS));
+					f.and(new Filter(Embalagem.class, "qtd", "qtd", FilterType.EQUALS));
+
+					Embalagem embalagem = DB.first(Embalagem.class, f);
+
+					if (embalagem == null) {
+						embalagem = new Embalagem();
+						embalagem.setProduto(Produto.getById(Long.valueOf(produto)));
+						embalagem.setQtd(Long.valueOf(qtd));
+					}
+
+					embalagem.setDescricao(data.get("descricao"));
+					embalagem.save();
+
+				}
 			}
+
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));

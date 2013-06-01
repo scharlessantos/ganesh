@@ -2,11 +2,11 @@
 package ganesh.db;
 
 import ganesh.common.exceptions.GException;
+import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
 import ganesh.db.annotations.Property;
 import ganesh.db.utils.Filter;
-import ganesh.db.utils.Filter.FilterType;
 
 @Entity("usuario")
 public class Usuario extends Pessoa {

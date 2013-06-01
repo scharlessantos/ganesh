@@ -4,13 +4,13 @@ package ganesh.programs;
 import ganesh.common.XMLData;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
+import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.db.DB;
 import ganesh.db.Empresa;
 import ganesh.db.utils.Filter;
-import ganesh.db.utils.Filter.FilterType;
 import ganesh.programs.ProgramManager.RequestType;
 
 import java.util.List;

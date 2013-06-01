@@ -1,6 +1,8 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db.utils;
 
+import ganesh.common.request.RequestFilter.FilterType;
+import ganesh.common.request.RequestFilter.JoinType;
 import ganesh.db.AbstractDBEntity;
 
 import java.util.ArrayList;
@@ -99,31 +101,4 @@ public class Filter {
 		joins.put(j, qs);
 	}
 
-	public enum JoinType {
-		AND("and"), OR("or");
-
-		private String join;
-
-		private JoinType(String join) {
-			this.join = join;
-		}
-
-		public String toJoinText() {
-			return join;
-		}
-	}
-
-	public enum FilterType {
-		LIKE(" like "), EQUALS("="), NOT_EQUALS("<>"), GREATER(">"), GREATER_EQUALS(">="), LESS("<"), LESS_EQUALS("<=");
-
-		private String type;
-
-		private FilterType(String type) {
-			this.type = type;
-		}
-
-		public String getType() {
-			return type;
-		}
-	}
 }

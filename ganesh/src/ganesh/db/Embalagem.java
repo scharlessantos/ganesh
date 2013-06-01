@@ -48,6 +48,14 @@ public class Embalagem extends AbstractDBEntity {
 		this.qtd = qtd;
 	}
 
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
 	@Override
 	protected void merge(AbstractDBEntity other) {
 		if (other instanceof Embalagem) {

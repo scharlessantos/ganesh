@@ -42,4 +42,6 @@ public interface Messages {
 
 	String grupo();
 
+	String quantidade();
+
 }
