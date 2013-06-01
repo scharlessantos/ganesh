@@ -1,15 +1,18 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import ganesh.common.exceptions.GException;
+import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
 import ganesh.db.annotations.Property;
+import ganesh.db.utils.Filter;
 
 @Entity("caminhao")
 public class Caminhao extends AbstractDBEntity {
 
 	@Id("id_caminhao")
-	private long idCaminhao;
+	private Long idCaminhao;
 
 	@Property("id_empresa")
 	private Long idEmpresa;
@@ -36,16 +39,16 @@ public class Caminhao extends AbstractDBEntity {
 		return placa;
 	}
 
-	//	public Empresa getEmpresa() {
-	//		return empresa;
-	//	}
-	//
-	//	public void setEmpresa(Empresa empresa) {
-	//		this.empresa = empresa;
-	//	}
+	public Empresa getEmpresa() throws GException {
+		if (idEmpresa == null)
+			return null;
 
-	public void setIdCaminhao(int idCaminhao) {
-		this.idCaminhao = idCaminhao;
+		return DB.first(Empresa.class, new Filter(Empresa.class, "id_empresa", idEmpresa, FilterType.EQUALS));
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		if (empresa != null)
+			idEmpresa = empresa.getIdEmpresa();
 	}
 
 	public void setCodigo(String codigo) {
@@ -58,7 +61,19 @@ public class Caminhao extends AbstractDBEntity {
 
 	@Override
 	protected void merge(AbstractDBEntity other) {
-		// TODO Auto-generated method stub
+		if (other instanceof Caminhao) {
+
+			Caminhao cam = (Caminhao)other;
+
+			if (cam.idCaminhao != null && cam.idCaminhao.equals(idCaminhao)) {
+
+				if (cam.placa != null && !cam.placa.equals(placa))
+					codigo = cam.codigo;
+
+				if (cam.placa != null && !cam.codigo.equals(codigo))
+					placa = cam.placa;
+			}
+		}
 
 	}
 
