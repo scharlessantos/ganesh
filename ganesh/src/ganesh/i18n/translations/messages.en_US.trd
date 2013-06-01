@@ -19,6 +19,7 @@ erroAoInserir_(String)=Error on insert %s
 #grupos()=
 #naoFoiPossivelCriarODiretorioDeDados()=
 #nome()=
+#picking()=
 #produto()=
 #quantidade()=
 #requisicaoInvalida()=

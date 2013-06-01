@@ -48,4 +48,6 @@ public interface Messages {
 
 	String caminhao();
 
+	String picking();
+
 }

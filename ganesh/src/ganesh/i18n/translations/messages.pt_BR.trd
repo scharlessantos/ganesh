@@ -19,6 +19,7 @@ grupo()=Grupo
 grupos()=Grupos
 naoFoiPossivelCriarODiretorioDeDados()=Não foi possivel criar o diretório de dados
 nome()=Nome
+picking()=Picking
 produto()=Produto
 quantidade()=Quantidade
 requisicaoInvalida()=Requisição inválida
