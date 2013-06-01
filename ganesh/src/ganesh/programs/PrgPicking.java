@@ -6,6 +6,7 @@ import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
 import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.common.response.Message.ErrorMessage;
+import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.db.DB;
 import ganesh.db.Empresa;
@@ -86,7 +87,30 @@ public class PrgPicking extends GaneshProgram {
 
 	@RequestHandler(RequestType.DELETE)
 	public void delete(Request req, Response resp, String extra) {
+		try {
+			if (extra == null || extra.trim().isEmpty()) {
 
+				for (XMLData data: req.listItems()) {
+					Picking picking = null;
+
+					if (data.get("id_picking") != null)
+						picking = DB.first(Picking.class, new Filter(Picking.class, "id_picking", data.get("id_picking"), FilterType.EQUALS));
+
+					if (picking == null)
+						resp.setMessage(new ErrorMessage(M._naoEncontrado(M.picking())));
+					else {
+						picking.delete();
+
+						resp.setMessage(new InformationMessage(M._apagadoComSucesso(M.picking())));
+					}
+				}
+			}
+
+		} catch (GException e) {
+			Hermes.error(e);
+			resp.setMessage(new ErrorMessage(e.getMessage()));
+
+		}
 	}
 
 }
