@@ -1,7 +1,11 @@
 /* Ganesh Swing Client, developed in 2013 */
 package ganesh.swing.programs.cadastro.produto.embalagem;
 
+import ganesh.common.XMLData;
+import ganesh.common.XMLItem;
 import ganesh.common.request.ListRequest;
+import ganesh.common.request.RequestFilter;
+import ganesh.common.request.RequestFilter.FilterType;
 import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
@@ -33,22 +37,23 @@ public class PgListEmbalagem extends GaneshListPage {
 		List<GaneshData> data = new ArrayList<>();
 
 		ListRequest req = new ListRequest("produto", "embalagem");
+		req.addFilter(new RequestFilter("id_produto", getProgram().getData().get("ID_PRODUTO"), FilterType.EQUALS));
 
 		req.setSession(GaneshSwing.getSession());
 
 		Response resp = req.doRequest();
 
-		//		for (XMLItem ri: resp.getList("embalagens"))
-		//			if (ri instanceof XMLData) {
-		//				GaneshData d = new GaneshData();
-		//
-		//				XMLData rd = (XMLData)ri;
-		//				for (String key: rd.keySet()) {
-		//					d.setString(key.toUpperCase(), rd.get(key));
-		//				}
-		//
-		//				data.add(d);
-		//			}
+		for (XMLItem ri: resp.getList("embalagens"))
+			if (ri instanceof XMLData) {
+				GaneshData d = new GaneshData();
+
+				XMLData rd = (XMLData)ri;
+				for (String key: rd.keySet()) {
+					d.setString(key.toUpperCase(), rd.get(key));
+				}
+
+				data.add(d);
+			}
 
 		getProgram().handleResponse(resp);
 

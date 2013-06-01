@@ -21,6 +21,9 @@ public class GaneshSwing {
 	private static Language language = null;
 
 	public static Session getSession() {
+		if (session == null)
+			return null;
+
 		return session.copy();
 	}
 

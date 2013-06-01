@@ -39,7 +39,7 @@ public abstract class GaneshDialog extends AbstractGaneshPage {
 		this.lblFechar = lblFechar;
 	}
 
-	private GaneshPage page;
+	protected GaneshPage page;
 
 	protected void setPage(GaneshPage page) {
 		this.page = page;
