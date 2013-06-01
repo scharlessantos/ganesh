@@ -1,29 +1,31 @@
 /* Ganesh Commons, developed in 2013 */
-package ganesh.common;
+package ganesh.common.request;
+
+import ganesh.common.XMLItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class XMLFilter implements XMLItem {
+public class RequestFilter implements XMLItem {
 
-	private HashMap<JoinType, List<XMLFilter>> joins = new HashMap<>();
+	private HashMap<JoinType, List<RequestFilter>> joins = new HashMap<>();
 
 	private String field = null;
 	private Object value = null;
 	private FilterType type = null;
 
-	public XMLFilter(String field, Object value, FilterType type) {
+	public RequestFilter(String field, Object value, FilterType type) {
 		this.field = field;
 		this.value = value;
 		this.type = type;
 	}
 
-	public XMLFilter() {
+	public RequestFilter() {
 
 	}
 
-	public HashMap<JoinType, List<XMLFilter>> getJoins() {
+	public HashMap<JoinType, List<RequestFilter>> getJoins() {
 		return new HashMap<>(joins);
 	}
 
@@ -51,21 +53,23 @@ public class XMLFilter implements XMLItem {
 		this.type = type;
 	}
 
-	public void and(XMLFilter query) {
+	public void and(RequestFilter query) {
 		join(JoinType.AND, query);
 	}
 
-	public void or(XMLFilter query) {
+	public void or(RequestFilter query) {
 		join(JoinType.OR, query);
 	}
 
-	private void join(JoinType j, XMLFilter q) {
-		List<XMLFilter> qs = joins.get(j);
+	protected void join(JoinType j, RequestFilter q) {
+		List<RequestFilter> qs = joins.get(j);
 
 		if (qs == null)
 			qs = new ArrayList<>();
 
-		qs.add(q);
+		if (q != null)
+			qs.add(q);
+
 		joins.put(j, qs);
 	}
 
@@ -138,7 +142,7 @@ public class XMLFilter implements XMLItem {
 				sb.append(j.toJoinText());
 				sb.append("' >\n");
 
-				for (XMLFilter f: joins.get(j)) {
+				for (RequestFilter f: joins.get(j)) {
 					sb.append(f.toXML());
 					sb.append("\n");
 				}

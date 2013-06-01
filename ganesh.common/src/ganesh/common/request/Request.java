@@ -4,6 +4,8 @@ package ganesh.common.request;
 import ganesh.common.XMLData;
 import ganesh.common.exceptions.CommonErrorCode;
 import ganesh.common.exceptions.GException;
+import ganesh.common.request.RequestFilter.FilterType;
+import ganesh.common.request.RequestFilter.JoinType;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Response;
 import ganesh.common.session.Session;
@@ -70,6 +72,38 @@ public abstract class Request {
 									session.addProperty(se.getAttributeByName(new QName("key")).getValue(), se.getAttributeByName(new QName("value")).getValue());
 								}
 								break;
+							case "filter":
+								String field = null;
+								if (se.getAttributeByName(new QName("field")) != null)
+									field = se.getAttributeByName(new QName("field")).getValue();
+
+								String valor = null;
+								if (se.getAttributeByName(new QName("value")) != null)
+									valor = se.getAttributeByName(new QName("value")).getValue();
+
+								FilterType type = null;
+								if (se.getAttributeByName(new QName("type")) != null)
+									type = FilterType.getByAcronym(se.getAttributeByName(new QName("type")).getValue());
+
+								RequestFilter filter = new RequestFilter(field, valor, type);
+
+								if (parents.get(1).equals("join") && joinAux.size() > 0 && filters.size() > 0)
+									filters.get(0).join(joinAux.get(0), filter);
+								else
+									filters.add(0, filter);
+
+								break;
+
+							case "join":
+								if (se.getAttributeByName(new QName("type")) != null) {
+									JoinType join = JoinType.getByType(se.getAttributeByName(new QName("type")).getValue());
+
+									if (join != null)
+										joinAux.add(0, join);
+
+								}
+
+								break;
 							default:
 
 								XMLData data = new XMLData();
@@ -98,6 +132,11 @@ public abstract class Request {
 
 						break;
 					case XMLEvent.END_ELEMENT:
+						switch (parents.get(0)) {
+							case "join":
+								joinAux.remove(0);
+								break;
+						}
 						parents.remove(0);
 						break;
 				}
@@ -110,7 +149,20 @@ public abstract class Request {
 		}
 	}
 
+	private List<JoinType> joinAux = new ArrayList<>();
+
 	private List<XMLData> items = new ArrayList<>();
+
+	private List<RequestFilter> filters = new ArrayList<>();
+
+	public void addFilter(RequestFilter filter) {
+		if (filter != null)
+			filters.add(filter);
+	}
+
+	public List<RequestFilter> listFilters() {
+		return new ArrayList<>(filters);
+	}
 
 	public List<XMLData> listItems() {
 		return new ArrayList<>(items);
