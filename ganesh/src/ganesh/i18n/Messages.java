@@ -34,4 +34,10 @@ public interface Messages {
 
 	String _apagadoComSucesso(String produto);
 
+	String cnpj();
+
+	String nome();
+
+	String empresa();
+
 }
