@@ -3,6 +3,7 @@ package ganesh.swing.programs.cadastro.produto;
 
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.UpdateRequest;
+import ganesh.common.request.UpdateRequest.Acao;
 import ganesh.common.response.Message.ErrorMessage;
 import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
@@ -60,15 +61,15 @@ public class PgDialogProduto extends GaneshDialog {
 
 	@ButtonHandler("SALVAR")
 	public void onSalvar(GaneshData data) {
-		UpdateRequest req = new UpdateRequest("produto");
+		UpdateRequest req = new UpdateRequest(Acao.SALVAR, "produto");
 		req.setSession(GaneshSwing.getSession());
 		req.addItem(data);
 
 		Response resp = req.doRequest();
 
-		if (resp.getMessage() != null)
-			MessageHandler.show(resp.getMessage());
-		else
+		getProgram().handleResponse(resp);
+
+		if (resp.getResponseValue() == null || resp.getResponseValue().intValue() == Response.OK)
 			try {
 				close();
 			} catch (GException e) {

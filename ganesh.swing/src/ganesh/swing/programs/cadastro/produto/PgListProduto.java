@@ -4,6 +4,9 @@ package ganesh.swing.programs.cadastro.produto;
 import ganesh.common.XMLData;
 import ganesh.common.XMLItem;
 import ganesh.common.request.ListRequest;
+import ganesh.common.request.UpdateRequest;
+import ganesh.common.request.UpdateRequest.Acao;
+import ganesh.common.response.Message.WarningMessage;
 import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
@@ -26,7 +29,7 @@ public class PgListProduto extends GaneshListPage {
 
 		addButton(new GaneshButton(GM.novo(), "NOVO", Icons.BRICK_ADD));
 		addButton(new GaneshButton(GM.editar(), "EDITAR", Icons.BRICK_EDIT));
-		addButton(new GaneshButton(GM.excluir(), "DELETE", Icons.BRICK_DELETE));
+		addButton(new GaneshButton(GM.excluir(), "DELETE", Icons.BRICK_DELETE).setConfirmation(GM.desejaRealmenteApagarOsProdutosSelecionados()));
 	}
 
 	@Override
@@ -78,6 +81,11 @@ public class PgListProduto extends GaneshListPage {
 
 	@ButtonHandler("EDITAR")
 	public void editar(GaneshData data) {
+		if (data == null || data.count() <= 0) {
+			MessageHandler.show(new WarningMessage(M.selecioneOItemA_(M.editar())));
+			return;
+		}
+
 		PgDialogProduto dialog = new PgDialogProduto(getProgram());
 		dialog.setData(data);
 
@@ -85,4 +93,28 @@ public class PgListProduto extends GaneshListPage {
 		reloadData();
 	}
 
+	@ButtonHandler("DELETE")
+	public void deletar(GaneshData data) {
+		if (data == null || data.count() <= 0) {
+			MessageHandler.show(new WarningMessage(M.selecioneOItemA_(M.apagar())));
+			return;
+		}
+
+		UpdateRequest req = new UpdateRequest(Acao.DELETAR, "produto");
+		req.setSession(GaneshSwing.getSession());
+
+		if (data.getGaneshDataList(GaneshListPage.SELECTED_ROWS) != null) {
+			for (GaneshData d: data.getGaneshDataList(GaneshListPage.SELECTED_ROWS))
+				req.addItem(d);
+
+		} else {
+			req.addItem(data);
+		}
+
+		Response resp = req.doRequest();
+
+		getProgram().handleResponse(resp);
+
+		reloadData();
+	}
 }
