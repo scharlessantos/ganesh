@@ -1,5 +1,5 @@
 /* Ganesh Swing Client, developed in 2013 */
-package ganesh.swing.programs.cadastro.grupo;
+package ganesh.swing.programs.cadastro.empresa;
 
 import ganesh.common.XMLData;
 import ganesh.common.XMLItem;
@@ -19,37 +19,39 @@ import ganesh.swing.ui.pages.GaneshListPage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PgListGrupo extends GaneshListPage {
+public class PgListEmpresa extends GaneshListPage {
 
-	public PgListGrupo() {
-		addColumn("CODIGO", GM.codigo(), 80);
-		addColumn("DESCRICAO", GM.nome(), 180);
+	public PgListEmpresa() {
+		addColumn("CODIGO", GM.codigo());
+		addColumn("NOME", GM.nome(), 150);
+		addColumn("CNPJ", GM.cnpj(), 100);
 
-		addButton(new GaneshButton(GM.novo(), "NOVO", Icons.GROUP_ADD));
-		addButton(new GaneshButton(GM.editar(), "EDITAR", Icons.GROUP_EDIT));
-		addButton(new GaneshButton(GM.excluir(), "DELETE", Icons.GROUP_DELETE).setConfirmation(GM.desejaRealmenteApagarOsGruposSelecionados()));
-	}
+		addButton(new GaneshButton(GM.novo(), "NOVO", Icons.BUILDING_ADD));
+		addButton(new GaneshButton(GM.editar(), "EDITAR", Icons.BUILDING_EDIT));
+		addButton(new GaneshButton(GM.excluir(), "DELETE", Icons.BUILDING_DELETE).setConfirmation(GM.desejaRealmenteApagarAsEmpresasSelecionadas()));
 
-	@Override
-	public String getIcon() {
-		return Icons.GROUP;
 	}
 
 	@Override
 	public String getTitle() {
-		return M.grupo();
+		return M.empresa();
+	}
+
+	@Override
+	public String getIcon() {
+		return Icons.BUILDING;
 	}
 
 	@Override
 	protected List<GaneshData> loadTableData() {
 		List<GaneshData> data = new ArrayList<>();
 
-		ListRequest req = new ListRequest("grupo");
+		ListRequest req = new ListRequest("empresa");
 		req.setSession(GaneshSwing.getSession());
 
 		Response resp = req.doRequest();
 
-		for (XMLItem ri: resp.getList("grupos"))
+		for (XMLItem ri: resp.getList("empresas"))
 			if (ri instanceof XMLData) {
 				GaneshData d = new GaneshData();
 
@@ -61,15 +63,14 @@ public class PgListGrupo extends GaneshListPage {
 				data.add(d);
 			}
 
-		if (resp.getMessage() != null)
-			MessageHandler.show(resp.getMessage());
+		getProgram().handleResponse(resp);
 
 		return data;
 	}
 
 	@ButtonHandler("NOVO")
 	public void adicionar() {
-		new PgDlgGrupo(getProgram()).renderize();
+		new PgDialogEmpresa(getProgram()).renderize();
 
 		reloadData();
 	}
@@ -81,7 +82,7 @@ public class PgListGrupo extends GaneshListPage {
 			return;
 		}
 
-		PgDlgGrupo dialog = new PgDlgGrupo(getProgram());
+		PgDialogEmpresa dialog = new PgDialogEmpresa(getProgram());
 		dialog.setData(data);
 
 		dialog.renderize();
@@ -96,7 +97,7 @@ public class PgListGrupo extends GaneshListPage {
 			return;
 		}
 
-		UpdateRequest req = new UpdateRequest(Acao.DELETAR, "grupo");
+		UpdateRequest req = new UpdateRequest(Acao.DELETAR, "empresa");
 		req.setSession(GaneshSwing.getSession());
 
 		if (data.getGaneshDataList(GaneshListPage.SELECTED_ROWS) != null) {
@@ -113,4 +114,5 @@ public class PgListGrupo extends GaneshListPage {
 
 		reloadData();
 	}
+
 }

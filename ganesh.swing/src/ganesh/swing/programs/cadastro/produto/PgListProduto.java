@@ -10,6 +10,7 @@ import ganesh.common.response.Message.WarningMessage;
 import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
+import ganesh.swing.programs.cadastro.produto.embalagem.PgDialogListEmbalagem;
 import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.controls.GaneshButton.ButtonHandler;
@@ -22,14 +23,18 @@ import java.util.List;
 public class PgListProduto extends GaneshListPage {
 
 	public PgListProduto() {
-		addColumn("CODIGO", GM.codigo());
-		addColumn("NOME", GM.nome());
-		addColumn("COMPLEMENTO", GM.complemento());
+		addColumn("CODIGO", GM.codigo(), 100);
+		addColumn("NOME", GM.nome(), 200);
+		addColumn("COMPLEMENTO", GM.complemento(), 150);
 		addColumn("PESAVEL_TRATADO", GM.pesavel());
 
 		addButton(new GaneshButton(GM.novo(), "NOVO", Icons.BRICK_ADD));
 		addButton(new GaneshButton(GM.editar(), "EDITAR", Icons.BRICK_EDIT));
 		addButton(new GaneshButton(GM.excluir(), "DELETE", Icons.BRICK_DELETE).setConfirmation(GM.desejaRealmenteApagarOsProdutosSelecionados()));
+
+		GaneshButton btn = new GaneshButton(GM.embalagens(), "EMBALAGENS", Icons.PACKAGE);
+		btn.setTooltip(GM.visualizarAsEmbalagensQuePertencamAoProdutoSelecionado());
+		addButton(btn);
 	}
 
 	@Override
@@ -66,8 +71,7 @@ public class PgListProduto extends GaneshListPage {
 				data.add(d);
 			}
 
-		if (resp.getMessage() != null)
-			MessageHandler.show(resp.getMessage());
+		getProgram().handleResponse(resp);
 
 		return data;
 	}
@@ -116,5 +120,18 @@ public class PgListProduto extends GaneshListPage {
 		getProgram().handleResponse(resp);
 
 		reloadData();
+	}
+
+	@ButtonHandler("EMBALAGENS")
+	public void embalagens(GaneshData data) {
+		if (data == null || data.count() <= 0 || data.getGaneshDataList(GaneshListPage.SELECTED_ROWS) != null) {
+			MessageHandler.show(new WarningMessage(M.selecioneOItemA_(M.visualizar())));
+			return;
+		}
+
+		PgDialogListEmbalagem dialog = new PgDialogListEmbalagem(getProgram());
+		dialog.setData(data);
+		dialog.renderize();
+
 	}
 }
