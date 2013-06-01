@@ -89,4 +89,12 @@ public interface GMessages {
 
 	GString desejaRealmenteApagarOsCaminhoesSelecionados();
 
+	GString picking();
+
+	GString data();
+
+	GString desejaRealmenteApagarOsPickingsSelecionados();
+
+	GString produtos();
+
 }

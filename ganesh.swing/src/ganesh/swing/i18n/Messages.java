@@ -83,4 +83,6 @@ public interface Messages {
 
 	String empresa();
 
+	String picking();
+
 }
