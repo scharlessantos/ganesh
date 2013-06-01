@@ -102,18 +102,17 @@ public class PrgProduto extends GaneshProgram {
 						return;
 					}
 
-					Filter f = new Filter();
-					f.and(new Filter(Embalagem.class, "id_produto", produto, FilterType.EQUALS));
-					f.and(new Filter(Embalagem.class, "qtd", qtd, FilterType.EQUALS));
+					Embalagem embalagem = null;
 
-					Embalagem embalagem = DB.first(Embalagem.class, f);
+					if (data.get("id_embalagem") != null)
+						embalagem = DB.first(Embalagem.class, new Filter(Embalagem.class, "id_embalagem", data.get("id_embalagem"), FilterType.EQUALS));
 
 					if (embalagem == null) {
 						embalagem = new Embalagem();
 						embalagem.setProduto(Produto.getById(Long.valueOf(produto)));
-						embalagem.setQtd(Long.valueOf(qtd));
 					}
 
+					embalagem.setQtd(Long.valueOf(qtd));
 					embalagem.setDescricao(data.get("descricao"));
 					embalagem.save();
 
@@ -147,7 +146,25 @@ public class PrgProduto extends GaneshProgram {
 					}
 				}
 
+			} else if (extra.startsWith("embalagem")) {
+				for (XMLData data: req.listItems()) {
+
+					Embalagem embalagem = null;
+
+					if (data.get("id_embalagem") != null)
+						embalagem = DB.first(Embalagem.class, new Filter(Embalagem.class, "id_embalagem", data.get("id_embalagem"), FilterType.EQUALS));
+
+					if (embalagem == null)
+						resp.setMessage(new ErrorMessage(M._naoEncontrado(M.embalagem())));
+					else {
+						embalagem.delete();
+
+						resp.setMessage(new InformationMessage(M._apagadoComSucesso(M.embalagem())));
+
+					}
+				}
 			}
+
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
