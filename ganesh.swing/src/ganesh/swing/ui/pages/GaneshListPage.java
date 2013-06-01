@@ -198,6 +198,7 @@ public abstract class GaneshListPage extends GaneshPage {
 				model.addRow(row.toArray());
 			}
 
+		super.data = null;
 		table.doLayout();
 	}
 
