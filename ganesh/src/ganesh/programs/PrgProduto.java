@@ -35,7 +35,7 @@ public class PrgProduto extends GaneshProgram {
 				for (Produto produto: produtos)
 					resp.addListItem("produtos", produto);
 
-			} else if (extra.equals("embalagem")) {
+			} else if (extra.startsWith("embalagem")) {
 				List<RequestFilter> filters = req.listFilters();
 
 				if (filters.size() <= 0)
@@ -88,7 +88,7 @@ public class PrgProduto extends GaneshProgram {
 					produto.save();
 				}
 
-			} else if (extra.equals("embalagem")) {
+			} else if (extra.startsWith("embalagem")) {
 				for (XMLData data: req.listItems()) {
 					String produto = data.get("id_produto");
 					if (produto == null || produto.trim().isEmpty()) {
@@ -104,7 +104,7 @@ public class PrgProduto extends GaneshProgram {
 
 					Filter f = new Filter();
 					f.and(new Filter(Embalagem.class, "id_produto", produto, FilterType.EQUALS));
-					f.and(new Filter(Embalagem.class, "qtd", "qtd", FilterType.EQUALS));
+					f.and(new Filter(Embalagem.class, "qtd", qtd, FilterType.EQUALS));
 
 					Embalagem embalagem = DB.first(Embalagem.class, f);
 
