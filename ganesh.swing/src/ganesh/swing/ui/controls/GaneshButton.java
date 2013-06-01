@@ -4,6 +4,7 @@ package ganesh.swing.ui.controls;
 import ganesh.common.exceptions.GException;
 import ganesh.common.i18n.GString;
 import ganesh.common.response.Message.ErrorMessage;
+import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.images.Images.Icons;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import org.scharlessantos.hermes.Hermes;
 
@@ -26,12 +28,22 @@ public class GaneshButton extends AbstractGaneshControl<JButton> {
 
 	private String action;
 	private String icon;
+	private GString confirmation;
 
 	public GaneshButton(GString label, String action, String icon) {
 		super("", label);
 
 		this.action = action;
 		this.icon = icon;
+	}
+
+	public GString getConfirmation() {
+		return confirmation;
+	}
+
+	public GaneshButton setConfirmation(GString confirmation) {
+		this.confirmation = confirmation;
+		return this;
 	}
 
 	public String getAction() {
@@ -79,6 +91,11 @@ public class GaneshButton extends AbstractGaneshControl<JButton> {
 					List<Object> params = new ArrayList<>();
 
 					if (method.getAnnotation(ButtonHandler.class).value().equals(action)) {
+
+						if (getConfirmation() != null)
+							if (JOptionPane.showConfirmDialog(null, getConfirmation().toString(), GaneshSwing.getMessages().ganeshClient(), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION)
+								return;
+
 						if (method.getParameterTypes().length > 0) {
 
 							for (Class<?> param: method.getParameterTypes()) {
