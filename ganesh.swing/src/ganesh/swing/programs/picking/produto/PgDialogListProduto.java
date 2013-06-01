@@ -6,10 +6,14 @@ import ganesh.common.XMLItem;
 import ganesh.common.request.ListRequest;
 import ganesh.common.request.RequestFilter;
 import ganesh.common.request.RequestFilter.FilterType;
+import ganesh.common.request.UpdateRequest;
+import ganesh.common.request.UpdateRequest.Acao;
+import ganesh.common.response.Message.WarningMessage;
 import ganesh.common.response.Response;
 import ganesh.swing.GaneshSwing;
 import ganesh.swing.programs.GaneshData;
 import ganesh.swing.programs.GaneshProgram;
+import ganesh.swing.ui.MessageHandler;
 import ganesh.swing.ui.controls.GaneshButton;
 import ganesh.swing.ui.controls.GaneshButton.ButtonHandler;
 import ganesh.swing.ui.images.Images.Icons;
@@ -73,7 +77,7 @@ public class PgDialogListProduto extends GaneshDialog {
 
 		addButton(new GaneshButton(GM.adicionar(), "ADICIONAR", Icons.BRICK_ADD));
 		addButton(new GaneshButton(GM.alterarQtde(), "QUANTIDADE", Icons.BRICKS));
-		addButton(new GaneshButton(GM.remover(), "REMOVER", Icons.BRICK_DELETE));
+		addButton(new GaneshButton(GM.remover(), "REMOVER", Icons.BRICK_DELETE).setConfirmation(GM.desejaRealmenteApagarOsProdutosSelecionados()));
 	}
 
 	@ButtonHandler("ADICIONAR")
@@ -85,7 +89,39 @@ public class PgDialogListProduto extends GaneshDialog {
 
 	@ButtonHandler("QUANTIDADE")
 	public void quantidade(GaneshData data) {
-		new PgDialogEditQtd(getProgram()).renderize();
+		if (data == null || data.count() <= 0) {
+			MessageHandler.show(new WarningMessage(M.selecioneOItemA_(M.alterarQuantidade().toLowerCase())));
+			return;
+		}
+
+		PgDialogEditQtd dialog = new PgDialogEditQtd(getProgram());
+		dialog.setData(data);
+		dialog.renderize();
+
+		((GaneshListPage)page).reloadData();
+	}
+
+	@ButtonHandler("REMOVER")
+	public void remover(GaneshData data) {
+		if (data == null || data.count() <= 0) {
+			MessageHandler.show(new WarningMessage(M.selecioneOItemA_(M.apagar())));
+			return;
+		}
+
+		UpdateRequest req = new UpdateRequest(Acao.DELETAR, "picking", "produtos");
+		req.setSession(GaneshSwing.getSession());
+
+		if (data.getGaneshDataList(GaneshListPage.SELECTED_ROWS) != null) {
+			for (GaneshData d: data.getGaneshDataList(GaneshListPage.SELECTED_ROWS))
+				req.addItem(d);
+
+		} else {
+			req.addItem(data);
+		}
+
+		Response resp = req.doRequest();
+
+		getProgram().handleResponse(resp);
 
 		((GaneshListPage)page).reloadData();
 	}

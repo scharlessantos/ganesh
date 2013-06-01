@@ -80,7 +80,7 @@ public class PgDialogAddProduto extends GaneshDialog {
 
 	@ButtonHandler("ADICIONAR")
 	public void adicionar(GaneshData data) {
-		UpdateRequest req = new UpdateRequest(Acao.SALVAR, "picking", "produtos/add");
+		UpdateRequest req = new UpdateRequest(Acao.SALVAR, "picking", "produtos");
 		req.setSession(GaneshSwing.getSession());
 
 		String picking = getProgram().getData().getString("ID_PICKING");
