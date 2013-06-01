@@ -13,8 +13,19 @@ import javax.swing.JTextField;
 
 public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 
+	private boolean readOnly = false;
+
 	public GaneshTextInput(String name, GString label) {
 		super(name, label);
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public GaneshTextInput setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+		return this;
 	}
 
 	private JTextField text = new JTextField();
@@ -34,6 +45,7 @@ public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 
 		c.gridy = 1;
 		c.insets = new Insets(0, 0, 0, 0);
+		text.setEditable(!readOnly);
 		panel.add(text, c);
 
 		panel.doLayout();
