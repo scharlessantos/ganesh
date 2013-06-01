@@ -1,9 +1,12 @@
 #_EhObrigatorio(String)=
+#_apagadoComSucesso(String)=
 #_jahCadastradoCom_IgualA_(String, String, String)=
 #_naoEhUmParametroValido(String)=
+#_naoEncontrado(String)=
 #arquivoDeDadosExistePoremNaoEhUmDiretorio()=
 #bancoMaisNovoDoQueGaneshEspera()=
 #codigo()=
+#erroAoApagar()=
 erroAoAtualizarOBancoDeDados()=Error on update database scheme
 #erroAoInserir_(GString)=
 erroAoInserir_(String)=Error on insert %s

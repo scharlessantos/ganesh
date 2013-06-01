@@ -32,4 +32,6 @@ public interface Messages {
 
 	String _naoEncontrado(String produto);
 
+	String _apagadoComSucesso(String produto);
+
 }

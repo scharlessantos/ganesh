@@ -1,9 +1,12 @@
 _EhObrigatorio(String)=%s é obrigatório
+_apagadoComSucesso(String)=%s apagado com sucesso
 _jahCadastradoCom_IgualA_(String, String, String)=%s já cadastrado com %s igual à %s
 _naoEhUmParametroValido(String)=%s não é um parâmetro válido
+_naoEncontrado(String)=%s não encontrado
 arquivoDeDadosExistePoremNaoEhUmDiretorio()=Arquivo de Dados existe porém não é um diretório
 bancoMaisNovoDoQueGaneshEspera()=Banco de Dados mais novo do que Ganesh espera
 codigo()=Código
+erroAoApagar()=Erro ao apagar
 erroAoAtualizarOBancoDeDados()=Erro ao atualizar o Banco de Dados
 erroAoInserir_(GString)=Erro ao inserir %s
 erroAoInserir_(String)=Erro ao inserir %s

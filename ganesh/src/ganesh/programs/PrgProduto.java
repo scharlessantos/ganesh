@@ -5,6 +5,7 @@ import ganesh.common.XMLData;
 import ganesh.common.exceptions.GException;
 import ganesh.common.request.Request;
 import ganesh.common.response.Message.ErrorMessage;
+import ganesh.common.response.Message.InformationMessage;
 import ganesh.common.response.Response;
 import ganesh.db.DB;
 import ganesh.db.Produto;
@@ -90,12 +91,6 @@ public class PrgProduto extends GaneshProgram {
 			if (extra == null || extra.trim().isEmpty()) {
 
 				for (XMLData data: req.listItems()) {
-					String codigo = data.get("codigo");
-					if (codigo == null || codigo.trim().isEmpty()) {
-						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.codigo())));
-						return;
-					}
-
 					Produto produto = null;
 
 					if (data.get("id_produto") != null)
@@ -103,8 +98,11 @@ public class PrgProduto extends GaneshProgram {
 
 					if (produto == null)
 						resp.setMessage(new ErrorMessage(M._naoEncontrado(M.produto())));
-					else
+					else {
 						produto.delete();
+
+						resp.setMessage(new InformationMessage(M._apagadoComSucesso(M.produto())));
+					}
 				}
 
 			}
