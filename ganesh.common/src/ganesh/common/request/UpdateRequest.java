@@ -13,14 +13,16 @@ public class UpdateRequest extends Request {
 
 	private String program;
 	private String extra;
+	private Acao acao;
 
-	public UpdateRequest(String program) {
-		this(program, null);
+	public UpdateRequest(Acao acao, String program) {
+		this(acao, program, null);
 	}
 
-	public UpdateRequest(String program, String extra) {
+	public UpdateRequest(Acao acao, String program, String extra) {
 		this.program = program;
 		this.extra = extra;
+		this.acao = acao;
 	}
 
 	public void addItem(XMLItem item) {
@@ -32,9 +34,21 @@ public class UpdateRequest extends Request {
 		return new ArrayList<>(items);
 	}
 
+	public String getProgram() {
+		return program;
+	}
+
+	public String getExtra() {
+		return extra;
+	}
+
+	public Acao getAcao() {
+		return acao;
+	}
+
 	@Override
 	protected String getAction() {
-		return "program/" + program + "/save" + (extra == null ? "" : "/" + extra);
+		return "program/" + program + "/" + acao.getAcao() + (extra == null ? "" : "/" + extra);
 	}
 
 	@Override
@@ -42,5 +56,21 @@ public class UpdateRequest extends Request {
 		for (XMLItem item: items)
 			if (item != null)
 				wr.print(item.toXML());
+	}
+
+	public enum Acao {
+		SALVAR("save"),
+		DELETAR("delete");
+
+		private String acao;
+
+		private Acao(String acao) {
+			this.acao = acao;
+		}
+
+		public String getAcao() {
+			return acao;
+		}
+
 	}
 }
