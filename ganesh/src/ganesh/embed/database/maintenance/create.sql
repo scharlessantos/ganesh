@@ -88,7 +88,7 @@ create table embalagem(
 
 create table produto_nota(
 	id_embalagem bigint,
-	id_nota bigintbigint,
+	id_nota bigint,
 	qtd bigint not null,
 	
 	constraint pkProdutoNota primary key (id_embalagem, id_nota),
