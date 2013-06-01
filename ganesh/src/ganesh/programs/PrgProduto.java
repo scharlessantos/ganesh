@@ -51,7 +51,7 @@ public class PrgProduto extends GaneshProgram {
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
-
+			resp.setResponseValue(Response.NAO_OK);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class PrgProduto extends GaneshProgram {
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
-
+			resp.setResponseValue(Response.NAO_OK);
 		}
 	}
 
@@ -168,7 +168,7 @@ public class PrgProduto extends GaneshProgram {
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
-
+			resp.setResponseValue(Response.NAO_OK);
 		}
 	}
 }

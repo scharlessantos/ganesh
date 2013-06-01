@@ -127,6 +127,7 @@ public class PrgPicking extends GaneshProgram {
 						pp.save();
 					} catch (NumberFormatException e) {
 						resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.quantidade())));
+						resp.setResponseValue(Response.NAO_OK);
 					}
 				}
 
@@ -135,6 +136,7 @@ public class PrgPicking extends GaneshProgram {
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
+			resp.setResponseValue(Response.NAO_OK);
 		}
 	}
 

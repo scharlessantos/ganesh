@@ -63,7 +63,7 @@ public class PrgEmpresa extends GaneshProgram {
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
-
+			resp.setResponseValue(Response.NAO_OK);
 		}
 	}
 

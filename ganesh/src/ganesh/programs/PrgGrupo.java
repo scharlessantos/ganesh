@@ -44,6 +44,7 @@ public class PrgGrupo extends GaneshProgram {
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
+			resp.setResponseValue(Response.NAO_OK);
 		}
 
 	}
@@ -56,12 +57,14 @@ public class PrgGrupo extends GaneshProgram {
 				String codigo = data.get("codigo");
 				if (codigo == null || codigo.trim().isEmpty()) {
 					resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.codigo())));
+					resp.setResponseValue(Response.NAO_OK);
 					return;
 				}
 
 				String descricao = data.get("descricao");
 				if (descricao == null || descricao.trim().isEmpty()) {
 					resp.setMessage(new ErrorMessage(M._EhObrigatorio(M.nome())));
+					resp.setResponseValue(Response.NAO_OK);
 					return;
 				}
 
@@ -72,6 +75,7 @@ public class PrgGrupo extends GaneshProgram {
 				else {
 					if (DB.first(Empresa.class, new Filter(Empresa.class, "codigo", codigo, FilterType.LIKE)) != null) {
 						resp.setMessage(new ErrorMessage(M._jahCadastradoCom_IgualA_(M.grupo(), M.codigo(), codigo)));
+						resp.setResponseValue(Response.NAO_OK);
 						return;
 					}
 
@@ -87,7 +91,7 @@ public class PrgGrupo extends GaneshProgram {
 		} catch (GException e) {
 			Hermes.error(e);
 			resp.setMessage(new ErrorMessage(e.getMessage()));
-
+			resp.setResponseValue(Response.NAO_OK);
 		}
 	}
 
