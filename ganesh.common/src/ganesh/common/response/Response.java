@@ -201,5 +201,7 @@ public class Response {
 
 	public static final int SESSAO_INVALIDA = 100;
 	public static final int OK = 200;
+	public static final int NAO_OK = 205;
 	public static final int ACESSO_NEGADO = 300;
+
 }
