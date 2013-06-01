@@ -187,7 +187,7 @@ public class DB {
 		if (cls.isAnnotationPresent(Entity.class))
 			return cls.getAnnotation(Entity.class).value();
 
-		throw new GException(ServerErrorCode.DB_ERROR);
+		throw new GException(ServerErrorCode.DB_ERROR, String.format("@Entity not found at %s", cls.getName()));
 	}
 
 }
