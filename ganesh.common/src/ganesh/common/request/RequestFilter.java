@@ -166,7 +166,7 @@ public class RequestFilter implements XMLItem {
 		sb.append(" value=");
 		sb.append(value == null ? "" : value);
 		sb.append(" type=");
-		sb.append(type == null ? "" : type.getType());
+		sb.append(type == null ? "" : type.toString());
 
 		if (joins.isEmpty()) {
 			sb.append("]");
