@@ -1,7 +1,6 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
-import ganesh.db.annotations.Aggregated;
 import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
 import ganesh.db.annotations.Property;
@@ -9,11 +8,11 @@ import ganesh.db.annotations.Property;
 @Entity("caminhao")
 public class Caminhao extends AbstractDBEntity {
 
-	@Aggregated({ "id_empresa" })
-	private Empresa empresa;
-
 	@Id("id_caminhao")
 	private long idCaminhao;
+
+	@Property("id_empresa")
+	private Long idEmpresa;
 
 	@Property("codigo")
 	private String codigo;
@@ -21,8 +20,8 @@ public class Caminhao extends AbstractDBEntity {
 	@Property("placa")
 	private String placa;
 
-	public long getIdEmpresa() {
-		return empresa.getIdEmpresa();
+	public Long getIdEmpresa() {
+		return idEmpresa;
 	}
 
 	public long getIdCaminhao() {
@@ -37,13 +36,13 @@ public class Caminhao extends AbstractDBEntity {
 		return placa;
 	}
 
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-	}
+	//	public Empresa getEmpresa() {
+	//		return empresa;
+	//	}
+	//
+	//	public void setEmpresa(Empresa empresa) {
+	//		this.empresa = empresa;
+	//	}
 
 	public void setIdCaminhao(int idCaminhao) {
 		this.idCaminhao = idCaminhao;

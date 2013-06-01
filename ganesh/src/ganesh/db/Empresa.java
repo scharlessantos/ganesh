@@ -9,13 +9,16 @@ import ganesh.db.annotations.Property;
 public class Empresa extends AbstractDBEntity {
 
 	@Id("id_empresa")
-	private long idEmpresa;
+	protected Long idEmpresa;
+
 	@Property("codigo")
-	private String codigo;
+	protected String codigo;
+
 	@Property("nome")
-	private String nome;
+	protected String nome;
+
 	@Property("cnpj")
-	private String cnpj;
+	protected String cnpj;
 
 	public long getIdEmpresa() {
 		return idEmpresa;
@@ -33,10 +36,6 @@ public class Empresa extends AbstractDBEntity {
 		return cnpj;
 	}
 
-	public void setIdEmpresa(int idEmpresa) {
-		this.idEmpresa = idEmpresa;
-	}
-
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
@@ -51,8 +50,21 @@ public class Empresa extends AbstractDBEntity {
 
 	@Override
 	protected void merge(AbstractDBEntity other) {
-		// TODO Auto-generated method stub
+		if (other instanceof Empresa) {
+			Empresa emp = (Empresa)other;
 
+			if (emp.idEmpresa != null && emp.idEmpresa.equals(idEmpresa)) {
+
+				if (emp.codigo != null && !emp.codigo.equals(codigo))
+					codigo = emp.codigo;
+
+				if (emp.nome != null && !emp.nome.equals(nome))
+					nome = emp.nome;
+
+				if (emp.cnpj != null && !emp.cnpj.equals(cnpj))
+					cnpj = emp.cnpj;
+
+			}
+		}
 	}
-
 }

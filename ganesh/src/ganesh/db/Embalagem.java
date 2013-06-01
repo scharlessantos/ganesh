@@ -18,6 +18,9 @@ public class Embalagem extends AbstractDBEntity {
 	@Property("qtd")
 	protected long qtd;
 
+	@Property("descricao")
+	protected String descricao;
+
 	public Produto getProduto() throws GException {
 		return Produto.getById(idProduto);
 	}
