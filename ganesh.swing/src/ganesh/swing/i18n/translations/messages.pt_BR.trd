@@ -52,6 +52,7 @@ produto()=Produto
 programaNaoRegistrado()=Programa não registrado
 programas()=Programas
 qtde()=Qtde.
+quantidade()=Quantidade
 saindo()=Saindo
 sair()=Sair
 salvar()=Salvar

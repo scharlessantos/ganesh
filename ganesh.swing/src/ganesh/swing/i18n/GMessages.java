@@ -83,4 +83,6 @@ public interface GMessages {
 
 	GString desejaRealmenteApagarOsGruposSelecionados();
 
+	GString quantidade();
+
 }
