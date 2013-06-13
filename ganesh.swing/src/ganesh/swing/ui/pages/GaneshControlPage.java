@@ -61,7 +61,7 @@ public abstract class GaneshControlPage extends GaneshPage {
 			data = new GaneshData();
 
 		for (AbstractGaneshControl<? extends JComponent> control: controls)
-			if (control.isResponsible())
+			if (control.isResponsive())
 				data.setObject(control.getName(), control.get());
 
 		return data;
@@ -73,7 +73,7 @@ public abstract class GaneshControlPage extends GaneshPage {
 
 		if (data != null)
 			for (AbstractGaneshControl<? extends JComponent> control: controls)
-				if (control.isResponsible())
+				if (control.isResponsive())
 					control.set(data.get(control.getName()));
 
 	}

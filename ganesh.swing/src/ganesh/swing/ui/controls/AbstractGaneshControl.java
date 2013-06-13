@@ -51,7 +51,7 @@ public abstract class AbstractGaneshControl<G extends JComponent> {
 
 	public abstract G render();
 
-	public abstract boolean isResponsible();
+	public abstract boolean isResponsive();
 
 	public Object get() {
 		return null;

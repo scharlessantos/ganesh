@@ -20,7 +20,7 @@ public class GaneshBooleanInput extends AbstractGaneshControl<JCheckBox> {
 	}
 
 	@Override
-	public boolean isResponsible() {
+	public boolean isResponsive() {
 		return true;
 	}
 

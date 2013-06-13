@@ -6,32 +6,30 @@ import ganesh.common.i18n.GString;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
+public abstract class GaneshComboBox<E> extends AbstractGaneshControl<JPanel> {
 
-	private boolean readOnly = false;
-
-	public GaneshTextInput(String name, GString label) {
+	public GaneshComboBox(String name, GString label) {
 		super(name, label);
 	}
 
-	public boolean isReadOnly() {
-		return readOnly;
-	}
-
-	public GaneshTextInput setReadOnly(boolean readOnly) {
-		this.readOnly = readOnly;
-		return this;
-	}
-
-	private JTextField text = new JTextField();
+	private List<E> myList = new ArrayList<>();
 
 	@Override
 	public JPanel render() {
+		List<E> e = getData();
+
+		combo.removeAllItems();
+
+		if (e != null)
+			for (E i: e)
+				combo.addItem(i.toString());
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -45,32 +43,28 @@ public class GaneshTextInput extends AbstractGaneshControl<JPanel> {
 
 		c.gridy = 1;
 		c.insets = new Insets(0, 0, 0, 0);
-		text.setEditable(!readOnly);
-		text.setFocusable(!readOnly);
-
-		panel.add(text, c);
+		panel.add(combo, c);
 
 		panel.doLayout();
 
 		return panel;
 	}
 
-	@Override
-	public boolean isResponsive() {
-		return true;
-	}
+	protected abstract List<E> getData();
+
+	private JComboBox<String> combo = new JComboBox<>();
 
 	@Override
 	public Object get() {
-		return text.getText();
+		if (combo.getSelectedIndex() > 0)
+			return myList.get(combo.getSelectedIndex());
+
+		return null;
 	}
 
 	@Override
-	public void set(Object set) {
-		if (set != null) {
-			text.setText(set.toString());
-
-		} else
-			super.set(set);
+	public boolean isResponsive() {
+		return false;
 	}
+
 }

@@ -65,7 +65,7 @@ public class GaneshButton extends AbstractGaneshControl<JButton> {
 	}
 
 	@Override
-	public boolean isResponsible() {
+	public boolean isResponsive() {
 		return false;
 	}
 
