@@ -13,23 +13,23 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public abstract class GaneshComboBox<E> extends AbstractGaneshControl<JPanel> {
+public abstract class GaneshComboBox extends AbstractGaneshControl<JPanel> {
 
 	public GaneshComboBox(String name, GString label) {
 		super(name, label);
 	}
 
-	private List<E> myList = new ArrayList<>();
+	private List<GaneshComboBoxItem> myList = new ArrayList<>();
 
 	@Override
 	public JPanel render() {
-		List<E> e = getData();
+		List<GaneshComboBoxItem> e = getData();
 
 		combo.removeAllItems();
 
 		if (e != null)
-			for (E i: e)
-				combo.addItem(i.toString());
+			for (GaneshComboBoxItem i: e)
+				combo.addItem(i.label);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -50,14 +50,14 @@ public abstract class GaneshComboBox<E> extends AbstractGaneshControl<JPanel> {
 		return panel;
 	}
 
-	protected abstract List<E> getData();
+	protected abstract List<GaneshComboBoxItem> getData();
 
 	private JComboBox<String> combo = new JComboBox<>();
 
 	@Override
 	public Object get() {
 		if (combo.getSelectedIndex() > 0)
-			return myList.get(combo.getSelectedIndex());
+			return myList.get(combo.getSelectedIndex()).item;
 
 		return null;
 	}
@@ -67,4 +67,24 @@ public abstract class GaneshComboBox<E> extends AbstractGaneshControl<JPanel> {
 		return false;
 	}
 
+	protected static class GaneshComboBoxItem {
+
+		Object item;
+		String label;
+
+		public GaneshComboBoxItem(Object item, String label) {
+			super();
+			this.item = item;
+			this.label = label;
+		}
+
+		public Object getItem() {
+			return item;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
 }
