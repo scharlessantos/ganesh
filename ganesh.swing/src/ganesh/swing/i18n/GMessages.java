@@ -107,4 +107,6 @@ public interface GMessages {
 
 	GString remover();
 
+	GString cliente();
+
 }

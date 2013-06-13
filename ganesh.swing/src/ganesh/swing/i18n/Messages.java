@@ -89,4 +89,6 @@ public interface Messages {
 
 	String produtos();
 
+	String cliente();
+
 }

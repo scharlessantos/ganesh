@@ -12,6 +12,7 @@ caminhao()=Caminhão
 caminhoes()=Caminhões
 cancelar()=Cancelar
 chaveInvalida()=Chave inválida
+cliente()=Cliente
 cliqueComOBotaoDireitoParaFechar()=Clique com o botão direito do mouse para fechar
 cnpj()=CNPJ
 codigo()=Código
