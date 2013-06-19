@@ -26,6 +26,54 @@ public class Cliente extends AbstractDBEntity {
 	@Property("responsavel")
 	protected Long responsavel;
 
+	public Long getId() {
+		return id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public String getContato() {
+		return contato;
+	}
+
+	public Long getResponsavel() {
+		return responsavel;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public void setContato(String contato) {
+		this.contato = contato;
+	}
+
+	public void setResponsavel(Long responsavel) {
+		this.responsavel = responsavel;
+	}
+
 	@Override
 	protected void merge(AbstractDBEntity other) {
 		if (other instanceof Cliente) {
