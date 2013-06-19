@@ -109,4 +109,8 @@ public interface GMessages {
 
 	GString cliente();
 
+	GString responsavel();
+
+	GString desejaRealmenteApagarOsClientesSelecionados();
+
 }

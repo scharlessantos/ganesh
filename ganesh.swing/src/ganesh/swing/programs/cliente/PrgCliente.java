@@ -8,6 +8,10 @@ import ganesh.swing.ui.images.Images.Icons;
 
 public class PrgCliente extends GaneshProgram {
 
+	public PrgCliente() {
+		setPage(new PgListCliente());
+	}
+
 	@Override
 	public ProgramDescriptor getProgramDescriptor() {
 		return new ProgramDescriptor("cliente", getClass(), GM.cliente(), Menu.CADASTRO, Icons.USER_SUIT_BLACK);
