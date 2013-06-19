@@ -1,0 +1,1 @@
+alter table cliente add nome varchar(84) not null default '';
