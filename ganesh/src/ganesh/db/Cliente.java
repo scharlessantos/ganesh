@@ -1,9 +1,11 @@
 /* Ganesh Server, developed in 2013*/
 package ganesh.db;
 
+import ganesh.db.annotations.Entity;
 import ganesh.db.annotations.Id;
 import ganesh.db.annotations.Property;
 
+@Entity("cliente")
 public class Cliente extends AbstractDBEntity {
 
 	@Id("id_cliente")
