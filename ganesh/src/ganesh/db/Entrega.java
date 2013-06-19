@@ -7,6 +7,8 @@ import ganesh.db.annotations.Property;
 
 import java.util.Date;
 
+import org.scharlessantos.hermes.Hermes;
+
 @Entity("entrega")
 public class Entrega extends AbstractDBEntity {
 
@@ -56,7 +58,7 @@ public class Entrega extends AbstractDBEntity {
 
 	@Override
 	protected void merge(AbstractDBEntity other) {
-
+		Hermes.warn("no merge for Entrega");
 	}
 
 }
